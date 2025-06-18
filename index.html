@@ -6,17 +6,26 @@
     <title>dreamz  - Smart Sleep Enhancement Mask</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+#user-reviews .review-row img {
+  transition: transform 0.3s cubic-bezier(.4,1.4,.6,1), box-shadow 0.3s;
+}
+#user-reviews .review-row img:hover {
+  transform: scale(1.18) rotate(-2deg);
+  box-shadow: 0 8px 32px rgba(100,65,165,0.25);
+  z-index: 2;
+}
+    </style>
 </head>
 <body>
     <header>
         <nav>
             <div class="logo">dreamz </div>
             <div class="nav-links">
+                <a href="#hero">Home</a>
                 <a href="#how-it-works">How It Works</a>
                 <a href="#science">Science</a>
-                <a href="#benefits">Benefits</a>
-                <a href="#gallery">Gallery</a>
-                <a href="#waitlist">Waitlist</a>
+                <a href="#waitlist">Join Waitlist</a>
             </div>
         </nav>
     </header>
@@ -43,177 +52,7 @@
     </div>
 </section>
 
-<!-- Gallery Section -->
-<section id="gallery">
-    <div class="container">
-        <h2>Gallery</h2>
-        <div class="gallery-grid" id="gallery-grid">
-            <!-- Thumbnails will be injected here -->
-        </div>
-    </div>
-</section>
-<div id="gallery-modal" class="gallery-modal">
-    <span class="gallery-modal-close">&times;</span>
-    <img class="gallery-modal-content" id="gallery-modal-img">
-</div>
-<style>
-#gallery .gallery-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 24px;
-}
-.gallery-thumb {
-    width: 140px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-.gallery-thumb:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-}
-.gallery-modal {
-    display: none;
-    position: fixed;
-    z-index: 2000; /* Increased for safety */
-    left: 0; top: 0; width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-}
-.gallery-modal-content {
-    max-width: 90vw;
-    max-height: 80vh;
-    border-radius: 10px;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.4);
-    display: block;
-    margin: auto;
-    animation: popIn 0.25s;
-}
-@keyframes popIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-.gallery-modal-close {
-    position: absolute;
-    top: 32px;
-    right: 48px;
-    color: #fff;
-    font-size: 2.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 1010;
-    transition: color 0.2s;
-}
-.gallery-modal-close:hover {
-    color: #ffb3b3;
-}
-
-/* --- Improved mobile header overlap fix --- */
-@media (max-width: 700px) {
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1001;
-        background: #2a0845;
-    }
-    body {
-        padding-top: 80px;
-    }
-    #hero {
-        margin-top: 0 !important;
-    }
-}
-
-/* --- Dark purple theme --- */
-body {
-    background: #2a0845;
-    color: #f3eaff;
-}
-header {
-    background: #2a0845;
-    color: #f3eaff;
-    box-shadow: 0 2px 12px rgba(42,8,69,0.15);
-}
-header .logo {
-    color: #e0b3ff;
-}
-.nav-links a {
-    color: #f3eaff;
-}
-.nav-links a:hover {
-    color: #e0b3ff;
-}
-#hero {
-    background: linear-gradient(135deg, #2a0845 0%, #6441a5 100%);
-}
-.hero-content h1, .hero-content p {
-    color: #f3eaff;
-}
-.cta-button {
-    background: #6441a5;
-    color: #fff;
-    border: none;
-    border-radius: 24px;
-    padding: 0.75em 2em;
-    font-weight: bold;
-    box-shadow: 0 2px 8px rgba(42,8,69,0.15);
-    transition: background 0.2s;
-}
-.cta-button:hover {
-    background: #e0b3ff;
-    color: #2a0845;
-}
-section, .container {
-    background: transparent;
-    color: #f3eaff;
-}
-footer {
-    background: #2a0845;
-    color: #bfa8e6;
-}
-.comparison-table table {
-    background: #3a206b;
-    color: #f3eaff;
-}
-.comparison-table th, .comparison-table td {
-    border-color: #6441a5;
-}
-.feature-card, .science-card {
-    background: #3a206b;
-    color: #f3eaff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(42,8,69,0.10);
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const video = document.getElementById('dreamz-video');
-    if ('IntersectionObserver' in window && video) {
-        let played = false;
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !played) {
-                    video.play();
-                    played = true;
-                }
-            });
-        }, { threshold: 0.5 });
-        observer.observe(video);
-    }
-});
-</script>
-
-<section id="product-overview">
-    <section id="product-overview">
+    <section id="science-overview">
         <div class="container">
             <h2>Revolutionizing Your Sleep Experience</h2>
             <div class="features">
@@ -287,7 +126,27 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
     </section>
 
-    <section id="science">
+<section id="user-reviews">
+  <div class="container" style="display: flex; flex-direction: column; align-items: center; gap: 48px; max-width: 900px; margin: 0 auto;">
+    
+    <div class="review-row" style="display: flex; flex-direction: row; align-items: center; gap: 32px; flex-wrap: nowrap;">
+      <img src="1_mask_on_pillow.png" alt="Mask on Pillow" style="width: 180px; border-radius: 16px; box-shadow: 0 2px 12px rgba(42,8,69,0.10); flex-shrink: 0;">
+      <blockquote style="font-size: 1.15rem; color: #e0b3ff; margin: 0; font-style: italic; max-width: 600px;">“I can feel my heart rate slow and my body relax.”<br><span style="font-size: 1rem; color: #bfa8e6; font-style: normal;">– Ellie B.</span></blockquote>
+    </div>
+
+    <div class="review-row" style="display: flex; flex-direction: row; align-items: center; gap: 32px; flex-wrap: nowrap;">
+      <img src="2_sleep vertical.png" alt="Sleep Vertical" style="width: 180px; border-radius: 16px; box-shadow: 0 2px 12px rgba(42,8,69,0.10); flex-shrink: 0;">
+      <blockquote style="font-size: 1.15rem; color: #e0b3ff; margin: 0; font-style: italic; max-width: 600px;">“Even when I travel, I sleep so much better.”<br><span style="font-size: 1rem; color: #bfa8e6; font-style: normal;">– Ben N.</span></blockquote>
+    </div>
+
+    <div class="review-row" style="display: flex; flex-direction: row; align-items: center; gap: 32px; flex-wrap: nowrap;">
+      <img src="3_sleep horizontal.png" alt="Sleep Horizontal" style="width: 180px; border-radius: 16px; box-shadow: 0 2px 12px rgba(42,8,69,0.10); flex-shrink: 0;">
+      <blockquote style="font-size: 1.15rem; color: #e0b3ff; margin: 0; font-style: italic; max-width: 600px;">“So comfortable for side sleeping!”<br><span style="font-size: 1rem; color: #bfa8e6; font-style: normal;">– Maya S.</span></blockquote>
+    </div>
+
+  </div>
+</section>
+    <section id="science-validation">
         <div class="container">
             <h2>Backed by Science</h2>
             <div class="science-grid">
@@ -407,6 +266,8 @@ document.addEventListener("DOMContentLoaded", function() {
             <p class="form-disclaimer">We respect your privacy and will never share your information. No spam, ever.</p>
         </div>
     </section>
+
+
 
     <footer>
         <div class="container">
