@@ -816,6 +816,12 @@ footer {
 }
 
 @media (max-width: 768px) {
+    nav {
+        justify-content: center;
+    }
+    .logo {
+        margin: 0 auto;
+    }
     .nav-links {
         display: none;
     }
@@ -839,6 +845,14 @@ footer {
     
     .step:after {
         display: none;
+    }
+}
+
+/* Extra mobile-friendly header size */
+@media (max-width: 600px) {
+    .hero-content h1 {
+        font-size: 1.7rem;
+        word-break: break-word;
     }
 }
 
