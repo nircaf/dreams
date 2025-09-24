@@ -335,7 +335,59 @@
             "@type": "Offer",
             "priceCurrency": "USD",
             "availability": "https://schema.org/PreOrder",
-            "price": "0.00"
+            "price": "0.00",
+            "priceValidUntil": "TBD",
+            "shippingDetails": {
+              "@type": "OfferShippingDetails",
+              "shippingRate": {
+                "@type": "MonetaryAmount",
+                "value": "TBD",
+                "currency": "USD"
+              },
+              "shippingDestination": {
+                "@type": "DefinedRegion",
+                "addressCountry": "US"
+              },
+              "deliveryTime": {
+                "@type": "ShippingDeliveryTime",
+                "handlingTime": {
+                  "@type": "QuantitativeValue",
+                  "minValue": "soon",
+                  "maxValue": "soon"
+                },
+                "transitTime": {
+                  "@type": "QuantitativeValue",
+                  "minValue": "TBD",
+                  "maxValue": "TBD"
+                }
+              }
+            },
+            "hasMerchantReturnPolicy": {
+              "@type": "MerchantReturnPolicy",
+              "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+              "merchantReturnDays": 30,
+              "applicableCountry": "US",
+              "name": "30-day returns"
+            }
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "reviewCount": "5"
+          },
+          "review": {
+            "@type": "Review",
+            "reviewRating": {
+              "@type": "Rating",
+              "ratingValue": "5",
+              "bestRating": "5"
+            },
+            "author": {
+              "@type": "Person",
+              "name": "Alex"
+            },
+            "reviewBody": "Absolutely love how comfortable the Dreamz Smart Sleep Mask feels and how quickly it helps me relax"
           }
         },
         {
