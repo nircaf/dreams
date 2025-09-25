@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Sitemap to help crawlers discover pages
+Sitemap: https://hypnodreamz.com/sitemap.xml
+
+
