@@ -164,21 +164,71 @@ p {
     background: linear-gradient(135deg, var(--accent), var(--secondary));
     color: var(--text-light);
     border: none;
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
+    padding: 1.5rem 3.5rem;
+    font-size: 1.3rem;
+    font-weight: 700;
     border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 20px rgba(135, 88, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 8px 30px rgba(135, 88, 255, 0.4),
+        0 0 40px rgba(135, 88, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
     z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    animation: ctaPulse 3s ease-in-out infinite, ctaGlow 2s ease-in-out infinite alternate;
+    transform: scale(1);
+}
+
+@keyframes ctaPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 
+            0 8px 30px rgba(135, 88, 255, 0.4),
+            0 0 40px rgba(135, 88, 255, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 
+            0 12px 40px rgba(135, 88, 255, 0.6),
+            0 0 60px rgba(135, 88, 255, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+}
+
+@keyframes ctaGlow {
+    0% {
+        box-shadow: 
+            0 8px 30px rgba(135, 88, 255, 0.4),
+            0 0 40px rgba(135, 88, 255, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    100% {
+        box-shadow: 
+            0 8px 30px rgba(135, 88, 255, 0.6),
+            0 0 60px rgba(135, 88, 255, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
 }
 
 .cta-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 7px 25px rgba(135, 88, 255, 0.5);
+    transform: translateY(-5px) scale(1.08);
+    box-shadow: 
+        0 15px 50px rgba(135, 88, 255, 0.7),
+        0 0 80px rgba(135, 88, 255, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    animation: none;
+}
+
+.cta-button:active {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+        0 8px 30px rgba(135, 88, 255, 0.5),
+        0 0 50px rgba(135, 88, 255, 0.4);
 }
 
 .cta-button:before {
@@ -188,13 +238,32 @@ p {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     transition: left 0.7s;
     z-index: -1;
 }
 
 .cta-button:hover:before {
     left: 100%;
+}
+
+.cta-button:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    z-index: -1;
+}
+
+.cta-button:hover:after {
+    width: 300px;
+    height: 300px;
 }
 
 /* Navigation */
@@ -219,16 +288,117 @@ nav {
     margin: 0 auto;
 }
 
-.logo {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--text-light);
+.logo.focus {
+    font-size: 3.5rem;
     text-transform: lowercase;
+    color: rgba(0, 86, 204, 0.3);
     letter-spacing: 1px;
-    background: linear-gradient(to right, var(--text-light), var(--accent));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    line-height: 1;
+    position: relative;
+    width: auto;
+    text-decoration: none;
+    font-family: 'Cabin Condensed', sans-serif;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.logo.focus:before {
+    content: 'dreamz';
+    filter: blur(3px);
+    display: block;
+    white-space: nowrap;
+}
+
+.logo.focus:after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: calc(100% + 8px);
+    top: -4px;
+    left: 0;
+    border-top: 2px solid #0056CC;
+    border-bottom: 2px solid #0056CC;
+    animation: mask-move 3s linear infinite;
+    pointer-events: none;
+    opacity: 1;
+}
+
+.logo .focus--mask {
+    overflow: hidden;
+    position: absolute;
+    width: 60px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: var(--background);
+    animation: mask-move 3s linear infinite;
+    opacity: 1;
+}
+
+.logo .focus--mask-inner {
+    animation: mask-inner-move 3s linear infinite;
+    color: #0056CC;
+    display: block;
+    white-space: nowrap;
+}
+
+.logo.focus:hover:after {
+    border-color: #0066FF;
+    animation: mask-move 2.5s linear infinite;
+}
+
+.logo.focus:hover .focus--mask {
+    animation: mask-move 2.5s linear infinite;
+}
+
+.logo.focus:hover .focus--mask-inner {
+    color: #0066FF;
+    animation: mask-inner-move 2.5s linear infinite;
+}
+
+@keyframes mask-move {
+    0% {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+    15% {
+        transform: translateX(-10px);
+        opacity: 1;
+    }
+    60% {
+        transform: translateX(calc(100% + 40px));
+        opacity: 1;
+    }
+    75% {
+        transform: translateX(calc(100% + 60px));
+        opacity: 0;
+    }
+    88% {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+}
+
+@keyframes mask-inner-move {
+    0% {
+        transform: translateX(30px);
+    }
+    70% {
+        transform: translateX(calc(-100% - 60px));
+    }
+    85% {
+        transform: translateX(calc(-100% - 60px));
+    }
+    88% {
+        transform: translateX(30px);
+    }
+    100% {
+        transform: translateX(30px);
+    }
 }
 
 .nav-links {
@@ -604,6 +774,106 @@ tbody tr:hover {
     background: rgba(135, 88, 255, 0.1);
 }
 
+/* Dreams Column Highlighting - Visual Emphasis */
+th:nth-child(2) {
+    background: linear-gradient(135deg, rgba(135, 88, 255, 0.4), rgba(135, 88, 255, 0.25));
+    color: var(--text-light);
+    font-weight: 700;
+    font-size: 1.1rem;
+    position: relative;
+    box-shadow: 0 0 20px rgba(135, 88, 255, 0.3);
+    border-left: 3px solid var(--accent);
+    border-right: 3px solid var(--accent);
+}
+
+th:nth-child(2)::before {
+    content: '✓';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.8rem;
+    color: #4CAF50;
+    opacity: 0.8;
+}
+
+/* Dreams Column Cells - Background Highlighting */
+td:nth-child(2) {
+    background: linear-gradient(to right, rgba(135, 88, 255, 0.15), rgba(135, 88, 255, 0.05));
+    border-left: 3px solid var(--accent);
+    position: relative;
+    font-weight: 500;
+}
+
+td:nth-child(2)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(135, 88, 255, 0.6);
+}
+
+/* Enhanced Check Marks in Dreams Column */
+td:nth-child(2) .fa-check {
+    color: #4CAF50;
+    font-size: 1.2rem;
+    filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6));
+    animation: checkPulse 2s ease-in-out infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes checkPulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6));
+    }
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 12px rgba(76, 175, 80, 0.9));
+    }
+}
+
+/* Reduce Visual Weight of Competitor Columns */
+th:nth-child(3),
+th:nth-child(4) {
+    background: rgba(18, 29, 66, 0.6);
+    opacity: 0.85;
+}
+
+td:nth-child(3),
+td:nth-child(4) {
+    background: rgba(18, 29, 66, 0.3);
+    opacity: 0.9;
+}
+
+/* Enhanced Hover Effect for Dreams Column */
+tbody tr:hover td:nth-child(2) {
+    background: linear-gradient(to right, rgba(135, 88, 255, 0.25), rgba(135, 88, 255, 0.15));
+    box-shadow: inset 0 0 20px rgba(135, 88, 255, 0.2);
+}
+
+/* Responsive Adjustments for Mobile */
+@media (max-width: 768px) {
+    th:nth-child(2) {
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+    }
+    
+    td:nth-child(2) .fa-check {
+        font-size: 1.1rem;
+    }
+    
+    td:nth-child(2) {
+        border-left-width: 2px;
+    }
+    
+    td:nth-child(2)::before {
+        width: 2px;
+    }
+}
+
 /* Waitlist Section */
 #waitlist {
     padding: 8rem 0;
@@ -846,6 +1116,12 @@ footer {
     .step:after {
         display: none;
     }
+    
+    .cta-button {
+        padding: 1.2rem 2.5rem;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+    }
 }
 
 /* Extra mobile-friendly header size */
@@ -853,6 +1129,12 @@ footer {
     .hero-content h1 {
         font-size: 1.7rem;
         word-break: break-word;
+    }
+    
+    .cta-button {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
     }
 }
 
@@ -1209,10 +1491,26 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(18, 29, 66, 0.6);
+    background: rgba(18, 29, 66, 0.3);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     border-radius: 10px 10px 0 0;
+    filter: brightness(1.1);
+    z-index: 2;
+}
+
+.animated-research::before, .animated-brain::before, .animated-metrics::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(135, 88, 255, 0.15) 0%, transparent 70%);
+    filter: blur(20px);
+    z-index: 1;
+    pointer-events: none;
 }
 
 /* Research Graph Animation */
@@ -1223,25 +1521,30 @@ footer {
     display: flex;
     align-items: center;
     padding: 20px;
+    z-index: 3;
 }
 
 .graph-line {
     position: relative;
     width: 100%;
-    height: 2px;
+    height: 4px;
     background: linear-gradient(90deg, transparent, var(--accent), var(--accent), transparent);
     overflow: visible;
+    filter: drop-shadow(0 0 8px var(--accent-glow));
+    box-shadow: 0 0 12px rgba(135, 88, 255, 0.6);
 }
 
 .graph-dot {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 16px;
+    height: 16px;
     background: var(--accent);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent-glow);
-    top: -4px;
+    box-shadow: 0 0 20px var(--accent-glow), 0 0 30px rgba(135, 88, 255, 0.8);
+    top: -6px;
     animation: moveAlongLine 5s ease-in-out infinite;
+    filter: brightness(1.3);
+    z-index: 3;
 }
 
 @keyframes moveAlongLine {
@@ -1249,35 +1552,40 @@ footer {
     25% { transform: translateY(-20px); }
     50% { transform: translateY(15px); }
     75% { transform: translateY(-10px); }
-    100% { left: calc(100% - 10px); transform: translateY(0); }
+    100% { left: calc(100% - 16px); transform: translateY(0); }
 }
 
 /* Brain Animation */
 .brain-shape {
-    width: 120px;
-    height: 100px;
-    background: rgba(135, 88, 255, 0.2);
-    border-radius: 60px 60px 30px 30px;
+    width: 140px;
+    height: 120px;
+    background: rgba(135, 88, 255, 0.4);
+    border-radius: 70px 70px 35px 35px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    box-shadow: 0 0 25px rgba(135, 88, 255, 0.5), inset 0 0 20px rgba(135, 88, 255, 0.2);
+    filter: brightness(1.2);
+    z-index: 2;
 }
 
 .brain-pulse {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     background: var(--accent);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px var(--accent-glow);
+    box-shadow: 0 0 25px var(--accent-glow), 0 0 40px rgba(135, 88, 255, 0.8);
     animation: pulsate 3s ease-in-out infinite;
+    filter: brightness(1.4);
+    z-index: 3;
 }
 
 @keyframes pulsate {
     0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    50% { transform: translate(-50%, -50%) scale(8); opacity: 0; }
+    50% { transform: translate(-50%, -50%) scale(10); opacity: 0.3; }
 }
 
 /* Sleep Metrics Animation */
@@ -1289,13 +1597,17 @@ footer {
     height: 120px;
     width: 100%;
     padding: 20px;
+    z-index: 3;
+    position: relative;
 }
 
 .bar {
-    width: 30px;
-    background: linear-gradient(to top, var(--secondary), var(--accent));
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(135, 88, 255, 0.3);
+    width: 45px;
+    background: linear-gradient(to top, var(--secondary), var(--accent), rgba(135, 88, 255, 0.9));
+    border-radius: 6px;
+    box-shadow: 0 0 20px rgba(135, 88, 255, 0.6), 0 0 30px rgba(135, 88, 255, 0.4);
+    filter: brightness(1.2);
+    z-index: 2;
 }
 
 .bar1 {
@@ -1314,8 +1626,8 @@ footer {
 }
 
 @keyframes growBar {
-    0% { height: 30%; }
-    100% { height: 80%; }
+    0% { height: 35%; }
+    100% { height: 85%; }
 }
 
 /* Animated Feature Icons */
