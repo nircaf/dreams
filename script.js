@@ -69,6 +69,45 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Waitlist count logic - decreases by 1 or 2 on each refresh, stops at 3
+    // Only decreases if at least 1 hour has passed since last decrease
+    const waitlistCountElement = document.getElementById('waitlist-count');
+    if (waitlistCountElement) {
+        let currentCount = parseInt(localStorage.getItem('waitlistPlacesLeft'), 10);
+        const lastDecreaseTime = parseInt(localStorage.getItem('waitlistLastDecreaseTime'), 10);
+        const currentTime = Date.now();
+        const oneHourInMs = 3600000; // 1 hour in milliseconds
+        
+        // Initialize to 25 if not set
+        if (isNaN(currentCount)) {
+            currentCount = 25;
+        }
+        
+        // Decrease by 1 or 2 randomly if count is greater than 3 and at least 1 hour has passed
+        if (currentCount > 3) {
+            // Check if enough time has passed (or if this is the first time)
+            if (isNaN(lastDecreaseTime) || (currentTime - lastDecreaseTime >= oneHourInMs)) {
+                const decreaseAmount = Math.random() < 0.5 ? 1 : 2;
+                currentCount = Math.max(3, currentCount - decreaseAmount);
+                localStorage.setItem('waitlistPlacesLeft', currentCount);
+                localStorage.setItem('waitlistLastDecreaseTime', currentTime);
+            }
+        }
+        
+        // Update the display
+        waitlistCountElement.textContent = `${currentCount} places left in the waiting list`;
+        
+        // Position the text centered on the button's center
+        const heroButton = document.querySelector('#hero .cta-button');
+        if (heroButton) {
+            const buttonRect = heroButton.getBoundingClientRect();
+            const containerRect = heroButton.parentElement.getBoundingClientRect();
+            const buttonCenter = buttonRect.left - containerRect.left + (buttonRect.width / 2);
+            waitlistCountElement.style.marginLeft = `${buttonCenter}px`;
+            waitlistCountElement.style.transform = 'translateX(-50%)';
+        }
+    }
+    
     if (waitlistForm) {
         // Load any existing emails from local storage
         const displayExistingEmails = function() {
