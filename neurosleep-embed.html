@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeuroSleep Interface</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #050510;
+        color: #e0f2fe;
+        font-family: 'Rajdhani', sans-serif;
+        overflow: hidden;
+      }
+      h1, h2, h3 {
+        font-family: 'Orbitron', sans-serif;
+      }
+      ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+      #root {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19",
+    "react-dom/client": "https://esm.sh/react-dom@19/client",
+    "@react-three/fiber": "https://esm.sh/@react-three/fiber@9",
+    "three": "https://esm.sh/three@0.182",
+    "@react-three/drei": "https://esm.sh/@react-three/drei@10"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module">
+// Import React and dependencies
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { ScrollControls, Scroll, useScroll } from '@react-three/drei';
+import * as THREE from 'three';
+
+// Shaders
+const vertexShader = `
+  varying vec3 vPosition;
+  varying float vRandom;
+  attribute float aRandom;
+  uniform float uTime;
+
+  void main() {
+    vPosition = position;
+    vRandom = aRandom;
+    vec3 pos = position;
+    float breathe = sin(uTime * 1.5 + position.x) * 0.015;
+    pos += normal * breathe;
+    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+    gl_Position = projectionMatrix * mvPosition;
+    gl_PointSize = (3.5 + aRandom * 2.0) * (10.0 / -mvPosition.z);
+  }
+`;
+
+const fragmentShader = `
+  varying vec3 vPosition;
+  varying float vRandom;
+  uniform float uTime;
+  uniform vec3 uColor;
+  uniform vec3 uWaveColor;
+  uniform float uWaveProgress; 
+  uniform vec3 uSourcePos; 
+  
+  void main() {
+    float r = distance(gl_PointCoord, vec2(0.5));
+    if (r > 0.5) discard;
+    float alpha = 1.0 - smoothstep(0.3, 0.5, r);
+    vec3 baseColor = uColor;
+    baseColor += vec3(0.1, 0.2, 0.3) * sin(vPosition.y * 10.0 + uTime);
+    vec3 finalColor = baseColor;
+    float dist = distance(vPosition, uSourcePos);
+    float waveSpeed = 6.0;
+    float waveFrequency = 5.0;
+    if (uWaveProgress > 0.0) {
+      float wave = sin(dist * waveFrequency - uTime * waveSpeed);
+      wave = pow(max(0.0, wave), 8.0); 
+      finalColor = mix(finalColor, uWaveColor, wave * uWaveProgress);
+      alpha += wave * 0.8 * uWaveProgress;
+    }
+    float flicker = step(0.98, sin(uTime * 10.0 + vRandom * 100.0));
+    finalColor += vec3(flicker * 0.5);
+    gl_FragColor = vec4(finalColor, alpha * 0.7); 
+  }
+`;
+
+// BrainParticles Component
+function BrainParticles() {
+  const materialRef = React.useRef(null);
+  const scroll = useScroll();
+
+  const { positions, normals, randoms } = React.useMemo(() => {
+    const count = 7000;
+    const pos = new Float32Array(count * 3);
+    const norm = new Float32Array(count * 3);
+    const rand = new Float32Array(count);
+    
+    for (let i = 0; i < count; i++) {
+      const hemisphere = Math.random() > 0.5 ? 1 : -1;
+      let u = Math.random();
+      let v = Math.random();
+      const r_base = 1.1 + Math.random() * 0.2; 
+      const theta = 2 * Math.PI * u;
+      const phi = Math.acos(2 * v - 1);
+      let x = r_base * Math.sin(phi) * Math.cos(theta);
+      let y = r_base * Math.sin(phi) * Math.sin(theta) * 0.8; 
+      let z = r_base * Math.cos(phi) * 1.2; 
+      x = Math.abs(x) * hemisphere + (hemisphere * 0.15); 
+      if (y < -0.5) { x *= 0.9; z *= 0.9; }
+      x += (Math.random() - 0.5) * 0.02;
+      y += (Math.random() - 0.5) * 0.02;
+      z += (Math.random() - 0.5) * 0.02;
+      pos[i * 3] = x;
+      pos[i * 3 + 1] = y;
+      pos[i * 3 + 2] = z;
+      const nx = x - (hemisphere * 0.15);
+      const ny = y;
+      const nz = z;
+      const len = Math.sqrt(nx*nx + ny*ny + nz*nz);
+      norm[i * 3] = nx / len;
+      norm[i * 3 + 1] = ny / len;
+      norm[i * 3 + 2] = nz / len;
+      rand[i] = Math.random();
+    }
+    return { positions: pos, normals: norm, randoms: rand };
+  }, []);
+
+  const buttonPos = React.useMemo(() => {
+    const r = 1.9;
+    const angle = 0.8;
+    return new THREE.Vector3(Math.sin(angle) * r, 0.1, Math.cos(angle) * r);
+  }, []);
+
+  const uniforms = React.useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uColor: { value: new THREE.Color('#80ebff') },
+      uWaveColor: { value: new THREE.Color('#ffffff') },
+      uWaveProgress: { value: 0 },
+      uSourcePos: { value: buttonPos },
+    }),
+    [buttonPos]
+  );
+
+  useFrame((state) => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
+      const waveActivation = scroll.range(0.5, 0.5); 
+      materialRef.current.uniforms.uWaveProgress.value = waveActivation;
+    }
+  });
+
+  return (
+    <points>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={positions.length / 3}
+          array={positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-normal"
+          count={normals.length / 3}
+          array={normals}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-aRandom"
+          count={randoms.length}
+          array={randoms}
+          itemSize={1}
+        />
+      </bufferGeometry>
+      <shaderMaterial
+        ref={materialRef}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+        transparent
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  );
+}
+
+// SleepMask Component  
+function SleepMask() {
+  const groupRef = React.useRef(null);
+  const buttonRingRef = React.useRef(null);
+  const scroll = useScroll();
+
+  useFrame((state, delta) => {
+    if (!groupRef.current) return;
+    const entryProgress = scroll.range(0, 0.25);
+    const waveProgress = scroll.range(0.5, 0.5);
+    const startY = 6;
+    const endY = 0.1; 
+    const currentY = THREE.MathUtils.lerp(startY, endY, THREE.MathUtils.smoothstep(entryProgress, 0, 1));
+    groupRef.current.position.y = currentY;
+    if (entryProgress >= 0.99) {
+        groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.05;
+    } else {
+        groupRef.current.rotation.y = 0;
+    }
+    if (buttonRingRef.current) {
+         const pulse = Math.sin(state.clock.elapsedTime * 10.0) * 0.5 + 0.5;
+         const brightness = 1.0 + (waveProgress * pulse * 3.0);
+         buttonRingRef.current.color.setRGB(0 * brightness, 0.66 * brightness, 1 * brightness);
+    }
+  });
+
+  const radius = 1.9; 
+
+  return (
+    <group ref={groupRef} position={[0, 6, 0]}>
+        <mesh>
+            <cylinderGeometry args={[radius, radius, 1.1, 64, 1, true]} />
+            <meshStandardMaterial 
+                color="#080808" 
+                roughness={0.9} 
+                metalness={0.1}
+                side={THREE.DoubleSide}
+                transparent={true}
+                opacity={0.5}
+            />
+        </mesh>
+        <mesh>
+             <cylinderGeometry args={[radius - 0.02, radius - 0.02, 1.05, 64, 1, true]} />
+             <meshStandardMaterial 
+                color="#050505" 
+                roughness={1} 
+                side={THREE.BackSide} 
+                transparent={true}
+                opacity={0.5}
+             />
+        </mesh>
+        <group position={[Math.sin(0.8) * radius, 0, Math.cos(0.8) * radius]} rotation={[0, 0.8, 0]}>
+            <mesh rotation={[Math.PI / 2, 0, 0]}>
+                 <cylinderGeometry args={[0.18, 0.18, 0.04, 32]} />
+                 <meshStandardMaterial color="#1a1a1a" roughness={0.5} metalness={0.5} />
+            </mesh>
+             <mesh position={[0, 0, 0.021]}>
+                 <ringGeometry args={[0.06, 0.09, 32]} />
+                 <meshBasicMaterial ref={buttonRingRef} color="#00aaff" toneMapped={false} />
+            </mesh>
+            <mesh position={[0, 0, 0.02]}>
+                 <circleGeometry args={[0.05, 32]} />
+                 <meshBasicMaterial color="#111" />
+            </mesh>
+            <mesh position={[0, 0, 0.022]}>
+                 <planeGeometry args={[0.025, 0.08]} />
+                 <meshBasicMaterial color="#00aaff" toneMapped={false} />
+            </mesh>
+        </group>
+        <pointLight position={[2, 2, 2]} intensity={0.5} distance={3} color="#444" />
+    </group>
+  );
+}
+
+// Scene Component
+function Scene() {
+  const groupRef = React.useRef(null);
+  const scroll = useScroll();
+  
+  useFrame((state, delta) => {
+    if (!groupRef.current) return;
+    groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.1 + (scroll.offset * Math.PI * 2);
+    groupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.2) * 0.1 + (scroll.offset * 0.2);
+  });
+
+  function Stars({ count }) {
+    const points = React.useMemo(() => {
+      const p = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        p[i * 3] = (Math.random() - 0.5) * 30;
+        p[i * 3 + 1] = (Math.random() - 0.5) * 30;
+        p[i * 3 + 2] = (Math.random() - 0.5) * 30 - 10;
+      }
+      return p;
+    }, [count]);
+
+    return (
+      <points>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={points.length / 3}
+            array={points}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.05}
+          color="#445566"
+          transparent
+          opacity={0.4}
+          sizeAttenuation
+        />
+      </points>
+    );
+  }
+
+  return (
+    <group ref={groupRef}>
+      <ambientLight intensity={0.2} color="#001133" />
+      <pointLight position={[10, 10, 10]} intensity={1} color="#00ffff" />
+      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ff00ff" />
+      <BrainParticles />
+      <SleepMask />
+      <Stars count={500} />
+    </group>
+  );
+}
+
+// UI Component
+function UI() {
+  return (
+    <div className="w-full">
+      <section className="h-screen w-full p-8 md:p-20 flex flex-col justify-center items-start max-w-2xl">
+        <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-600 mb-6 drop-shadow-[0_0_15px_rgba(0,255,255,0.5)]">
+          DREAMZ SLEEP MASK
+        </h1>
+        <p className="text-cyan-100/70 text-lg md:text-xl leading-relaxed backdrop-blur-sm bg-black/20 p-4 border-l-2 border-cyan-500/50">
+          Closed-loop brainwave monitoring and adaptive neuromodulation for deeper, more restorative sleep.
+        </p>
+        <div className="mt-12 animate-bounce text-cyan-400 text-sm tracking-widest opacity-60">
+          SCROLL TO INITIALIZE ↓
+        </div>
+      </section>
+      <section className="h-screen w-full p-8 md:p-20 flex items-center justify-end">
+         <div className="text-right">
+            <h2 className="text-3xl font-bold text-cyan-500/80 mb-2">ANALYZING BRAIN WAVES</h2>
+            <div className="h-1 w-64 bg-cyan-900/30 rounded-full overflow-hidden">
+                <div className="h-full w-2/3 bg-cyan-400/50 blur-[2px] animate-pulse"></div>
+            </div>
+         </div>
+      </section>
+      <section className="h-screen w-full p-8 md:p-20 flex items-center justify-start">
+        <div className="max-w-md">
+            <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+              SLEEP BETTER
+            </h2>
+            <p className="text-blue-200/60 text-lg">
+              Shown to improve sleep quality by up to 68 percent while shortening sleep onset time by 39 percent.
+            </p>
+        </div>
+      </section>
+      <section className="h-screen w-full flex flex-col items-center justify-center pointer-events-none">
+        <div className="relative flex flex-col items-center justify-center scale-125">
+            <div className="w-32 h-32 rounded-full border-2 border-cyan-900/30 border-t-cyan-400 border-r-cyan-400 animate-[spin_3s_linear_infinite] shadow-[0_0_30px_rgba(0,255,255,0.2)]"></div>
+            <div className="absolute w-24 h-24 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center overflow-hidden border border-cyan-500/20">
+                <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                     <defs>
+                       <linearGradient id="wave-gradient" x1="0" y1="0" x2="1" y2="0">
+                         <stop offset="0%" stopColor="rgba(6,182,212,0)" />
+                         <stop offset="30%" stopColor="rgba(6,182,212,1)" />
+                         <stop offset="50%" stopColor="rgba(255,255,255,1)" />
+                         <stop offset="70%" stopColor="rgba(6,182,212,1)" />
+                         <stop offset="100%" stopColor="rgba(6,182,212,0)" />
+                       </linearGradient>
+                     </defs>
+                     <path 
+                       d="M0 50 Q 25 20, 50 50 T 100 50 T 150 50 T 200 50" 
+                       fill="none" 
+                       stroke="url(#wave-gradient)" 
+                       strokeWidth="3"
+                       className="animate-sine-scroll"
+                       strokeLinecap="round"
+                     />
+                </svg>
+            </div>
+            <div className="mt-8 text-center">
+                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 tracking-[0.2em] drop-shadow-[0_0_15px_rgba(0,255,255,0.6)]">
+                    NEUROMODULATION
+                </h2>
+                <div className="text-cyan-400 text-xs tracking-[0.8em] font-semibold mt-2 animate-pulse uppercase">
+                    Active
+                </div>
+            </div>
+        </div>
+        <style>{`
+          .animate-sine-scroll {
+            animation: sineScroll 2s linear infinite;
+          }
+          @keyframes sineScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100px); }
+          }
+        `}</style>
+      </section>
+    </div>
+  );
+}
+
+// App Component
+function App() {
+  return (
+    <div className="w-full h-screen relative bg-gradient-to-b from-[#02020a] to-[#0a0a1a]">
+      <Canvas
+        camera={{ position: [0, 0, 6], fov: 45 }}
+        gl={{ antialias: true, alpha: true }}
+        dpr={[1, 2]}
+      >
+        <React.Suspense fallback={null}>
+          <ScrollControls pages={4} damping={0.2}>
+            <Scene />
+            <Scroll html>
+              <UI />
+            </Scroll>
+          </ScrollControls>
+        </React.Suspense>
+      </Canvas>
+      <div className="absolute top-0 left-0 w-full p-6 flex justify-between items-center pointer-events-none z-50 mix-blend-screen">
+        <div className="text-cyan-400 opacity-80 text-xs tracking-[0.2em] font-bold">
+          NEURO//SYNC_V.2.4
+        </div>
+        <div className="text-cyan-400 opacity-80 text-xs tracking-[0.2em] font-bold">
+          SYSTEM: ONLINE
+        </div>
+      </div>
+      <div className="absolute bottom-6 left-6 text-[10px] text-cyan-900 tracking-widest pointer-events-none">
+        RENDER_MODE: PARTICULATE_SCAN
+      </div>
+    </div>
+  );
+}
+
+// Initialize
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = createRoot(rootElement);
+  root.render(React.createElement(React.StrictMode, null, React.createElement(App)));
+}
+  </script>
+</body>
+</html>
+
