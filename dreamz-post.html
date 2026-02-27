@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Deep Sleep Is the Most Important Stage — Dreamz Blog</title>
+<meta name="description" content="Most people chase 8 hours. But science shows the quality of your deep sleep matters far more. Here's what slow-wave sleep actually does for your brain, body, and how Dreamz helps you get more of it.">
+<meta name="keywords" content="deep sleep, slow wave sleep, sleep quality, sleep neurotechnology, how to get more deep sleep, sleep stages, dreamz">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dreamz.sleep/blog/deep-sleep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why Deep Sleep Is the Most Important Stage">
+<meta property="og:description" content="Most people chase 8 hours. But the quality of your deep sleep matters far more than the total number.">
+<meta property="og:url" content="https://dreamz.sleep/blog/deep-sleep">
+<meta property="og:site_name" content="Dreamz">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Why Deep Sleep Is the Most Important Stage — Dreamz Blog">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Why Deep Sleep Is the Most Important Stage — and How to Get More of It",
+  "description": "Most people know they need 8 hours of sleep. Few know that the quality of those hours — specifically how much time you spend in slow-wave deep sleep — matters far more than the total number.",
+  "datePublished": "2025-02-18",
+  "dateModified": "2025-02-18",
+  "author": { "@type": "Organization", "name": "Dreamz Research Team" },
+  "publisher": { "@type": "Organization", "name": "Dreamz", "url": "https://dreamz.sleep" },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://dreamz.sleep/blog/deep-sleep" },
+  "articleSection": "Sleep Science",
+  "keywords": "deep sleep, slow wave sleep, sleep quality, sleep stages, neurotechnology",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dreamz.sleep/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dreamz.sleep/blog" },
+      { "@type": "ListItem", "position": 3, "name": "Why Deep Sleep Is the Most Important Stage", "item": "https://dreamz.sleep/blog/deep-sleep" }
+    ]
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #04050d;
+    --midnight: #080c1a;
+    --deep: #0d1330;
+    --iris: #4a5bcc;
+    --lavender: #8b9de8;
+    --teal: #44d4cc;
+    --teal-dim: #1e8a85;
+    --soft: #e8ebff;
+    --white: #f4f6ff;
+    --muted: rgba(184,196,248,0.45);
+    --border: rgba(138,157,232,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--soft);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* CURSOR */
+  #cursor {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--teal); position: fixed; pointer-events: none;
+    z-index: 9999; transform: translate(-50%,-50%);
+  }
+  #cursor-ring {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(68,212,204,0.4);
+    position: fixed; pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+  }
+
+  /* BG */
+  #bg-canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.6rem 4rem; z-index: 100;
+    transition: background 0.4s, border 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(4,5,13,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 300;
+    color: var(--white); text-decoration: none;
+  }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-cta {
+    padding: 0.6rem 1.6rem;
+    border: 1px solid rgba(68,212,204,0.35);
+    background: transparent; color: var(--teal);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: none; transition: all 0.3s;
+  }
+  .nav-cta:hover { background: rgba(68,212,204,0.08); }
+
+  /* BREADCRUMB */
+  .breadcrumb {
+    padding: 9rem 4rem 0;
+    position: relative; z-index: 1;
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.3s; }
+  .breadcrumb a:hover { color: var(--teal); }
+  .breadcrumb span { color: rgba(184,196,248,0.2); }
+  .breadcrumb .current { color: rgba(184,196,248,0.25); }
+
+  /* ARTICLE HERO */
+  .article-hero {
+    padding: 2.5rem 4rem 4rem;
+    position: relative; z-index: 1;
+    border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 1fr 380px; gap: 6rem; align-items: end;
+  }
+  .article-hero-left {}
+  .article-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 1.5rem; display: block;
+  }
+  .article-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 4rem);
+    font-weight: 300; line-height: 1.15; color: var(--white);
+    margin-bottom: 1.8rem;
+  }
+  .article-title em { font-style: italic; color: var(--lavender); }
+  .article-meta {
+    display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(184,196,248,0.3);
+    padding-top: 1.5rem; border-top: 1px solid var(--border);
+  }
+  .article-meta-item { display: flex; align-items: center; gap: 0.4rem; }
+  .article-hero-visual {
+    display: flex; align-items: center; justify-content: center;
+    height: 280px; background: var(--deep);
+    border: 1px solid var(--border);
+  }
+
+  /* ARTICLE LAYOUT */
+  .article-layout {
+    display: grid; grid-template-columns: 1fr 280px;
+    gap: 0; position: relative; z-index: 1;
+    min-height: 60vh;
+  }
+
+  /* ARTICLE BODY */
+  .article-body {
+    padding: 5rem 5rem 5rem 4rem;
+    border-right: 1px solid var(--border);
+  }
+  .article-body h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.9rem; font-weight: 300; color: var(--white);
+    margin: 3rem 0 1.2rem; line-height: 1.2;
+  }
+  .article-body h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem; font-weight: 400; color: var(--soft);
+    margin: 2rem 0 0.8rem;
+  }
+  .article-body p {
+    font-size: 1rem; line-height: 1.9; color: var(--muted);
+    margin-bottom: 1.4rem;
+  }
+  .article-body p strong { color: var(--soft); font-weight: 400; }
+  .article-body em { color: var(--lavender); font-style: italic; }
+  .article-body a { color: var(--teal); text-decoration: underline; text-underline-offset: 3px; }
+  .article-body a:hover { color: var(--white); }
+
+  /* PULLQUOTE */
+  .pullquote {
+    border-left: 2px solid var(--teal);
+    padding: 1.5rem 2rem; margin: 3rem 0;
+    background: rgba(68,212,204,0.03);
+  }
+  .pullquote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 300; font-style: italic;
+    color: var(--soft) !important; line-height: 1.5; margin: 0 !important;
+  }
+
+  /* DATA CALLOUT */
+  .data-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border);
+    margin: 3rem 0;
+  }
+  .data-item {
+    background: var(--midnight); padding: 2rem 1.5rem;
+    text-align: center;
+  }
+  .data-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem; font-weight: 300; color: var(--teal);
+    display: block; line-height: 1;
+  }
+  .data-num sup { font-size: 1.2rem; }
+  .data-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-top: 0.5rem; display: block;
+  }
+
+  /* STAGE DIAGRAM */
+  .stage-diagram {
+    margin: 3rem 0; border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .stage-diagram-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted);
+    display: flex; justify-content: space-between;
+  }
+  .stage-row {
+    display: grid; grid-template-columns: 120px 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .stage-row:last-child { border-bottom: none; }
+  .stage-name {
+    padding: 1rem 1.5rem; border-right: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); display: flex; align-items: center;
+  }
+  .stage-bar-wrap {
+    padding: 0.8rem 1.5rem; display: flex; align-items: center; gap: 1rem;
+  }
+  .stage-bar {
+    height: 6px; border-radius: 2px;
+    transition: width 1s ease;
+  }
+  .stage-desc {
+    font-size: 0.75rem; color: rgba(184,196,248,0.3);
+    font-family: 'Space Mono', monospace; letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  /* ARTICLE IMAGE */
+  .article-image {
+    margin: 3rem 0;
+    border: 1px solid var(--border);
+    background: var(--deep);
+    height: 280px; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .article-image-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 0.6rem 1rem;
+    background: rgba(4,5,13,0.7);
+    font-size: 0.68rem; color: rgba(184,196,248,0.3);
+    font-family: 'Space Mono', monospace; letter-spacing: 0.08em;
+  }
+
+  /* ARTICLE SIDEBAR */
+  .article-sidebar {
+    padding: 4rem 2.5rem;
+    display: flex; flex-direction: column; gap: 3rem;
+    position: sticky; top: 5rem; height: fit-content;
+  }
+  .sidebar-block {}
+  .sidebar-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(184,196,248,0.25); margin-bottom: 1.2rem; display: block;
+  }
+  /* TOC */
+  .toc { display: flex; flex-direction: column; gap: 0.6rem; }
+  .toc a {
+    font-size: 0.78rem; color: var(--muted); text-decoration: none;
+    padding: 0.4rem 0.8rem; border-left: 1px solid var(--border);
+    transition: all 0.3s; line-height: 1.4;
+  }
+  .toc a:hover, .toc a.active { color: var(--teal); border-left-color: var(--teal); }
+
+  /* RELATED */
+  .related-posts { display: flex; flex-direction: column; gap: 0; }
+  .related-post {
+    padding: 1rem 0; border-bottom: 1px solid var(--border);
+    text-decoration: none; display: flex; flex-direction: column; gap: 0.3rem;
+    transition: opacity 0.3s;
+  }
+  .related-post:last-child { border-bottom: none; }
+  .related-post:hover { opacity: 0.75; }
+  .related-post-cat {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--teal-dim);
+  }
+  .related-post-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem; color: var(--soft); line-height: 1.35;
+  }
+  .related-post-read {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem; color: rgba(184,196,248,0.2);
+  }
+
+  /* CTA SIDEBAR */
+  .sidebar-cta {
+    padding: 1.5rem; border: 1px solid var(--border);
+    background: var(--midnight); display: flex; flex-direction: column; gap: 1rem;
+  }
+  .sidebar-cta p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem; color: var(--soft); line-height: 1.45;
+  }
+  .sidebar-cta a {
+    display: block; padding: 0.7rem 1rem; text-align: center;
+    background: linear-gradient(135deg, var(--iris), var(--teal-dim));
+    color: var(--white); text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+    transition: opacity 0.3s;
+  }
+  .sidebar-cta a:hover { opacity: 0.85; }
+
+  /* ARTICLE FOOTER */
+  .article-footer {
+    padding: 4rem; position: relative; z-index: 1;
+    border-top: 1px solid var(--border);
+  }
+  .article-tags {
+    display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 3rem;
+  }
+  .tag {
+    padding: 0.3rem 0.9rem; border: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: all 0.3s;
+  }
+  .tag:hover { border-color: rgba(68,212,204,0.3); color: var(--teal); }
+
+  .article-nav {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border);
+  }
+  .article-nav-item {
+    background: var(--midnight); padding: 2rem;
+    text-decoration: none; display: flex; flex-direction: column; gap: 0.6rem;
+    transition: background 0.3s;
+  }
+  .article-nav-item:hover { background: var(--deep); }
+  .article-nav-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(184,196,248,0.25);
+  }
+  .article-nav-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--soft); line-height: 1.3;
+  }
+  .article-nav-item.next { text-align: right; }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); position: relative; z-index: 1; }
+  .footer-top { padding: 2.5rem 4rem; }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 300;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-logo:hover { color: var(--white); }
+  .footer-logo span { color: var(--teal); }
+  .footer-tagline {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(184,196,248,0.2); margin-top: 0.4rem;
+  }
+  .footer-bottom {
+    padding: 1.5rem 4rem; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-copy { font-size: 0.7rem; color: rgba(184,196,248,0.2); letter-spacing: 0.08em; }
+  .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .footer-links a {
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(184,196,248,0.25); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--muted); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s, transform 0.8s; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* MOBILE */
+  @media (max-width: 1024px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    .breadcrumb { padding: 7rem 2rem 0; }
+    .article-hero { grid-template-columns: 1fr; padding: 2rem 2rem 3rem; gap: 2rem; }
+    .article-hero-visual { display: none; }
+    .article-layout { grid-template-columns: 1fr; }
+    .article-body { padding: 3rem 2rem; border-right: none; }
+    .article-sidebar { display: none; }
+    .data-row { grid-template-columns: 1fr; }
+    .article-footer { padding: 2rem; }
+    .article-nav { grid-template-columns: 1fr; }
+    .footer-top { padding: 2rem; }
+    .footer-bottom { padding: 1.5rem 2rem; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <a href="dreamz.html" class="nav-logo">Dreamz<span>.</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="dreamz.html#technology">Technology</a></li>
+    <li><a href="dreamz.html#how">How It Works</a></li>
+    <li><a href="dreamz.html#science">Science</a></li>
+    <li><a href="dreamz-blog.html" class="active">Blog</a></li>
+    <li><a href="dreamz-research.html">Research</a></li>
+  </ul>
+  <button class="nav-cta" onclick="window.location.href='dreamz.html#cta'">Join Waitlist</button>
+</nav>
+
+<main role="main" itemscope itemtype="https://schema.org/Article">
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="dreamz.html" itemprop="url">Home</a>
+    <span>›</span>
+    <a href="dreamz-blog.html">Blog</a>
+    <span>›</span>
+    <span class="current" itemprop="name">Deep Sleep</span>
+  </nav>
+
+  <!-- ARTICLE HERO -->
+  <header class="article-hero">
+    <div class="article-hero-left">
+      <span class="article-category" itemprop="articleSection">Sleep Science</span>
+      <h1 class="article-title" itemprop="headline">
+        Why Deep Sleep Is the Most Important Stage —
+        <em>and How to Get More of It</em>
+      </h1>
+      <div class="article-meta">
+        <div class="article-meta-item">
+          <span itemprop="author" itemscope itemtype="https://schema.org/Organization">
+            <span itemprop="name">Dreamz Research Team</span>
+          </span>
+        </div>
+        <div class="article-meta-item">
+          <time itemprop="datePublished" datetime="2025-02-18">Feb 18, 2025</time>
+        </div>
+        <div class="article-meta-item">8 min read</div>
+        <div class="article-meta-item">Sleep Science · Neuroscience</div>
+      </div>
+    </div>
+    <div class="article-hero-visual" aria-hidden="true">
+      <svg width="220" height="220" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="110" cy="110" rx="90" ry="56" stroke="rgba(68,212,204,0.3)" stroke-width="1"/>
+        <ellipse cx="110" cy="110" rx="65" ry="40" stroke="rgba(68,212,204,0.2)" stroke-width="1"/>
+        <ellipse cx="110" cy="110" rx="38" ry="23" stroke="rgba(68,212,204,0.15)" stroke-width="1"/>
+        <path d="M30 110 Q60 68 90 110 Q120 152 150 110 Q175 78 190 110"
+              stroke="rgba(68,212,204,0.7)" stroke-width="1.5" fill="none"/>
+        <circle cx="110" cy="110" r="5" fill="rgba(68,212,204,0.5)"/>
+        <circle cx="110" cy="110" r="12" stroke="rgba(68,212,204,0.2)" stroke-width="1"/>
+        <!-- wave pulses -->
+        <path d="M20 140 Q40 135 50 140 Q60 145 70 140 Q80 135 100 140"
+              stroke="rgba(138,157,232,0.25)" stroke-width="1" fill="none"/>
+        <path d="M120 80 Q140 75 155 80 Q170 85 185 80 Q195 77 205 80"
+              stroke="rgba(138,157,232,0.2)" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+  </header>
+
+  <!-- ARTICLE CONTENT + SIDEBAR -->
+  <div class="article-layout">
+
+    <!-- BODY -->
+    <article class="article-body" itemprop="articleBody">
+
+      <p>Most people treat sleep as a single, undivided state — something that either happened or didn't. You slept eight hours or you didn't. You feel rested or you don't. But sleep is far more structured than that, and understanding its architecture changes everything about how you pursue better rest.</p>
+
+      <p>The stage that matters most — the one most of us are chronically short on — is <strong>slow-wave sleep</strong>, also called deep sleep or N3. It's the stage your brain spends the least time in, protects most fiercely, and where the most essential biological restoration occurs.</p>
+
+      <div class="pullquote">
+        <p>"The shorter your sleep, the shorter your life. And it is slow-wave sleep — not REM, not light sleep — that your brain fights hardest to preserve when time is limited."</p>
+      </div>
+
+      <h2 id="what-is-deep-sleep">What Is Deep Sleep?</h2>
+
+      <p>Human sleep cycles through four stages roughly every 90 minutes throughout the night. The first three stages are non-REM (NREM) sleep; the fourth is REM. Deep sleep — stage N3 — is the third and deepest NREM stage, characterised by slow, high-amplitude brainwaves called delta waves.</p>
+
+      <p>During deep sleep your brain is, in a meaningful sense, <em>most off</em>. The thalamus — the brain's sensory relay station — essentially goes quiet, shutting down the processing of most external stimuli. This is why deep sleep is the hardest stage to wake from, and why, if you are woken during it, you feel profoundly disoriented.</p>
+
+      <!-- SLEEP STAGES DIAGRAM -->
+      <div class="stage-diagram reveal" aria-label="Sleep stages overview">
+        <div class="stage-diagram-header">
+          <span>Sleep Stage</span>
+          <span>Time in stage (typical adult)</span>
+        </div>
+        <div class="stage-row">
+          <span class="stage-name">N1 — Light</span>
+          <div class="stage-bar-wrap">
+            <div class="stage-bar" style="width:8%; background:rgba(138,157,232,0.2);"></div>
+            <span class="stage-desc">~5% of night · Transition to sleep</span>
+          </div>
+        </div>
+        <div class="stage-row">
+          <span class="stage-name">N2 — Light</span>
+          <div class="stage-bar-wrap">
+            <div class="stage-bar" style="width:48%; background:rgba(138,157,232,0.35);"></div>
+            <span class="stage-desc">~50% of night · Memory consolidation begins</span>
+          </div>
+        </div>
+        <div class="stage-row">
+          <span class="stage-name">N3 — Deep</span>
+          <div class="stage-bar-wrap">
+            <div class="stage-bar" style="width:20%; background:rgba(68,212,204,0.55);"></div>
+            <span class="stage-desc">~20% of night · Most restorative</span>
+          </div>
+        </div>
+        <div class="stage-row">
+          <span class="stage-name">REM</span>
+          <div class="stage-bar-wrap">
+            <div class="stage-bar" style="width:25%; background:rgba(74,91,204,0.45);"></div>
+            <span class="stage-desc">~25% of night · Dreams, emotional processing</span>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="what-deep-sleep-does">What Deep Sleep Actually Does</h2>
+
+      <p>The list of physiological processes concentrated in deep sleep is remarkable in its breadth. It is not merely "rest" — it is active, targeted biological maintenance on a scale that cannot be replicated by any other sleep stage or waking recovery.</p>
+
+      <h3>1. Physical restoration</h3>
+      <p>Growth hormone — responsible for cellular repair, muscle synthesis, and metabolic regulation — is released almost exclusively during deep sleep. Children spend proportionally more time in N3 for precisely this reason. In adults, even a single night of disrupted deep sleep measurably impairs next-day tissue repair and immune response.</p>
+
+      <h3>2. Glymphatic system activation</h3>
+      <p>During deep sleep, cerebrospinal fluid floods through channels in the brain, clearing metabolic waste products accumulated during waking hours. This includes amyloid-beta and tau proteins — the same proteins associated with Alzheimer's disease when they accumulate over years and decades. The brain, quite literally, <em>washes itself</em> during slow-wave sleep.</p>
+
+      <h3>3. Memory consolidation and learning</h3>
+      <p>While REM sleep handles emotional memory and creative integration, deep sleep is responsible for <strong>declarative memory consolidation</strong> — the transfer of factual and procedural information from the hippocampus to long-term storage in the cortex. If you've ever noticed that you understand something better after sleeping on it, this is why.</p>
+
+      <!-- DATA ROW -->
+      <div class="data-row reveal">
+        <div class="data-item">
+          <span class="data-num">3×</span>
+          <span class="data-label">Higher immune response after adequate deep sleep</span>
+        </div>
+        <div class="data-item">
+          <span class="data-num">40<sup>%</sup></span>
+          <span class="data-label">Drop in learning ability after one night without deep sleep</span>
+        </div>
+        <div class="data-item">
+          <span class="data-num">0.5<span style="font-size:1rem;">hrs</span></span>
+          <span class="data-label">Average deep sleep per night for most adults over 40</span>
+        </div>
+      </div>
+
+      <h2 id="why-were-short">Why Most of Us Are Chronically Short on Deep Sleep</h2>
+
+      <p>Deep sleep is front-loaded in the night. The first two 90-minute cycles — roughly the first three hours of sleep — contain the majority of slow-wave activity. This means that <strong>every hour of sleep you lose comes disproportionately from the earlier, deep-sleep-rich portion of your night.</strong></p>
+
+      <p>Beyond sleep restriction, several common factors actively suppress deep sleep: alcohol (even moderate amounts dramatically reduce N3 in the first half of the night), high core body temperature, certain medications, blue light exposure before bed, and — perhaps most pervasively — chronic stress and elevated cortisol, which directly antagonise the neural conditions required for delta wave generation.</p>
+
+      <div class="pullquote">
+        <p>"Every hour of sleep debt you carry is paid back first from your REM and your light sleep — not your deep sleep. Nature protects it. The problem is that most people have already lost far more than nature can protect."</p>
+      </div>
+
+      <h2 id="how-to-get-more">How to Get More Deep Sleep</h2>
+
+      <p>The standard behavioural recommendations — consistent wake time, cool bedroom temperature, avoiding alcohol, limiting late-night light exposure — are all legitimate and worth implementing. But they address the margins. They reduce the suppressors of deep sleep; they don't actively increase it.</p>
+
+      <p>This is where neurotechnology enters. Research in sleep science has increasingly focused on <strong>acoustic and electrical brain stimulation</strong> as a means of directly enhancing slow-wave activity. Studies have shown that precisely-timed audio tones synchronised to existing delta waves can significantly amplify slow-wave activity without disturbing sleep. Similarly, gentle transcranial stimulation delivered at the right phase of a sleep cycle has been shown to increase time in N3 and improve next-day memory performance.</p>
+
+      <p>Dreamz is built on this foundation. By reading your brain's electrical activity in real time and delivering stimulation precisely when and how your brain can benefit from it, the goal is not to force sleep — but to <a href="dreamz.html#technology">deepen the sleep your brain is already reaching for</a>.</p>
+
+      <h2 id="what-this-means">What This Means for You</h2>
+
+      <p>If you wake up tired despite sleeping a full night, if you struggle with memory and focus, if you feel emotionally reactive and physically slow — the problem may not be the quantity of your sleep. It may be that you're spending too little of that time in the stage that actually restores you.</p>
+
+      <p>Tracking your sleep with Dreamz gives you a view of your nightly deep sleep duration — not just whether you "slept." And with stimulation running through the night, you can begin building the kind of sleep that doesn't just check the box, but genuinely changes how you feel and function.</p>
+
+      <p>That's the difference between sleeping and <em>recovering</em>.</p>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar" aria-label="Article sidebar">
+
+      <!-- TOC -->
+      <div class="sidebar-block">
+        <span class="sidebar-label">In This Article</span>
+        <nav class="toc" aria-label="Table of contents">
+          <a href="#what-is-deep-sleep" class="active">What is deep sleep?</a>
+          <a href="#what-deep-sleep-does">What deep sleep does</a>
+          <a href="#why-were-short">Why most of us are short on it</a>
+          <a href="#how-to-get-more">How to get more</a>
+          <a href="#what-this-means">What this means for you</a>
+        </nav>
+      </div>
+
+      <!-- CTA -->
+      <div class="sidebar-block">
+        <div class="sidebar-cta">
+          <p>Dreamz reads your brain activity while you sleep and deepens your slow-wave sleep every night.</p>
+          <a href="dreamz.html#cta">Join the Waitlist →</a>
+        </div>
+      </div>
+
+      <!-- RELATED POSTS -->
+      <div class="sidebar-block">
+        <span class="sidebar-label">Related Articles</span>
+        <div class="related-posts">
+          <a href="dreamz-blog.html#post-2" class="related-post">
+            <span class="related-post-cat">Sleep Science</span>
+            <span class="related-post-title">The Racing Thoughts Problem: Why Your Brain Won't Switch Off</span>
+            <span class="related-post-read">5 min read</span>
+          </a>
+          <a href="dreamz-blog.html#post-3" class="related-post">
+            <span class="related-post-cat">Sleep Science</span>
+            <span class="related-post-title">What One Week of Poor Sleep Does to Your Brain</span>
+            <span class="related-post-read">7 min read</span>
+          </a>
+          <a href="dreamz-blog.html#post-4" class="related-post">
+            <span class="related-post-cat">Guides</span>
+            <span class="related-post-title">Sleep Stages: Light, Deep, and REM Explained</span>
+            <span class="related-post-read">6 min read</span>
+          </a>
+          <a href="dreamz-blog.html#post-1" class="related-post">
+            <span class="related-post-cat">Neurotechnology</span>
+            <span class="related-post-title">What Is Transcranial Stimulation — and Is It Safe?</span>
+            <span class="related-post-read">6 min read</span>
+          </a>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ARTICLE FOOTER -->
+  <div class="article-footer">
+    <div class="article-tags" aria-label="Article tags">
+      <a href="dreamz-blog.html" class="tag">Sleep Science</a>
+      <a href="dreamz-blog.html" class="tag">Deep Sleep</a>
+      <a href="dreamz-blog.html" class="tag">Slow Wave Sleep</a>
+      <a href="dreamz-blog.html" class="tag">Neurotechnology</a>
+      <a href="dreamz-blog.html" class="tag">Memory</a>
+      <a href="dreamz-blog.html" class="tag">Brain Health</a>
+      <a href="dreamz.html#science" class="tag">The Science of Dreamz</a>
+    </div>
+
+    <nav class="article-nav" aria-label="Next and previous articles">
+      <a href="dreamz-blog.html" class="article-nav-item">
+        <span class="article-nav-label">← Back to Blog</span>
+        <span class="article-nav-title">All Articles</span>
+      </a>
+      <a href="dreamz-blog.html#post-2" class="article-nav-item next">
+        <span class="article-nav-label">Next Article →</span>
+        <span class="article-nav-title">The Racing Thoughts Problem: Why Your Brain Won't Switch Off at Night</span>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<!-- SEO INNER LINKS -->
+<div style="padding:1.2rem 4rem; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; gap:0.4rem 1.8rem; position:relative; z-index:1;" aria-label="Site navigation">
+  <a href="dreamz.html" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Home</a>
+  <a href="dreamz-blog.html" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Blog</a>
+  <a href="dreamz.html#technology" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Technology</a>
+  <a href="dreamz.html#science" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Neuroscience</a>
+  <a href="dreamz.html#how" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">How It Works</a>
+  <a href="dreamz.html#faq" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">FAQ</a>
+  <a href="dreamz.html#cta" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Join Waitlist</a>
+  <a href="#what-is-deep-sleep" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Deep Sleep</a>
+  <a href="#what-deep-sleep-does" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Slow Wave Sleep</a>
+  <a href="#how-to-get-more" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Sleep Improvement</a>
+</div>
+
+<footer role="contentinfo">
+  <div class="footer-top">
+    <a href="dreamz.html" class="footer-logo">Dreamz<span>.</span></a>
+    <p class="footer-tagline">Sleep well. Live well.</p>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Dreamz. Sleep Neurotechnology. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="dreamz.html">Home</a>
+      <a href="dreamz-blog.html">Blog</a>
+      <a href="dreamz.html#faq">FAQ</a>
+      <a href="dreamz.html#cta">Waitlist</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px';
+});
+(function tick() {
+  ringX += (mouseX - ringX) * 0.12; ringY += (mouseY - ringY) * 0.12;
+  cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px';
+  requestAnimationFrame(tick);
+})();
+
+// NAV
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// TOC active state on scroll
+const sections = ['what-is-deep-sleep','what-deep-sleep-does','why-were-short','how-to-get-more','what-this-means'];
+const tocLinks = document.querySelectorAll('.toc a');
+window.addEventListener('scroll', () => {
+  let current = sections[0];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 160) current = id;
+  });
+  tocLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// REVEAL
+const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+
+// BACKGROUND
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, t = 0;
+  const resize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; };
+  window.addEventListener('resize', resize); resize();
+  const particles = Array.from({length:160}, () => ({
+    x: Math.random(), y: Math.random(),
+    r: Math.random() * 1.1 + 0.2,
+    a: Math.random() * 0.4 + 0.08,
+    phase: Math.random() * Math.PI * 2
+  }));
+  (function draw() {
+    ctx.clearRect(0, 0, W, H); t += 0.008;
+    particles.forEach(p => {
+      const a = p.a * (Math.sin(t + p.phase) * 0.3 + 0.7);
+      ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(184,196,248,${a})`; ctx.fill();
+    });
+    // Subtle wave
+    ctx.beginPath();
+    for (let x = 0; x <= W; x += 4) {
+      const y = H * 0.45 + Math.sin((x / W) * Math.PI * 2 * 1.2 + t * 0.25) * 50;
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = 'rgba(68,212,204,0.04)'; ctx.lineWidth = 1; ctx.stroke();
+    requestAnimationFrame(draw);
+  })();
+})();
+</script>
+</body>
+</html>

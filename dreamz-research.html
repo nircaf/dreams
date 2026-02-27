@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research — Dreamz Sleep Neurotechnology | Scientific Evidence</title>
+<meta name="description" content="The peer-reviewed research behind Dreamz. Explore studies on sleep slow oscillations, closed-loop neurostimulation, tDCS, memory consolidation, and brain stimulation for sleep improvement.">
+<meta name="keywords" content="sleep neurotechnology research, tDCS sleep study, closed-loop brain stimulation, slow oscillation sleep, sleep science papers, neurostimulation memory, brain stimulation insomnia, dreamz research">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dreamz.sleep/research">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Research — Dreamz Sleep Neurotechnology">
+<meta property="og:description" content="The peer-reviewed science behind sleep neurostimulation. 10 key studies that inform our approach.">
+<meta property="og:url" content="https://dreamz.sleep/research">
+<meta property="og:site_name" content="Dreamz">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Dreamz Research",
+  "url": "https://dreamz.sleep/research",
+  "description": "A curated collection of peer-reviewed studies on sleep neurostimulation, slow oscillation enhancement, closed-loop brain stimulation, and memory consolidation during sleep.",
+  "publisher": { "@type": "Organization", "name": "Dreamz", "url": "https://dreamz.sleep" },
+  "hasPart": [
+    { "@type": "ScholarlyArticle", "name": "Boosting Slow Oscillations During Sleep in Mild Cognitive Impairment Using Slow Oscillatory tDCS", "author": "Ladenbauer et al.", "datePublished": "2017", "publisher": "Journal of Neuroscience" },
+    { "@type": "ScholarlyArticle", "name": "Auditory Closed-Loop Stimulation of the Sleep Slow Oscillation Enhances Memory", "author": "Ngo et al.", "datePublished": "2013", "publisher": "Neuron" },
+    { "@type": "ScholarlyArticle", "name": "Modulation of Slow Oscillations via tACS During Sleep", "author": "Ketz et al.", "datePublished": "2018", "publisher": "Scientific Reports" },
+    { "@type": "ScholarlyArticle", "name": "Spindle-Frequency Stimulation During Sleep", "author": "Lustenberger et al.", "datePublished": "2016", "publisher": "Brain Stimulation" },
+    { "@type": "ScholarlyArticle", "name": "Prefrontal tDCS in Insomnia", "author": "Frase et al.", "datePublished": "2016", "publisher": "Sleep Medicine" },
+    { "@type": "ScholarlyArticle", "name": "Individual Alpha Frequency Stimulation Improves Cognitive Performance", "author": "Vosskuhl et al.", "datePublished": "2018", "publisher": "Journal of Neuroscience" },
+    { "@type": "ScholarlyArticle", "name": "Boosting Slow Oscillations During Sleep Potentiates Memory", "author": "Marshall et al.", "datePublished": "2006", "publisher": "Nature" },
+    { "@type": "ScholarlyArticle", "name": "Home-Based tDCS and Sleep Quality", "author": "Rosenberg et al.", "datePublished": "2022", "publisher": "Brain Stimulation" },
+    { "@type": "ScholarlyArticle", "name": "Evidence-Based Guidelines on Non-Invasive Brain Stimulation", "author": "Lefaucheur et al.", "datePublished": "2020", "publisher": "Clinical Neurophysiology" },
+    { "@type": "ScholarlyArticle", "name": "Closed-Loop Brain Stimulation During Sleep in Older Adults", "author": "Ladenbauer et al.", "datePublished": "2023", "publisher": "Brain Stimulation" }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #04050d;
+    --midnight: #080c1a;
+    --deep: #0d1330;
+    --iris: #4a5bcc;
+    --lavender: #8b9de8;
+    --teal: #44d4cc;
+    --teal-dim: #1e8a85;
+    --soft: #e8ebff;
+    --white: #f4f6ff;
+    --muted: rgba(184,196,248,0.45);
+    --border: rgba(138,157,232,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--soft);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* CURSOR */
+  #cursor { width:8px; height:8px; border-radius:50%; background:var(--teal); position:fixed; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+  #cursor-ring { width:36px; height:36px; border-radius:50%; border:1px solid rgba(68,212,204,0.4); position:fixed; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .3s,height .3s; }
+  #bg-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+
+  /* NAV */
+  nav { position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:1.6rem 4rem; z-index:100; transition:background .4s,border .4s; }
+  nav.scrolled { background:rgba(4,5,13,0.95); border-bottom:1px solid var(--border); backdrop-filter:blur(12px); }
+  .nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--white); text-decoration:none; }
+  .nav-logo span { color:var(--teal); }
+  .nav-links { display:flex; gap:2.5rem; list-style:none; }
+  .nav-links a { font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .3s; }
+  .nav-links a:hover,.nav-links a.active { color:var(--white); }
+  .nav-cta { padding:0.6rem 1.6rem; border:1px solid rgba(68,212,204,0.35); background:transparent; color:var(--teal); font-family:'DM Sans',sans-serif; font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; cursor:none; transition:all .3s; }
+  .nav-cta:hover { background:rgba(68,212,204,0.08); }
+
+  /* HERO */
+  #research-hero {
+    padding: 11rem 4rem 5rem;
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1fr 340px;
+    gap: 6rem; align-items: end;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label { font-family:'Space Mono',monospace; font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--teal); margin-bottom:1.5rem; display:block; }
+  .hero-title { font-family:'Cormorant Garamond',serif; font-size:clamp(3rem,5vw,5.2rem); font-weight:300; line-height:1.1; color:var(--white); margin-bottom:1.5rem; }
+  .hero-title em { font-style:italic; color:var(--lavender); }
+  .hero-sub { font-size:1rem; color:var(--muted); line-height:1.8; max-width:520px; }
+  .hero-disclaimer {
+    margin-top: 2rem; padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(138,157,232,0.1);
+    background: rgba(13,19,48,0.5);
+    font-size: 0.75rem; color: rgba(184,196,248,0.3);
+    line-height: 1.6; font-style: italic;
+  }
+  .hero-stats {
+    display: flex; flex-direction: column; gap: 1px;
+    background: var(--border);
+  }
+  .hero-stat {
+    background: var(--midnight); padding: 1.5rem 2rem;
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .hero-stat-num { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:300; color:var(--teal); line-height:1; }
+  .hero-stat-label { font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
+
+  /* FILTER BAR */
+  #filter-bar {
+    position: sticky; top: 70px; z-index: 50;
+    background: rgba(4,5,13,0.92); backdrop-filter:blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 4rem;
+    display: flex; align-items: center; gap: 0; overflow-x: auto;
+  }
+  .filter-tag {
+    padding: 1rem 1.4rem; flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--muted); cursor:none; background:transparent; border-top:none; border-left:none; border-bottom:none;
+    transition: all .3s;
+  }
+  .filter-tag:hover { color:var(--soft); }
+  .filter-tag.active { color:var(--teal); background:rgba(68,212,204,0.04); }
+  .filter-count { margin-left:0.4rem; color:rgba(184,196,248,0.25); font-size:0.55rem; }
+
+  /* STUDIES */
+  #studies { padding: 0 4rem 6rem; position:relative; z-index:1; }
+
+  .study-card {
+    display: grid; grid-template-columns: 80px 1fr auto;
+    gap: 0; border-bottom: 1px solid var(--border);
+    transition: background .3s;
+    position: relative;
+  }
+  .study-card:first-child { border-top: 1px solid var(--border); margin-top: 0; }
+  .study-card:hover { background: rgba(13,19,48,0.6); }
+
+  /* number column */
+  .study-num-col {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: center;
+  }
+  .study-num {
+    font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.12em;
+    color:rgba(184,196,248,0.2);
+  }
+
+  /* main content column */
+  .study-main { padding: 2.5rem 3rem 2.5rem 2.5rem; }
+
+  .study-meta {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .study-tag {
+    font-family:'Space Mono',monospace; font-size:0.58rem; letter-spacing:0.16em; text-transform:uppercase;
+    padding: 0.25rem 0.7rem; border: 1px solid;
+  }
+  .study-tag.deep-sleep  { color:rgba(68,212,204,0.7); border-color:rgba(68,212,204,0.2); }
+  .study-tag.closed-loop { color:rgba(138,157,232,0.7); border-color:rgba(138,157,232,0.2); }
+  .study-tag.memory      { color:rgba(184,196,248,0.6); border-color:rgba(184,196,248,0.15); }
+  .study-tag.personalisation { color:rgba(132,220,198,0.7); border-color:rgba(132,220,198,0.2); }
+  .study-tag.insomnia    { color:rgba(178,132,232,0.7); border-color:rgba(178,132,232,0.2); }
+  .study-tag.guidelines  { color:rgba(232,195,132,0.7); border-color:rgba(232,195,132,0.2); }
+  .study-tag.home-use    { color:rgba(132,200,232,0.7); border-color:rgba(132,200,232,0.2); }
+  .study-tag.spindles    { color:rgba(200,132,232,0.7); border-color:rgba(200,132,232,0.2); }
+
+  .study-journal {
+    font-family:'Space Mono',monospace; font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:rgba(184,196,248,0.25);
+  }
+  .study-year { font-family:'Space Mono',monospace; font-size:0.58rem; color:rgba(184,196,248,0.2); }
+
+  .study-authors {
+    font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.1em;
+    color:var(--teal-dim); margin-bottom:0.8rem;
+  }
+
+  .study-title {
+    font-family:'Cormorant Garamond',serif; font-size:1.45rem; font-weight:300;
+    color:var(--white); line-height:1.25; margin-bottom:1rem;
+  }
+
+  .study-abstract {
+    font-size:0.88rem; color:var(--muted); line-height:1.8; margin-bottom:1.5rem;
+  }
+
+  .study-insight {
+    padding: 1rem 1.4rem;
+    border-left: 2px solid var(--teal);
+    background: rgba(68,212,204,0.03);
+    display: flex; gap: 0.8rem; align-items: flex-start;
+  }
+  .study-insight-label {
+    font-family:'Space Mono',monospace; font-size:0.56rem; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--teal); flex-shrink:0; padding-top:2px;
+  }
+  .study-insight-text {
+    font-size:0.85rem; color:var(--soft); line-height:1.65; font-style:italic;
+  }
+
+  /* link column */
+  .study-link-col {
+    padding: 2.5rem 2rem;
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    gap: 0.6rem; min-width: 120px;
+  }
+  .study-link {
+    display: flex; flex-direction:column; align-items:center; gap:0.4rem;
+    text-decoration:none; padding:0.8rem; border:1px solid var(--border);
+    transition: border-color .3s, background .3s; text-align:center;
+    width:100%;
+  }
+  .study-link:hover { border-color:rgba(68,212,204,0.3); background:rgba(68,212,204,0.04); }
+  .study-link-icon { font-size:1.1rem; opacity:0.4; }
+  .study-link-label {
+    font-family:'Space Mono',monospace; font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:rgba(184,196,248,0.35);
+  }
+  .study-link:hover .study-link-label { color:var(--teal); }
+
+  /* SYNTHESIS SECTION */
+  #synthesis {
+    padding: 6rem 4rem;
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border);
+    background: var(--midnight);
+  }
+  .synthesis-label { font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--teal); margin-bottom:1.5rem; display:block; }
+  .synthesis-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.5vw,3.4rem); font-weight:300; color:var(--white); line-height:1.2; margin-bottom:2rem; }
+  .synthesis-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); margin-top:3rem; }
+  .synthesis-item { background:var(--midnight); padding:2rem; display:flex; flex-direction:column; gap:0.8rem; }
+  .synthesis-item:hover { background:var(--deep); transition:background .3s; }
+  .synthesis-icon { font-size:1.4rem; opacity:0.4; }
+  .synthesis-item-title { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:300; color:var(--white); }
+  .synthesis-item-text { font-size:0.82rem; color:var(--muted); line-height:1.7; }
+
+  /* CTA */
+  #research-cta {
+    padding: 6rem 4rem;
+    position: relative; z-index: 1;
+    text-align: center;
+  }
+  #research-cta::before {
+    content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:700px; height:400px;
+    background:radial-gradient(ellipse,rgba(74,91,204,0.08) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .cta-inner { max-width:540px; margin:0 auto; position:relative; z-index:1; }
+  .cta-label { font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--teal); margin-bottom:1.2rem; display:block; }
+  .cta-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.5vw,3.2rem); font-weight:300; color:var(--white); line-height:1.2; margin-bottom:1rem; }
+  .cta-sub { font-size:0.92rem; color:var(--muted); line-height:1.75; margin-bottom:2.5rem; }
+  .cta-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+  .btn-primary {
+    padding:0.9rem 2.5rem; background:linear-gradient(135deg,var(--iris),var(--teal-dim));
+    border:none; color:var(--white); font-family:'DM Sans',sans-serif;
+    font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; cursor:none; transition:opacity .3s;
+  }
+  .btn-primary:hover { opacity:0.85; }
+  .btn-secondary {
+    padding:0.9rem 2rem; border:1px solid rgba(68,212,204,0.3);
+    background:transparent; color:var(--teal); font-family:'DM Sans',sans-serif;
+    font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; cursor:none;
+    text-decoration:none; display:inline-block; transition:background .3s;
+  }
+  .btn-secondary:hover { background:rgba(68,212,204,0.06); }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity .8s,transform .8s; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  /* FOOTER */
+  footer { border-top:1px solid var(--border); position:relative; z-index:1; }
+  .footer-top { padding:2.5rem 4rem; }
+  .footer-logo { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--muted); text-decoration:none; transition:color .3s; }
+  .footer-logo:hover { color:var(--white); }
+  .footer-logo span { color:var(--teal); }
+  .footer-tagline { font-family:'Space Mono',monospace; font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:rgba(184,196,248,0.2); margin-top:0.4rem; }
+  .footer-bottom { padding:1.5rem 4rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+  .footer-copy { font-size:0.7rem; color:rgba(184,196,248,0.2); letter-spacing:0.08em; }
+  .footer-links { display:flex; gap:1.5rem; flex-wrap:wrap; }
+  .footer-links a { font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(184,196,248,0.25); text-decoration:none; transition:color .3s; }
+  .footer-links a:hover { color:var(--muted); }
+
+  /* MOBILE */
+  @media (max-width:1024px) {
+    nav { padding:1.2rem 2rem; }
+    .nav-links { display:none; }
+    #research-hero { grid-template-columns:1fr; padding:8rem 2rem 3rem; gap:2.5rem; }
+    #filter-bar { padding:0 2rem; top:60px; }
+    #studies { padding:0 2rem 4rem; }
+    .study-card { grid-template-columns:1fr; }
+    .study-num-col { display:none; }
+    .study-main { padding:2rem; }
+    .study-link-col { border-left:none; border-top:1px solid var(--border); flex-direction:row; padding:1.2rem 2rem; min-width:unset; }
+    .study-link { width:auto; flex-direction:row; gap:0.5rem; padding:0.5rem 1rem; }
+    #synthesis { padding:4rem 2rem; }
+    .synthesis-grid { grid-template-columns:1fr; }
+    #research-cta { padding:4rem 2rem; }
+    .footer-top,.footer-bottom { padding:1.5rem 2rem; }
+    .footer-bottom { flex-direction:column; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <a href="dreamz.html" class="nav-logo">Dreamz<span>.</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="dreamz.html#technology">Technology</a></li>
+    <li><a href="dreamz.html#science">Science</a></li>
+    <li><a href="dreamz-blog.html">Blog</a></li>
+    <li><a href="dreamz-research.html" class="active">Research</a></li>
+  </ul>
+  <button class="nav-cta" onclick="window.location.href='dreamz.html#cta'">Join Waitlist</button>
+</nav>
+
+<main role="main">
+
+<!-- HERO -->
+<section id="research-hero">
+  <div>
+    <span class="hero-label">Evidence Base</span>
+    <h1 class="hero-title">The science<br>behind <em>Dreamz.</em></h1>
+    <p class="hero-sub">Dreamz is built on a growing body of peer-reviewed research into sleep neurostimulation, slow oscillation enhancement, and closed-loop brain stimulation. Below is a curated selection of the studies that inform our approach.</p>
+    <div class="hero-disclaimer">
+      These studies are presented for transparency and scientific context. Dreamz is a wellness device, not a medical treatment. All cited research was conducted independently of Dreamz.
+    </div>
+  </div>
+  <div class="hero-stats" aria-label="Research overview statistics">
+    <div class="hero-stat reveal">
+      <span class="hero-stat-num">10</span>
+      <span class="hero-stat-label">Peer-reviewed studies cited</span>
+    </div>
+    <div class="hero-stat reveal">
+      <span class="hero-stat-num">4</span>
+      <span class="hero-stat-label">Independent research groups</span>
+    </div>
+    <div class="hero-stat reveal">
+      <span class="hero-stat-num">2006–23</span>
+      <span class="hero-stat-label">Publication range</span>
+    </div>
+    <div class="hero-stat reveal">
+      <span class="hero-stat-num">5</span>
+      <span class="hero-stat-label">Journals including Nature, Neuron</span>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div id="filter-bar" role="navigation" aria-label="Filter studies by topic">
+  <button class="filter-tag active" data-filter="all">All Studies <span class="filter-count">10</span></button>
+  <button class="filter-tag" data-filter="deep-sleep">Deep Sleep <span class="filter-count">4</span></button>
+  <button class="filter-tag" data-filter="closed-loop">Closed-Loop <span class="filter-count">2</span></button>
+  <button class="filter-tag" data-filter="memory">Memory <span class="filter-count">3</span></button>
+  <button class="filter-tag" data-filter="insomnia">Insomnia <span class="filter-count">1</span></button>
+  <button class="filter-tag" data-filter="personalisation">Personalisation <span class="filter-count">2</span></button>
+  <button class="filter-tag" data-filter="guidelines">Guidelines <span class="filter-count">1</span></button>
+  <button class="filter-tag" data-filter="home-use">Home Use <span class="filter-count">1</span></button>
+</div>
+
+<!-- STUDIES LIST -->
+<section id="studies" aria-label="Research studies">
+
+  <!-- STUDY 01 -->
+  <article class="study-card reveal" data-tags="deep-sleep memory" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">01</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag deep-sleep">Deep Sleep</span>
+        <span class="study-tag memory">Memory</span>
+        <span class="study-journal" itemprop="publisher">Journal of Neuroscience</span>
+        <span class="study-year">2017</span>
+      </div>
+      <p class="study-authors" itemprop="author">Ladenbauer et al.</p>
+      <h2 class="study-title" itemprop="name">Boosting Slow Oscillations During Sleep in Mild Cognitive Impairment Using Slow Oscillatory tDCS</h2>
+      <p class="study-abstract" itemprop="description">Researchers applied gentle slow-wave electrical stimulation during deep sleep in older adults with memory decline. They found that deep sleep activity increased and memory improved the next day — suggesting that supporting deep sleep rhythms at the right time may strengthen memory and brain recovery processes, especially in aging populations.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">Supporting deep sleep rhythms at the right time may strengthen memory and brain recovery processes, especially in aging populations.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://www.jneurosci.org/content/37/30/7111" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on Journal of Neuroscience">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- STUDY 02 -->
+  <article class="study-card reveal" data-tags="closed-loop memory deep-sleep" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">02</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag closed-loop">Closed-Loop</span>
+        <span class="study-tag memory">Memory</span>
+        <span class="study-tag deep-sleep">Deep Sleep</span>
+        <span class="study-journal" itemprop="publisher">Neuron</span>
+        <span class="study-year">2013</span>
+      </div>
+      <p class="study-authors" itemprop="author">Ngo et al.</p>
+      <h2 class="study-title" itemprop="name">Auditory Closed-Loop Stimulation of the Sleep Slow Oscillation Enhances Memory</h2>
+      <p class="study-abstract" itemprop="description">This foundational study showed that stimulation precisely timed to the brain's slow-wave peaks strengthens those waves and improves memory. Although the method was auditory rather than electrical, it established the critical importance of timing — delivering stimulation at the correct brain moment works far better than applying it randomly.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">Delivering stimulation at the correct brain moment works better than applying it randomly — the foundation of the closed-loop paradigm.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://www.cell.com/neuron/fulltext/S0896-6273(13)00502-7" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on Neuron">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- STUDY 03 -->
+  <article class="study-card reveal" data-tags="deep-sleep" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">03</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag deep-sleep">Deep Sleep</span>
+        <span class="study-journal" itemprop="publisher">Scientific Reports</span>
+        <span class="study-year">2018</span>
+      </div>
+      <p class="study-authors" itemprop="author">Ketz et al.</p>
+      <h2 class="study-title" itemprop="name">Modulation of Slow Oscillations via tACS During Sleep</h2>
+      <p class="study-abstract" itemprop="description">Researchers used slow-frequency alternating current during sleep and found stronger slow-wave activity as a result. The study demonstrated that matching the brain's natural slow rhythm — rather than imposing an arbitrary signal — may deepen restorative sleep without disrupting its natural architecture.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">Matching the brain's natural slow rhythm may deepen restorative sleep without disrupting its natural architecture.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://www.nature.com/articles/s41598-018-30843-x" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on Scientific Reports">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- STUDY 04 -->
+  <article class="study-card reveal" data-tags="memory spindles" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">04</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag spindles">Sleep Spindles</span>
+        <span class="study-tag memory">Memory</span>
+        <span class="study-journal" itemprop="publisher">Brain Stimulation</span>
+        <span class="study-year">2016–2019</span>
+      </div>
+      <p class="study-authors" itemprop="author">Lustenberger et al.</p>
+      <h2 class="study-title" itemprop="name">Spindle-Frequency Stimulation During Sleep Enhances Memory Consolidation</h2>
+      <p class="study-abstract" itemprop="description">This line of research showed that stimulation at spindle frequencies — the distinctive 12–15 Hz bursts that characterise light-to-deep sleep transitions — increases spindle activity, which is linked to memory consolidation. Different sleep stages have different brain patterns, and targeting the correct frequency may enhance specific sleep benefits.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">Different sleep stages have different brain patterns. Targeting the correct frequency may enhance specific sleep benefits like learning and memory consolidation.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://www.sciencedirect.com/science/article/pii/S1935861X16300335" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on Brain Stimulation">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- STUDY 05 -->
+  <article class="study-card reveal" data-tags="insomnia" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">05</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag insomnia">Insomnia</span>
+        <span class="study-journal" itemprop="publisher">Sleep Medicine</span>
+        <span class="study-year">2016–2019</span>
+      </div>
+      <p class="study-authors" itemprop="author">Frase et al.</p>
+      <h2 class="study-title" itemprop="name">Prefrontal tDCS in Insomnia: Effects on Sleep Onset and Subjective Wellbeing</h2>
+      <p class="study-abstract" itemprop="description">Participants with insomnia received gentle stimulation to the prefrontal cortex — the forehead region. Some fell asleep faster and reported feeling calmer. Insomnia often involves an overactive brain in the regions responsible for self-referential thought and rumination. Calming these specific regions may reduce the time it takes to transition from wakefulness to sleep.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">Insomnia often involves an overactive brain. Calming specific regions may reduce time to fall asleep — directly relevant to Dreamz's sleep onset use case.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://pubmed.ncbi.nlm.nih.gov/27448492/" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on PubMed">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- STUDY 06 -->
+  <article class="study-card reveal" data-tags="personalisation" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">06</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag personalisation">Personalisation</span>
+        <span class="study-journal" itemprop="publisher">Journal of Neuroscience</span>
+        <span class="study-year">2018</span>
+      </div>
+      <p class="study-authors" itemprop="author">Vosskuhl et al.</p>
+      <h2 class="study-title" itemprop="name">Individual Alpha Frequency Stimulation Improves Cognitive Performance</h2>
+      <p class="study-abstract" itemprop="description">Although focused on daytime cognition rather than sleep, this study demonstrated that matching stimulation frequency to an individual's brain rhythm produces significantly stronger effects than applying generic, population-average settings. Brain frequencies vary meaningfully between individuals — a finding with direct implications for personalised sleep stimulation protocols.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">Personalizing stimulation to the individual's brain rhythm matters enormously. One size does not fit all — the basis for Dreamz's adaptive learning approach.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://www.jneurosci.org/content/38/25/5949" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on Journal of Neuroscience">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- STUDY 07 -->
+  <article class="study-card reveal" data-tags="deep-sleep memory" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">07</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag deep-sleep">Deep Sleep</span>
+        <span class="study-tag memory">Memory</span>
+        <span class="study-journal" itemprop="publisher">Nature</span>
+        <span class="study-year">2006</span>
+      </div>
+      <p class="study-authors" itemprop="author">Marshall et al.</p>
+      <h2 class="study-title" itemprop="name">Boosting Slow Oscillations During Sleep Potentiates Memory</h2>
+      <p class="study-abstract" itemprop="description">This landmark Nature study showed that artificially enhancing slow oscillations during deep sleep improved memory retention. The effect has since been replicated in numerous independent laboratories through 2022. It established one of the foundational principles of sleep neurostimulation research: that the brain's slow waves during deep sleep are not merely a byproduct of rest, but an active mechanism of consolidation that can be amplified.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">A landmark finding, repeatedly replicated: enhancing deep sleep slow waves can directly improve learning and memory consolidation the following day.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://www.nature.com/articles/nature05278" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on Nature">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- STUDY 08 -->
+  <article class="study-card reveal" data-tags="home-use personalisation" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">08</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag home-use">Home Use</span>
+        <span class="study-tag personalisation">Longitudinal</span>
+        <span class="study-journal" itemprop="publisher">Brain Stimulation</span>
+        <span class="study-year">2022</span>
+      </div>
+      <p class="study-authors" itemprop="author">Rosenberg et al.</p>
+      <h2 class="study-title" itemprop="name">Home-Based tDCS and Sleep Quality: Improvements Over Multiple Nights</h2>
+      <p class="study-abstract" itemprop="description">This study tested repeated brain stimulation sessions in participants' own homes — not in a laboratory — and found improvements in subjective sleep quality that accumulated over multiple nights. The findings suggest that the benefits of sleep neurostimulation are not limited to controlled research settings and that a wearable, home-use device is a scientifically plausible delivery mechanism.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">Brain stimulation for sleep may work outside the laboratory and improve sleep quality cumulatively over time — directly validating the home-use wearable model.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://pubmed.ncbi.nlm.nih.gov/34902354/" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on PubMed">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- STUDY 09 -->
+  <article class="study-card reveal" data-tags="guidelines" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">09</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag guidelines">Systematic Review</span>
+        <span class="study-journal" itemprop="publisher">Clinical Neurophysiology</span>
+        <span class="study-year">2020</span>
+      </div>
+      <p class="study-authors" itemprop="author">Lefaucheur et al.</p>
+      <h2 class="study-title" itemprop="name">Evidence-Based Guidelines on the Therapeutic Use of Non-Invasive Brain Stimulation</h2>
+      <p class="study-abstract" itemprop="description">This large systematic review and expert consensus document summarised the accumulated evidence across hundreds of brain stimulation studies. For sleep, the review found moderate evidence that non-invasive brain stimulation may help sleep onset and efficiency when the stimulation protocol is well-designed. It also provides safety guidelines that inform responsible use in a consumer setting.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">Results vary across protocols, but the overall field shows promising evidence when stimulation is well-designed, timed correctly, and matched to the individual.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://pubmed.ncbi.nlm.nih.gov/31982681/" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on PubMed">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+  <!-- STUDY 10 -->
+  <article class="study-card reveal" data-tags="closed-loop deep-sleep memory" itemscope itemtype="https://schema.org/ScholarlyArticle">
+    <div class="study-num-col"><span class="study-num">10</span></div>
+    <div class="study-main">
+      <div class="study-meta">
+        <span class="study-tag closed-loop">Closed-Loop</span>
+        <span class="study-tag deep-sleep">Deep Sleep</span>
+        <span class="study-tag memory">Memory</span>
+        <span class="study-journal" itemprop="publisher">Brain Stimulation</span>
+        <span class="study-year">2023</span>
+      </div>
+      <p class="study-authors" itemprop="author">Ladenbauer et al.</p>
+      <h2 class="study-title" itemprop="name">Closed-Loop Brain Stimulation During Sleep in Older Adults: Real-Time EEG Monitoring Outperforms Static Protocols</h2>
+      <p class="study-abstract" itemprop="description">This more recent study used real-time EEG monitoring to deliver stimulation only at specific sleep phases — the precise moments where the brain's slow-wave activity creates a receptive window. Memory improvements were significantly stronger compared to fixed, pre-set stimulation schedules. This directly validates the closed-loop paradigm over open-loop approaches.</p>
+      <div class="study-insight">
+        <span class="study-insight-label">Insight</span>
+        <p class="study-insight-text">Systems that respond to the brain in real time measurably outperform static, pre-set stimulation schedules — the strongest evidence yet for the closed-loop model Dreamz is built on.</p>
+      </div>
+    </div>
+    <div class="study-link-col">
+      <a href="https://www.sciencedirect.com/science/article/pii/S1935861X23000215" target="_blank" rel="noopener noreferrer" class="study-link" aria-label="Read study on ScienceDirect">
+        <span class="study-link-icon">↗</span>
+        <span class="study-link-label">Read Study</span>
+      </a>
+    </div>
+  </article>
+
+</section>
+
+<!-- SYNTHESIS -->
+<section id="synthesis">
+  <span class="synthesis-label">What the Evidence Tells Us</span>
+  <h2 class="synthesis-title reveal">Five conclusions from<br>the research field.</h2>
+  <div class="synthesis-grid">
+    <div class="synthesis-item reveal">
+      <span class="synthesis-icon">⏱</span>
+      <h3 class="synthesis-item-title">Timing is everything</h3>
+      <p class="synthesis-item-text">Studies consistently show that stimulation delivered at the brain's own slow-wave peaks is substantially more effective than stimulation applied at arbitrary times. The brain's receptive windows are narrow — and a closed-loop system is the only way to reliably hit them.</p>
+    </div>
+    <div class="synthesis-item reveal">
+      <span class="synthesis-icon">🧠</span>
+      <h3 class="synthesis-item-title">Personalisation outperforms population averages</h3>
+      <p class="synthesis-item-text">Individual brain rhythms vary meaningfully. Generic stimulation settings produce weaker results than those matched to each person's unique neural signature — a finding that motivates Dreamz's adaptive, learning-based approach.</p>
+    </div>
+    <div class="synthesis-item reveal">
+      <span class="synthesis-icon">📈</span>
+      <h3 class="synthesis-item-title">Effects accumulate over time</h3>
+      <p class="synthesis-item-text">Repeated sessions of well-designed stimulation improve sleep quality cumulatively. This is not a one-night intervention — it's a system that gets more effective the longer it is used and the more it learns about your brain.</p>
+    </div>
+    <div class="synthesis-item reveal">
+      <span class="synthesis-icon">🏠</span>
+      <h3 class="synthesis-item-title">Home use is viable</h3>
+      <p class="synthesis-item-text">Laboratory findings have been replicated in home settings. The benefits of sleep neurostimulation are not confined to controlled environments — they transfer to real nights of sleep in real beds, validating the wearable model.</p>
+    </div>
+    <div class="synthesis-item reveal">
+      <span class="synthesis-icon">💊</span>
+      <h3 class="synthesis-item-title">Stimulation ≠ sedation</h3>
+      <p class="synthesis-item-text">Unlike sleep medications that suppress REM and deep sleep while inducing unconsciousness, non-invasive neurostimulation works with the brain's natural architecture. It deepens and extends the stages that actually restore — rather than bypassing them.</p>
+    </div>
+    <div class="synthesis-item reveal">
+      <span class="synthesis-icon">⚠️</span>
+      <h3 class="synthesis-item-title">Results depend on protocol quality</h3>
+      <p class="synthesis-item-text">The evidence is promising but not uniform. Systematic reviews show that the quality and design of the stimulation protocol determines the outcome. Poorly timed or frequency-mismatched stimulation shows weaker effects — reinforcing the importance of real-time, brain-responsive delivery.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="research-cta">
+  <div class="cta-inner reveal">
+    <span class="cta-label">Built on the Evidence</span>
+    <h2 class="cta-title">Sleep science, applied every night.</h2>
+    <p class="cta-sub">Dreamz translates these research findings into a wearable device that reads your brain in real time, adapts to your individual rhythm, and delivers stimulation precisely when and how your brain can benefit from it.</p>
+    <div class="cta-buttons">
+      <button class="btn-primary" onclick="window.location.href='dreamz.html#cta'">Join the Waitlist</button>
+      <a href="dreamz.html#technology" class="btn-secondary">How It Works →</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- SEO INNER LINKS -->
+<div style="padding:1.2rem 4rem; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; gap:0.4rem 1.8rem; position:relative; z-index:1;" aria-label="Site navigation">
+  <a href="dreamz.html" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Home</a>
+  <a href="dreamz-blog.html" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Blog</a>
+  <a href="dreamz.html#technology" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Technology</a>
+  <a href="dreamz.html#science" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Science</a>
+  <a href="dreamz.html#faq" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">FAQ</a>
+  <a href="dreamz.html#cta" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Join Waitlist</a>
+  <a href="#synthesis" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Field Summary</a>
+  <a href="https://www.jneurosci.org/content/37/30/7111" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Ladenbauer 2017</a>
+  <a href="https://www.cell.com/neuron/fulltext/S0896-6273(13)00502-7" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Ngo 2013</a>
+  <a href="https://www.nature.com/articles/nature05278" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Marshall 2006</a>
+  <a href="https://www.sciencedirect.com/science/article/pii/S1935861X23000215" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(184,196,248,0.2);text-decoration:none;">Ladenbauer 2023</a>
+</div>
+
+<footer role="contentinfo">
+  <div class="footer-top">
+    <a href="dreamz.html" class="footer-logo">Dreamz<span>.</span></a>
+    <p class="footer-tagline">Sleep well. Live well.</p>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Dreamz. Sleep Neurotechnology. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="dreamz.html">Home</a>
+      <a href="dreamz-blog.html">Blog</a>
+      <a href="dreamz-research.html">Research</a>
+      <a href="dreamz.html#faq">FAQ</a>
+      <a href="dreamz.html#cta">Waitlist</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mouseX=0,mouseY=0,ringX=0,ringY=0;
+document.addEventListener('mousemove',e=>{ mouseX=e.clientX; mouseY=e.clientY; cursor.style.left=mouseX+'px'; cursor.style.top=mouseY+'px'; });
+(function tick(){ ringX+=(mouseX-ringX)*.12; ringY+=(mouseY-ringY)*.12; cursorRing.style.left=ringX+'px'; cursorRing.style.top=ringY+'px'; requestAnimationFrame(tick); })();
+
+// NAV
+window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60); });
+
+// REVEAL
+const obs = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }),{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+
+// FILTER
+document.querySelectorAll('.filter-tag').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-tag').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.study-card').forEach(card=>{
+      if(filter==='all'||card.dataset.tags.includes(filter)){
+        card.style.display='';
+      } else {
+        card.style.display='none';
+      }
+    });
+  });
+});
+
+// BACKGROUND
+(function(){
+  const canvas=document.getElementById('bg-canvas');
+  const ctx=canvas.getContext('2d');
+  let W,H,t=0;
+  const resize=()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; };
+  window.addEventListener('resize',resize); resize();
+  const particles=Array.from({length:160},()=>({ x:Math.random(), y:Math.random(), r:Math.random()*1.1+0.2, a:Math.random()*.4+.08, phase:Math.random()*Math.PI*2 }));
+  (function draw(){
+    ctx.clearRect(0,0,W,H); t+=.007;
+    particles.forEach(p=>{
+      const a=p.a*(Math.sin(t+p.phase)*.3+.7);
+      ctx.beginPath(); ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(184,196,248,${a})`; ctx.fill();
+    });
+    ctx.beginPath();
+    for(let x=0;x<=W;x+=4){
+      const y=H*.4+Math.sin((x/W)*Math.PI*2*1.1+t*.2)*45;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle='rgba(68,212,204,0.04)'; ctx.lineWidth=1; ctx.stroke();
+    requestAnimationFrame(draw);
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,3 +1,0 @@
-@echo off
-echo Starting Dreams Sleep Mask Waitlist Application...
-python app.py 

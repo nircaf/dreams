@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dreamz Blog — Sleep Science, Neurotechnology & Better Rest</title>
+<meta name="description" content="Explore the Dreamz blog: deep dives into sleep science, brain stimulation research, neurotechnology, and practical tips for improving your sleep quality.">
+<meta name="keywords" content="sleep science blog, sleep neurotechnology, deep sleep tips, brain stimulation sleep, sleep research, REM sleep, sleep quality improvement, dreamz blog">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dreamz.sleep/blog">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Dreamz Blog — Sleep Science & Neurotechnology">
+<meta property="og:description" content="Expert insights on sleep, brain science, and the future of rest.">
+<meta property="og:url" content="https://dreamz.sleep/blog">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Dreamz Blog",
+  "url": "https://dreamz.sleep/blog",
+  "description": "Sleep science, neurotechnology research, and practical guides for better rest.",
+  "publisher": { "@type": "Organization", "name": "Dreamz" }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #04050d;
+    --midnight: #080c1a;
+    --deep: #0d1330;
+    --iris: #4a5bcc;
+    --lavender: #8b9de8;
+    --teal: #44d4cc;
+    --teal-dim: #1e8a85;
+    --soft: #e8ebff;
+    --white: #f4f6ff;
+    --muted: rgba(184,196,248,0.45);
+    --border: rgba(138,157,232,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--soft);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* CURSOR */
+  #cursor {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--teal);
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: width 0.2s, height 0.2s;
+  }
+  #cursor-ring {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(68,212,204,0.4);
+    position: fixed; pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+  }
+
+  /* BG CANVAS */
+  #bg-canvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.6rem 4rem; z-index: 100;
+    transition: background 0.4s, border 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(4,5,13,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 300;
+    color: var(--white); text-decoration: none; letter-spacing: 0.05em;
+  }
+  .nav-logo span { color: var(--teal); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-cta {
+    padding: 0.6rem 1.6rem;
+    border: 1px solid rgba(68,212,204,0.35);
+    background: transparent; color: var(--teal);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: none; transition: all 0.3s;
+  }
+  .nav-cta:hover { background: rgba(68,212,204,0.08); }
+
+  /* HERO */
+  #blog-hero {
+    padding: 12rem 4rem 5rem;
+    position: relative; z-index: 1;
+    border-bottom: 1px solid var(--border);
+  }
+  .blog-hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 1.5rem; display: block;
+  }
+  .blog-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 300; line-height: 1.1; color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .blog-hero-title em { font-style: italic; color: var(--lavender); }
+  .blog-hero-sub {
+    font-size: 1rem; color: var(--muted);
+    max-width: 520px; line-height: 1.75;
+  }
+
+  /* FEATURED POST */
+  #featured {
+    padding: 5rem 4rem;
+    position: relative; z-index: 1;
+    border-bottom: 1px solid var(--border);
+  }
+  .featured-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--teal-dim); margin-bottom: 2rem; display: block;
+  }
+  .featured-card {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border: 1px solid var(--border);
+    transition: border-color 0.3s;
+    text-decoration: none; color: inherit;
+  }
+  .featured-card:hover { border-color: rgba(138,157,232,0.4); }
+  .featured-image {
+    background: var(--deep);
+    min-height: 420px; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .featured-image-inner {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(74,91,204,0.15) 0%, rgba(68,212,204,0.08) 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .post-visual {
+    width: 180px; height: 180px; opacity: 0.25;
+  }
+  .featured-content {
+    padding: 3.5rem; display: flex; flex-direction: column;
+    justify-content: center; background: var(--midnight);
+  }
+  .post-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 1rem; display: block;
+  }
+  .post-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+    font-weight: 300; line-height: 1.2; color: var(--white);
+    margin-bottom: 1.2rem;
+  }
+  .post-excerpt {
+    font-size: 0.9rem; color: var(--muted);
+    line-height: 1.75; margin-bottom: 2rem;
+  }
+  .post-meta {
+    display: flex; gap: 1.5rem; align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(184,196,248,0.3);
+  }
+  .post-meta span { display: flex; align-items: center; gap: 0.4rem; }
+  .read-more {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--teal); text-decoration: none;
+    border-bottom: 1px solid rgba(68,212,204,0.2);
+    padding-bottom: 2px;
+    transition: border-color 0.3s, gap 0.3s;
+  }
+  .read-more:hover { border-color: var(--teal); gap: 0.8rem; }
+
+  /* POSTS GRID */
+  #posts {
+    padding: 5rem 4rem;
+    position: relative; z-index: 1;
+  }
+  .posts-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 3rem;
+  }
+  .posts-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300; color: var(--white);
+  }
+  .posts-filter {
+    display: flex; gap: 0;
+    border: 1px solid var(--border);
+  }
+  .filter-btn {
+    padding: 0.5rem 1.2rem;
+    background: transparent; border: none; border-right: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); cursor: none; transition: all 0.3s;
+  }
+  .filter-btn:last-child { border-right: none; }
+  .filter-btn:hover { background: rgba(138,157,232,0.05); color: var(--soft); }
+  .filter-btn.active { background: rgba(68,212,204,0.05); color: var(--teal); }
+
+  .posts-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(184,196,248,0.25); margin-top: 0.3rem;
+  }
+  .posts-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border);
+  }
+  .post-card {
+    background: var(--midnight); display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    transition: background 0.3s;
+  }
+  .post-card:hover { background: var(--deep); }
+  .post-card-image {
+    height: 200px; position: relative; overflow: hidden;
+    background: var(--deep);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .post-card-image-inner {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(74,91,204,0.12) 0%, rgba(68,212,204,0.06) 100%);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.5s;
+  }
+  .post-card:hover .post-card-image-inner { transform: scale(1.04); }
+  .post-card-visual { width: 80px; height: 80px; opacity: 0.18; }
+  .post-card-body { padding: 2rem; flex: 1; display: flex; flex-direction: column; gap: 0.8rem; }
+  .post-card-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--teal-dim);
+  }
+  .post-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem; font-weight: 300; line-height: 1.3;
+    color: var(--white); flex: 1;
+  }
+  .post-card-excerpt {
+    font-size: 0.82rem; color: var(--muted); line-height: 1.65;
+  }
+  .post-card-footer {
+    padding: 1rem 2rem; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .post-card-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.1em;
+    color: rgba(184,196,248,0.25);
+  }
+  .post-card-read {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(184,196,248,0.25);
+  }
+
+  /* NEWSLETTER */
+  #newsletter {
+    padding: 6rem 4rem;
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  #newsletter::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(74,91,204,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .newsletter-inner { max-width: 560px; margin: 0 auto; position: relative; z-index: 1; }
+  .newsletter-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 1.2rem; display: block;
+  }
+  .newsletter-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 300; color: var(--white); line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .newsletter-sub {
+    font-size: 0.9rem; color: var(--muted);
+    line-height: 1.75; margin-bottom: 2.5rem;
+  }
+  .newsletter-form {
+    display: flex; gap: 0; max-width: 440px; margin: 0 auto;
+  }
+  .newsletter-form input {
+    flex: 1; padding: 0.9rem 1.4rem;
+    background: rgba(13,19,48,0.8);
+    border: 1px solid var(--border); border-right: none;
+    color: var(--soft); font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    outline: none; transition: border-color 0.3s;
+  }
+  .newsletter-form input::placeholder { color: var(--muted); }
+  .newsletter-form input:focus { border-color: rgba(68,212,204,0.3); }
+  .newsletter-form button {
+    padding: 0.9rem 1.8rem;
+    background: linear-gradient(135deg, var(--iris), var(--teal-dim));
+    border: none; color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: none; transition: opacity 0.3s; white-space: nowrap;
+  }
+  .newsletter-form button:hover { opacity: 0.85; }
+  .newsletter-note {
+    margin-top: 1rem;
+    font-size: 0.7rem; color: rgba(184,196,248,0.25); letter-spacing: 0.06em;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px; background: var(--border);
+    margin: 0 4rem;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+  .footer-top { padding: 2.5rem 4rem; }
+  .footer-brand { display: flex; flex-direction: column; gap: 0.4rem; }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 300;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-logo:hover { color: var(--white); }
+  .footer-logo span { color: var(--teal); }
+  .footer-tagline {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(184,196,248,0.2);
+  }
+  .footer-bottom {
+    padding: 1.5rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-copy { font-size: 0.7rem; color: rgba(184,196,248,0.2); letter-spacing: 0.08em; }
+  .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .footer-links a {
+    font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(184,196,248,0.25); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--muted); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* MOBILE */
+  @media (max-width: 1024px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    #blog-hero { padding: 8rem 2rem 3rem; }
+    #featured { padding: 3rem 2rem; }
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-image { min-height: 240px; }
+    .featured-content { padding: 2rem; }
+    #posts { padding: 3rem 2rem; }
+    .posts-header { flex-direction: column; gap: 1.5rem; }
+    .posts-grid { grid-template-columns: 1fr; }
+    #newsletter { padding: 4rem 2rem; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-form input { border-right: 1px solid var(--border); border-bottom: none; }
+    .footer-top { padding: 2rem; }
+    .footer-bottom { padding: 1.5rem 2rem; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <a href="dreamz.html" class="nav-logo">Dreamz<span>.</span></a>
+  <ul class="nav-links" role="list">
+    <li><a href="dreamz.html#technology">Technology</a></li>
+    <li><a href="dreamz.html#how">How It Works</a></li>
+    <li><a href="dreamz.html#science">Science</a></li>
+    <li><a href="dreamz-blog.html" class="active">Blog</a></li>
+    <li><a href="dreamz-research.html">Research</a></li>
+  </ul>
+  <button class="nav-cta" onclick="window.location.href='dreamz.html#cta'">Join Waitlist</button>
+</nav>
+
+<main role="main">
+
+<!-- BLOG HERO -->
+<section id="blog-hero">
+  <span class="blog-hero-label">The Dreamz Journal</span>
+  <h1 class="blog-hero-title">
+    The science of sleep,<br>
+    <em>demystified.</em>
+  </h1>
+  <p class="blog-hero-sub">Research, insights, and practical guides from the team building the future of rest.</p>
+</section>
+
+<!-- FEATURED POST -->
+<section id="featured">
+  <span class="featured-label">Featured Article</span>
+  <a href="dreamz-post.html" class="featured-card reveal" aria-label="Read: Why Deep Sleep Is the Most Important Stage">
+    <div class="featured-image">
+      <div class="featured-image-inner">
+        <svg class="post-visual" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="100" rx="90" ry="55" stroke="white" stroke-width="1.5"/>
+          <path d="M20 100 Q50 60 80 100 Q110 140 140 100 Q165 70 180 100" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="100" cy="100" r="8" stroke="white" stroke-width="1.5"/>
+          <circle cx="60" cy="100" r="5" stroke="white" stroke-width="1" opacity="0.5"/>
+          <circle cx="140" cy="100" r="5" stroke="white" stroke-width="1" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+    <div class="featured-content">
+      <span class="post-category">Sleep Science</span>
+      <h2 class="post-title">Why Deep Sleep Is the Most Important Stage — and How to Get More of It</h2>
+      <p class="post-excerpt">Most people know they need 8 hours of sleep. Few know that the quality of those hours — specifically how much time you spend in slow-wave deep sleep — matters far more than the total number. Here's what the research says, and what you can do about it.</p>
+      <div class="post-meta">
+        <span>Feb 18, 2025</span>
+        <span>·</span>
+        <span>8 min read</span>
+        <span>·</span>
+        <span>By Dreamz Research Team</span>
+      </div>
+      <div style="margin-top:2rem;">
+        <span class="read-more">Read Article →</span>
+      </div>
+    </div>
+  </a>
+</section>
+
+<!-- ALL POSTS -->
+<section id="posts">
+  <div class="posts-header">
+    <div>
+      <h2 class="posts-title reveal">All Articles</h2>
+      <p class="posts-subtitle reveal">15 articles across Sleep Science, Neurotechnology, Guides & more</p>
+    </div>
+    <div class="posts-filter reveal">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Sleep Science</button>
+      <button class="filter-btn">Neurotechnology</button>
+      <button class="filter-btn">Guides</button>
+      <button class="filter-btn">Performance</button>
+      <button class="filter-btn">Engineering</button>
+      <button class="filter-btn">Vision</button>
+    </div>
+  </div>
+
+  <div class="posts-grid">
+
+    <!-- POST 1 -->
+    <a href="#post-1" class="post-card reveal" aria-label="What Is Transcranial Direct Current Stimulation?">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="40" stroke="white" stroke-width="1.5"/>
+            <path d="M20 50 Q35 30 50 50 Q65 70 80 50" stroke="white" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Neurotechnology</span>
+        <h3 class="post-card-title">What Is Transcranial Stimulation — and Is It Safe?</h3>
+        <p class="post-card-excerpt">A plain-language breakdown of how gentle electrical brain stimulation works, what the clinical literature shows, and why Dreamz uses it to improve sleep.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Jan 30, 2025</span>
+        <span class="post-card-read">6 min</span>
+      </div>
+    </a>
+
+    <!-- POST 2 -->
+    <a href="#post-2" class="post-card reveal reveal-delay-1" aria-label="The Racing Thoughts Problem">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 50 Q25 20 40 50 Q55 80 70 50 Q82 28 90 50" stroke="white" stroke-width="2" fill="none"/>
+            <circle cx="50" cy="50" r="35" stroke="white" stroke-width="1" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Sleep Science</span>
+        <h3 class="post-card-title">The Racing Thoughts Problem: Why Your Brain Won't Switch Off at Night</h3>
+        <p class="post-card-excerpt">Hyperarousal at bedtime isn't a willpower failure — it's a neurological state. Understanding it is the first step to solving it.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Jan 14, 2025</span>
+        <span class="post-card-read">5 min</span>
+      </div>
+    </a>
+
+    <!-- POST 3 -->
+    <a href="#post-3" class="post-card reveal reveal-delay-2" aria-label="How Sleep Deprivation Affects Your Brain">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="50" rx="38" ry="28" stroke="white" stroke-width="1.5"/>
+            <circle cx="35" cy="50" r="8" stroke="white" stroke-width="1"/>
+            <circle cx="65" cy="50" r="8" stroke="white" stroke-width="1"/>
+            <line x1="43" y1="50" x2="57" y2="50" stroke="white" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Sleep Science</span>
+        <h3 class="post-card-title">What One Week of Poor Sleep Does to Your Brain</h3>
+        <p class="post-card-excerpt">Memory, emotion, decision-making, immune function — sleep deprivation degrades them all. The research is stark, and most people are living it.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Dec 22, 2024</span>
+        <span class="post-card-read">7 min</span>
+      </div>
+    </a>
+
+    <!-- POST 4 -->
+    <a href="#post-4" class="post-card reveal" aria-label="A Beginner's Guide to Sleep Stages">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="15" y="30" width="70" height="40" rx="2" stroke="white" stroke-width="1.5"/>
+            <path d="M15 50 L30 40 L45 55 L60 35 L75 50 L85 45" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Guides</span>
+        <h3 class="post-card-title">A Beginner's Guide to Sleep Stages: Light, Deep, and REM Explained</h3>
+        <p class="post-card-excerpt">Sleep is not a single state. Understanding the four stages — and what each does for your body and mind — changes how you think about rest entirely.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Dec 8, 2024</span>
+        <span class="post-card-read">6 min</span>
+      </div>
+    </a>
+
+    <!-- POST 5 -->
+    <a href="#post-5" class="post-card reveal reveal-delay-1" aria-label="How to Build a Sleep Routine That Actually Works">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="38" stroke="white" stroke-width="1.5"/>
+            <path d="M50 20 L50 50 L68 68" stroke="white" stroke-width="2"/>
+            <circle cx="50" cy="50" r="3" fill="white"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Guides</span>
+        <h3 class="post-card-title">How to Build a Sleep Routine That Actually Works</h3>
+        <p class="post-card-excerpt">Consistency beats duration. The science-backed habits that help your brain reliably shift into sleep mode — and the common mistakes that undermine them.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Nov 27, 2024</span>
+        <span class="post-card-read">5 min</span>
+      </div>
+    </a>
+
+    <!-- POST 6 -->
+    <a href="#post-6" class="post-card reveal reveal-delay-2" aria-label="The Link Between Sleep and Memory Consolidation">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="38" stroke="white" stroke-width="1.5"/>
+            <path d="M30 50 Q40 30 50 50 Q60 70 70 50" stroke="white" stroke-width="2" fill="none"/>
+            <circle cx="30" cy="50" r="3" fill="white" opacity="0.6"/>
+            <circle cx="70" cy="50" r="3" fill="white" opacity="0.6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Sleep Science</span>
+        <h3 class="post-card-title">Sleep and Memory: Why What You Learn During the Day Gets Locked In at Night</h3>
+        <p class="post-card-excerpt">During deep sleep your brain replays the day's experiences and transfers them to long-term memory. Disrupting this process has consequences that go far beyond feeling tired.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Nov 12, 2024</span>
+        <span class="post-card-read">7 min</span>
+      </div>
+    </a>
+
+    <!-- POST 7 -->
+    <a href="#post-7" id="post-7" class="post-card reveal" aria-label="Why Sleep Medication Can Disrupt Sleep Architecture">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="35" width="60" height="30" rx="15" stroke="white" stroke-width="1.5"/>
+            <line x1="50" y1="35" x2="50" y2="65" stroke="white" stroke-width="1" opacity="0.4"/>
+            <circle cx="35" cy="50" r="6" fill="white" opacity="0.2"/>
+            <path d="M25 75 Q50 65 75 75" stroke="white" stroke-width="1" fill="none" opacity="0.4"/>
+            <path d="M20 25 Q35 18 50 25 Q65 18 80 25" stroke="white" stroke-width="1" fill="none" opacity="0.3"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Sleep Science</span>
+        <h3 class="post-card-title">Why Sleep Medication Can Disrupt Sleep Architecture</h3>
+        <p class="post-card-excerpt">Sedation is not the same as sleep. Understanding how common sleep medications suppress REM and deep sleep — and why neuromodulation offers a fundamentally different approach.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Oct 29, 2024</span>
+        <span class="post-card-read">7 min</span>
+      </div>
+    </a>
+
+    <!-- POST 8 -->
+    <a href="#post-8" id="post-8" class="post-card reveal reveal-delay-1" aria-label="What Is Closed-Loop Neurostimulation?">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="30" stroke="white" stroke-width="1.5"/>
+            <path d="M50 20 A30 30 0 0 1 80 50" stroke="white" stroke-width="2" fill="none"/>
+            <polygon points="80,44 80,56 88,50" fill="white" opacity="0.7"/>
+            <circle cx="50" cy="50" r="6" stroke="white" stroke-width="1"/>
+            <circle cx="50" cy="50" r="2" fill="white"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Neurotechnology</span>
+        <h3 class="post-card-title">What Is Closed-Loop Neurostimulation and Why It Matters for Sleep?</h3>
+        <p class="post-card-excerpt">Open-loop systems deliver fixed signals regardless of brain state. Closed-loop systems listen first, then respond. The difference changes everything about what's possible in sleep technology.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Oct 14, 2024</span>
+        <span class="post-card-read">6 min</span>
+      </div>
+    </a>
+
+    <!-- POST 9 -->
+    <a href="#post-9" id="post-9" class="post-card reveal reveal-delay-2" aria-label="The Science of Quieting Mental Noise at Night">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 50 Q20 30 30 50 Q40 70 50 50 Q60 30 70 50 Q80 70 90 50" stroke="white" stroke-width="2" fill="none" opacity="0.9"/>
+            <path d="M10 62 Q25 55 40 62 Q55 69 70 62 Q82 57 90 62" stroke="white" stroke-width="1" fill="none" opacity="0.3"/>
+            <line x1="50" y1="20" x2="50" y2="80" stroke="white" stroke-width="1" opacity="0.15" stroke-dasharray="3,3"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Sleep Science</span>
+        <h3 class="post-card-title">The Science of Quieting Mental Noise at Night</h3>
+        <p class="post-card-excerpt">Racing thoughts at bedtime are not a willpower problem — they're a state of cortical hyperarousal with measurable neural signatures. Here's what's happening and how to change it.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Sep 30, 2024</span>
+        <span class="post-card-read">6 min</span>
+      </div>
+    </a>
+
+    <!-- POST 10 -->
+    <a href="#post-10" id="post-10" class="post-card reveal" aria-label="Deep Sleep vs REM: Why Both Matter for Performance">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="15" y="20" width="30" height="60" rx="2" stroke="white" stroke-width="1.5" opacity="0.8"/>
+            <rect x="55" y="35" width="30" height="45" rx="2" stroke="white" stroke-width="1.5" opacity="0.5"/>
+            <line x1="30" y1="20" x2="30" y2="80" stroke="white" stroke-width="1" opacity="0.2"/>
+            <line x1="70" y1="35" x2="70" y2="80" stroke="white" stroke-width="1" opacity="0.2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Performance</span>
+        <h3 class="post-card-title">Deep Sleep vs REM: Why Both Matter for Peak Performance</h3>
+        <p class="post-card-excerpt">Memory consolidation, emotional regulation, metabolic clearance, and cognitive sharpness each depend on different sleep stages. A guide to why the full architecture of sleep matters.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Sep 16, 2024</span>
+        <span class="post-card-read">7 min</span>
+      </div>
+    </a>
+
+    <!-- POST 11 -->
+    <a href="#post-11" id="post-11" class="post-card reveal reveal-delay-1" aria-label="Reinforcement Learning for Personalized Sleep Optimization">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="20" stroke="white" stroke-width="1.5"/>
+            <circle cx="20" cy="30" r="8" stroke="white" stroke-width="1" opacity="0.5"/>
+            <circle cx="80" cy="30" r="8" stroke="white" stroke-width="1" opacity="0.5"/>
+            <circle cx="20" cy="70" r="8" stroke="white" stroke-width="1" opacity="0.5"/>
+            <circle cx="80" cy="70" r="8" stroke="white" stroke-width="1" opacity="0.5"/>
+            <line x1="27" y1="35" x2="43" y2="45" stroke="white" stroke-width="1" opacity="0.4"/>
+            <line x1="73" y1="35" x2="57" y2="45" stroke="white" stroke-width="1" opacity="0.4"/>
+            <line x1="27" y1="65" x2="43" y2="55" stroke="white" stroke-width="1" opacity="0.4"/>
+            <line x1="73" y1="65" x2="57" y2="55" stroke="white" stroke-width="1" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Neurotechnology</span>
+        <h3 class="post-card-title">Reinforcement Learning for Personalized Sleep Optimization</h3>
+        <p class="post-card-excerpt">State, action, reward, repeat. How machine learning allows a sleep device to stop following fixed protocols and start discovering what actually works for your specific brain.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Sep 2, 2024</span>
+        <span class="post-card-read">8 min</span>
+      </div>
+    </a>
+
+    <!-- POST 12 -->
+    <a href="#post-12" id="post-12" class="post-card reveal reveal-delay-2" aria-label="Why Most Sleep Devices Only Track and Don't Improve">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 70 L30 45 L45 58 L60 30 L75 52 L85 42" stroke="white" stroke-width="2" fill="none"/>
+            <circle cx="15" cy="70" r="3" fill="white" opacity="0.6"/>
+            <circle cx="85" cy="42" r="3" fill="white" opacity="0.6"/>
+            <line x1="85" y1="55" x2="85" y2="80" stroke="white" stroke-width="1" opacity="0.3"/>
+            <line x1="75" y1="80" x2="95" y2="80" stroke="white" stroke-width="1" opacity="0.3"/>
+            <path d="M82 68 L85 65 L88 68" stroke="white" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Neurotechnology</span>
+        <h3 class="post-card-title">Why Most Sleep Devices Only Track — and Don't Improve</h3>
+        <p class="post-card-excerpt">Passive trackers tell you how badly you slept. Behavioral apps give you suggestions. Neither changes your brain. Here's what separates monitoring from active neuromodulation.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Aug 19, 2024</span>
+        <span class="post-card-read">5 min</span>
+      </div>
+    </a>
+
+    <!-- POST 13 -->
+    <a href="#post-13" id="post-13" class="post-card reveal" aria-label="The Engineering Behind a Comfortable Neurotechnology Mask">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="38" width="76" height="30" rx="10" stroke="white" stroke-width="1.5"/>
+            <circle cx="32" cy="53" r="7" stroke="white" stroke-width="1" opacity="0.6"/>
+            <circle cx="68" cy="53" r="7" stroke="white" stroke-width="1" opacity="0.6"/>
+            <rect x="44" y="44" width="12" height="18" rx="3" stroke="white" stroke-width="1" opacity="0.5"/>
+            <line x1="12" y1="53" x2="5" y2="53" stroke="white" stroke-width="1.5" opacity="0.4"/>
+            <line x1="88" y1="53" x2="95" y2="53" stroke="white" stroke-width="1.5" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Engineering</span>
+        <h3 class="post-card-title">The Engineering Behind a Comfortable Neurotechnology Mask</h3>
+        <p class="post-card-excerpt">Weight distribution, PCB encapsulation, electrode routing, light-blocking — building a device worn overnight against the face demands a different kind of hardware thinking entirely.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Aug 5, 2024</span>
+        <span class="post-card-read">6 min</span>
+      </div>
+    </a>
+
+    <!-- POST 14 -->
+    <a href="#post-14" id="post-14" class="post-card reveal reveal-delay-1" aria-label="Can Improving HRV Improve Your Sleep?">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 55 L22 55 L28 35 L36 72 L44 42 L52 58 L58 55 L90 55" stroke="white" stroke-width="1.8" fill="none"/>
+            <circle cx="50" cy="30" r="10" stroke="white" stroke-width="1" opacity="0.3"/>
+            <path d="M44 30 Q50 22 56 30" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Sleep Science</span>
+        <h3 class="post-card-title">Can Improving HRV Improve Your Sleep?</h3>
+        <p class="post-card-excerpt">Heart rate variability reflects the balance of your autonomic nervous system. Higher HRV at night means deeper relaxation, faster sleep onset — and emerging research shows tVNS can move both needles.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Jul 22, 2024</span>
+        <span class="post-card-read">6 min</span>
+      </div>
+    </a>
+
+    <!-- POST 15 -->
+    <a href="#post-15" id="post-15" class="post-card reveal reveal-delay-2" aria-label="The Future of Sleep: From Static Protocols to Adaptive Neurotechnology">
+      <div class="post-card-image">
+        <div class="post-card-image-inner">
+          <svg class="post-card-visual" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="35" stroke="white" stroke-width="1" opacity="0.3"/>
+            <circle cx="50" cy="50" r="22" stroke="white" stroke-width="1.2" opacity="0.5"/>
+            <circle cx="50" cy="50" r="8" fill="white" opacity="0.15" stroke="white" stroke-width="1.5"/>
+            <path d="M50 15 L53 28 L50 25 L47 28 Z" fill="white" opacity="0.6"/>
+            <path d="M85 50 L72 53 L75 50 L72 47 Z" fill="white" opacity="0.4"/>
+            <path d="M50 85 L47 72 L50 75 L53 72 Z" fill="white" opacity="0.3"/>
+          </svg>
+        </div>
+      </div>
+      <div class="post-card-body">
+        <span class="post-card-category">Vision</span>
+        <h3 class="post-card-title">The Future of Sleep: From Static Protocols to Adaptive Neurotechnology</h3>
+        <p class="post-card-excerpt">The next decade of sleep science isn't about better tracking or stricter routines — it's about systems that learn, adapt, and respond to each brain individually, every night.</p>
+      </div>
+      <div class="post-card-footer">
+        <span class="post-card-date">Jul 8, 2024</span>
+        <span class="post-card-read">7 min</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="newsletter-inner reveal">
+    <span class="newsletter-label">Stay Informed</span>
+    <h2 class="newsletter-title">Sleep science, straight to your inbox.</h2>
+    <p class="newsletter-sub">New articles every two weeks. No noise — just the research and insights that matter for your sleep.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="your@email.com" autocomplete="off" aria-label="Email address">
+      <button type="button">Subscribe</button>
+    </div>
+    <p class="newsletter-note">No spam. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- SEO INNER LINKS -->
+<div class="seo-links" style="padding:1.2rem 4rem; border-top:1px solid var(--border); display:flex; flex-wrap:wrap; gap:0.4rem 1.8rem; position:relative; z-index:1;">
+  <a href="dreamz.html" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Home</a>
+  <a href="dreamz.html#technology" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Technology</a>
+  <a href="dreamz.html#science" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Neuroscience</a>
+  <a href="dreamz.html#how" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">How It Works</a>
+  <a href="dreamz.html#faq" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">FAQ</a>
+  <a href="dreamz.html#cta" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Join Waitlist</a>
+  <a href="#featured" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Featured Article</a>
+  <a href="#posts" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">All Articles</a>
+  <a href="#newsletter" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Newsletter</a>
+  <a href="#post-1" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Transcranial Stimulation</a>
+  <a href="#post-2" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Racing Thoughts</a>
+  <a href="#post-4" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Sleep Stages</a>
+  <a href="#post-7" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Sleep Medication</a>
+  <a href="#post-8" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Closed-Loop Neurostimulation</a>
+  <a href="#post-9" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Mental Noise at Night</a>
+  <a href="#post-10" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Deep Sleep vs REM</a>
+  <a href="#post-11" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Reinforcement Learning</a>
+  <a href="#post-12" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Sleep Tracking vs Improving</a>
+  <a href="#post-13" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Device Engineering</a>
+  <a href="#post-14" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">HRV and Sleep</a>
+  <a href="#post-15" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">Future of Sleep Tech</a>
+</div>
+
+<footer role="contentinfo">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="dreamz.html" class="footer-logo">Dreamz<span>.</span></a>
+      <p class="footer-tagline">Sleep well. Live well.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Dreamz. Sleep Neurotechnology. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="dreamz.html">Home</a>
+      <a href="dreamz-blog.html">Blog</a>
+      <a href="dreamz.html#faq">FAQ</a>
+      <a href="dreamz.html#cta">Waitlist</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px';
+  cursor.style.top = mouseY + 'px';
+});
+(function animateCursor() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  cursorRing.style.left = ringX + 'px';
+  cursorRing.style.top = ringY + 'px';
+  requestAnimationFrame(animateCursor);
+})();
+
+// NAV SCROLL
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(r => revealObs.observe(r));
+
+// FILTER BUTTONS (visual only)
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// NEWSLETTER
+document.querySelector('.newsletter-form button').addEventListener('click', () => {
+  const input = document.querySelector('.newsletter-form input');
+  if (input.value.includes('@')) {
+    document.querySelector('.newsletter-note').textContent = `✓ You're subscribed. Welcome to The Dreamz Journal.`;
+    document.querySelector('.newsletter-note').style.color = 'rgba(68,212,204,0.7)';
+    input.disabled = true;
+    document.querySelector('.newsletter-form button').disabled = true;
+  }
+});
+
+// BACKGROUND CANVAS
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], time = 0;
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
+  for (let i = 0; i < 180; i++) {
+    particles.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.2 + 0.2, a: Math.random() * 0.5 + 0.1, speed: Math.random() * 0.00007 + 0.00002, phase: Math.random() * Math.PI * 2 });
+  }
+  const waves = [
+    { freq: 0.8, amp: 55, y: 0.3, color: 'rgba(74,91,204,0.05)', speed: 0.3 },
+    { freq: 1.1, amp: 35, y: 0.6, color: 'rgba(68,212,204,0.04)', speed: 0.2 },
+  ];
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    time += 0.01;
+    particles.forEach(p => {
+      const a = p.a * (Math.sin(time * p.speed * 100 + p.phase) * 0.3 + 0.7);
+      ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(184,196,248,${a})`; ctx.fill();
+    });
+    waves.forEach(w => {
+      ctx.beginPath();
+      for (let x = 0; x <= W; x += 3) {
+        const y = w.y * H + Math.sin((x / W) * Math.PI * 2 * w.freq + time * w.speed) * w.amp;
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = w.color; ctx.lineWidth = 1; ctx.stroke();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
