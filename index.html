@@ -55,6 +55,7 @@
   "@type": "Product",
   "@id": "https://dreamz.sleep/#product",
   "name": "Dreamz Sleep Mask",
+  "image": "https://dreamz.sleep/image.jpg",
   "description": "A wearable sleep neurotechnology platform combining real-time brain activity sensing with adaptive gentle stimulation. Helps users fall asleep faster, reach deeper sleep stages, and wake up restored.",
   "brand": {
     "@type": "Brand",
@@ -73,6 +74,41 @@
     "priceCurrency": "USD",
     "price": "0.00",
     "priceValidUntil": "2026-12-31",
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "US",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": "30",
+      "returnMethod": "https://schema.org/ReturnByMail",
+      "returnFees": "https://schema.org/FreeReturn"
+    },
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "0.00",
+        "currency": "USD"
+      },
+      "shippingDestination": {
+        "@type": "DefinedRegion",
+        "addressCountry": "US"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 1,
+          "maxValue": 2,
+          "unitCode": "d"
+        },
+        "transitTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 3,
+          "maxValue": 5,
+          "unitCode": "d"
+        }
+      }
+    },
     "priceSpecification": {
       "@type": "PriceSpecification",
       "price": "0.00",
@@ -1959,16 +1995,16 @@
         <div class="divider"></div>
 
         <!-- FAQ -->
-        <section id="faq" aria-labelledby="faq-heading" itemscope itemtype="https://schema.org/FAQPage">
+        <section id="faq" aria-labelledby="faq-heading">
             <p class="section-label reveal">Common Questions</p>
             <h2 class="section-title reveal" id="faq-heading">Everything you need to know.</h2>
 
             <div class="faq-grid reveal">
 
-                <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="faq-question" itemprop="name">How does Dreamz help reduce sleep onset?</summary>
-                    <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p itemprop="text">Dreamz reads your brain's electrical activity in real time. When it detects
+                <details class="faq-item">
+                    <summary class="faq-question">How does Dreamz help reduce sleep onset?</summary>
+                    <div class="faq-answer">
+                        <p>Dreamz reads your brain's electrical activity in real time. When it detects
                             the natural
                             transition toward sleep, it delivers a gentle, barely-perceptible signal that calms
                             overactive mental
@@ -1977,10 +2013,10 @@
                     </div>
                 </details>
 
-                <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="faq-question" itemprop="name">Is it safe to use every night?</summary>
-                    <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p itemprop="text">Yes. Dreamz uses non-invasive, low-intensity stimulation designed to be safe
+                <details class="faq-item">
+                    <summary class="faq-question">Is it safe to use every night?</summary>
+                    <div class="faq-answer">
+                        <p>Yes. Dreamz uses non-invasive, low-intensity stimulation designed to be safe
                             for healthy
                             adults during overnight wear. It is not intended for children, pregnant individuals, or
                             people with
@@ -1990,10 +2026,10 @@
                     </div>
                 </details>
 
-                <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="faq-question" itemprop="name">Will I feel the stimulation?</summary>
-                    <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p itemprop="text">Most users report feeling nothing at all — the signals are intentionally kept
+                <details class="faq-item">
+                    <summary class="faq-question">Will I feel the stimulation?</summary>
+                    <div class="faq-answer">
+                        <p>Most users report feeling nothing at all — the signals are intentionally kept
                             at an
                             intensity that works on the brain without being perceptible to the sleeper. A small number
                             of users may
@@ -2001,10 +2037,10 @@
                     </div>
                 </details>
 
-                <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="faq-question" itemprop="name">How long until I see results?</summary>
-                    <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p itemprop="text">Many users notice improvements in how quickly they fall asleep within the
+                <details class="faq-item">
+                    <summary class="faq-question">How long until I see results?</summary>
+                    <div class="faq-answer">
+                        <p>Many users notice improvements in how quickly they fall asleep within the
                             first week.
                             Because <a href="#technology" aria-label="Learn about Dreamz personalisation">Dreamz
                                 personalises to your
@@ -2013,10 +2049,10 @@
                     </div>
                 </details>
 
-                <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="faq-question" itemprop="name">Can I wash the mask?</summary>
-                    <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p itemprop="text">Yes. Remove the slim electronics module from the front pocket, then machine
+                <details class="faq-item">
+                    <summary class="faq-question">Can I wash the mask?</summary>
+                    <div class="faq-answer">
+                        <p>Yes. Remove the slim electronics module from the front pocket, then machine
                             wash the
                             fabric on a cold gentle cycle with mild detergent. Air dry only. Reinsert the module once
                             fully dry. Never
@@ -2024,10 +2060,10 @@
                     </div>
                 </details>
 
-                <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="faq-question" itemprop="name">Does Dreamz work for insomnia?</summary>
-                    <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p itemprop="text">Dreamz is designed for adults who take more than 20 minutes to fall asleep or
+                <details class="faq-item">
+                    <summary class="faq-question">Does Dreamz work for insomnia?</summary>
+                    <div class="faq-answer">
+                        <p>Dreamz is designed for adults who take more than 20 minutes to fall asleep or
                             who want to
                             improve overall sleep quality. It is a wellness device, not a medical treatment. If you have
                             a diagnosed
@@ -2035,10 +2071,10 @@
                     </div>
                 </details>
 
-                <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="faq-question" itemprop="name">What app does Dreamz use?</summary>
-                    <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p itemprop="text">Dreamz connects wirelessly to a companion app available on iOS and Android.
+                <details class="faq-item">
+                    <summary class="faq-question">What app does Dreamz use?</summary>
+                    <div class="faq-answer">
+                        <p>Dreamz connects wirelessly to a companion app available on iOS and Android.
                             The app shows
                             your nightly sleep score, a breakdown of your brain activity, weekly trends, and lets you
                             set goals — from
@@ -2046,10 +2082,10 @@
                     </div>
                 </details>
 
-                <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="faq-question" itemprop="name">When will Dreamz be available?</summary>
-                    <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p itemprop="text">Dreamz is currently in its pre-launch phase. <a href="#cta"
+                <details class="faq-item">
+                    <summary class="faq-question">When will Dreamz be available?</summary>
+                    <div class="faq-answer">
+                        <p>Dreamz is currently in its pre-launch phase. <a href="#cta"
                                 aria-label="Join the Dreamz waitlist">Join the waitlist</a> to be among the first to
                             know when it
                             becomes available, and to receive early-access pricing.</p>
@@ -2428,7 +2464,7 @@
                 carouselScene.mat.color.setHex(s.color);
                 carouselScene.mat.emissive.setHex(s.emissive);
                 if (carouselScene.mesh) {
-                    carouselScene.mesh.visible = !glbModels[s.key];
+                    carouselScene.mesh.visible = false;
                 }
             }
         }
