@@ -311,6 +311,17 @@
     .footer-top,.footer-bottom { padding:1.5rem 2rem; }
     .footer-bottom { flex-direction:column; text-align:center; }
   }
+
+        /* Disable custom cursor on non-desktop platforms */
+        html.no-custom-cursor,
+        html.no-custom-cursor * {
+            cursor: auto !important;
+        }
+
+        html.no-custom-cursor #cursor,
+        html.no-custom-cursor #cursor-ring {
+            display: none !important;
+        }
 </style>
 </head>
 <body>
@@ -726,6 +737,27 @@
 
 <script>
 // CURSOR
+
+        // PLATFORM-AWARE CURSOR TOGGLE (PC/Mac only)
+        (() => {
+            const platformRaw = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+            const ua = navigator.userAgent || '';
+            const isDesktopOS = /Win|Mac/i.test(platformRaw);
+            const isMobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+            const hasFinePointer = window.matchMedia ? window.matchMedia('(pointer: fine)').matches : true;
+            const useCustomCursor = isDesktopOS && !isMobileUA && hasFinePointer;
+
+            const platformLabel = /Win/i.test(platformRaw)
+                ? 'windows'
+                : /Mac/i.test(platformRaw)
+                    ? 'macos'
+                    : 'other';
+
+            document.documentElement.dataset.clientPlatform = platformLabel;
+            document.documentElement.classList.toggle('no-custom-cursor', !useCustomCursor);
+            window.__dreamzUseCustomCursor = useCustomCursor;
+        })();
+
 const cursor = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursor-ring');
 let mouseX=0,mouseY=0,ringX=0,ringY=0;

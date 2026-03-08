@@ -1555,7 +1555,18 @@
                 margin-top: 2rem;
             }
         }
-    </style>
+    
+        /* Disable custom cursor on non-desktop platforms */
+        html.no-custom-cursor,
+        html.no-custom-cursor * {
+            cursor: auto !important;
+        }
+
+        html.no-custom-cursor #cursor,
+        html.no-custom-cursor #cursor-ring {
+            display: none !important;
+        }
+</style>
 </head>
 
 <body>
@@ -2181,7 +2192,28 @@
         // ================================================
         // CURSOR
         // ================================================
-        const cursor = document.getElementById('cursor');
+        
+        // PLATFORM-AWARE CURSOR TOGGLE (PC/Mac only)
+        (() => {
+            const platformRaw = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+            const ua = navigator.userAgent || '';
+            const isDesktopOS = /Win|Mac/i.test(platformRaw);
+            const isMobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+            const hasFinePointer = window.matchMedia ? window.matchMedia('(pointer: fine)').matches : true;
+            const useCustomCursor = isDesktopOS && !isMobileUA && hasFinePointer;
+
+            const platformLabel = /Win/i.test(platformRaw)
+                ? 'windows'
+                : /Mac/i.test(platformRaw)
+                    ? 'macos'
+                    : 'other';
+
+            document.documentElement.dataset.clientPlatform = platformLabel;
+            document.documentElement.classList.toggle('no-custom-cursor', !useCustomCursor);
+            window.__dreamzUseCustomCursor = useCustomCursor;
+        })();
+
+const cursor = document.getElementById('cursor');
         const cursorRing = document.getElementById('cursor-ring');
         let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
         document.addEventListener('mousemove', e => {
@@ -2801,6 +2833,54 @@
             });
         });
     </script>
+
+    <!-- SITE FOOTER -->
+    <footer style="
+        border-top: 1px solid rgba(138,157,232,0.15);
+        padding: 2.5rem 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        position: relative;
+        z-index: 1;
+        background: rgba(4,5,13,0.95);
+    ">
+        <a href="index.html" style="
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: rgba(184,196,248,0.45);
+            text-decoration: none;
+        ">Dream<span style="color:#818CF8;">z</span></a>
+
+        <nav style="display:flex; gap:2rem; flex-wrap:wrap;">
+            <a href="dreamz-blog.html"
+                style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(184,196,248,0.45);text-decoration:none;transition:color 0.3s;"
+                onmouseover="this.style.color='#f4f6ff'" onmouseout="this.style.color='rgba(184,196,248,0.45)'">Blog</a>
+            <a href="dreamz-research.html"
+                style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(184,196,248,0.45);text-decoration:none;"
+                onmouseover="this.style.color='#f4f6ff'"
+                onmouseout="this.style.color='rgba(184,196,248,0.45)'">Research</a>
+            <a href="terms.html"
+                style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(184,196,248,0.45);text-decoration:none;"
+                onmouseover="this.style.color='#f4f6ff'" onmouseout="this.style.color='rgba(184,196,248,0.45)'">Terms of
+                Service</a>
+            <a href="privacy.html"
+                style="font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(184,196,248,0.45);text-decoration:none;"
+                onmouseover="this.style.color='#f4f6ff'" onmouseout="this.style.color='rgba(184,196,248,0.45)'">Privacy
+                Policy</a>
+        </nav>
+
+        <p style="
+            width: 100%;
+            font-size: 0.72rem;
+            color: rgba(184,196,248,0.2);
+            letter-spacing: 0.05em;
+            margin-top: 0.5rem;
+        ">&copy; 2026 Dreamz, Inc. All rights reserved. Dreamz is a wellness product, not a medical device.</p>
+    </footer>
 </body>
 
 </html>

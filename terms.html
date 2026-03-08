@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service — Dreamz Sleep Mask</title>
+    <meta name="description"
+        content="Read the Terms of Service for Dreamz, the wearable sleep neurotechnology mask. Understand your rights and responsibilities as a user or customer.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dreamz.sleep/terms">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Terms of Service — Dreamz Sleep Mask">
+    <meta property="og:description"
+        content="Read the Terms of Service for Dreamz, the wearable sleep neurotechnology mask.">
+    <meta property="og:url" content="https://dreamz.sleep/terms">
+    <meta property="og:site_name" content="Dreamz">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #04050d;
+            --midnight: #080c1a;
+            --deep: #0d1330;
+            --fog: #1a2040;
+            --indigo: #2a3580;
+            --iris: #4a5bcc;
+            --lavender: #8b9de8;
+            --glow: #b8c4f8;
+            --violet: #818CF8;
+            --violet-dim: #5B21B6;
+            --soft: #e8ebff;
+            --white: #f4f6ff;
+            --muted: rgba(184, 196, 248, 0.45);
+            --border: rgba(138, 157, 232, 0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--ink);
+            color: var(--soft);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        /* CURSOR */
+        #cursor {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--violet);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+            mix-blend-mode: screen;
+        }
+
+        #cursor-ring {
+            position: fixed;
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(129, 140, 248, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.18s ease, width 0.3s, height 0.3s, border-color 0.3s;
+        }
+
+        body:has(a:hover) #cursor-ring,
+        body:has(button:hover) #cursor-ring {
+            width: 52px;
+            height: 52px;
+            border-color: var(--violet);
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.4rem 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(4, 5, 13, 0.95) 0%, rgba(4, 5, 13, 0.8) 100%);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.7rem;
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--violet);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.78rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        /* HERO BANNER */
+        .page-hero {
+            padding: 10rem 4rem 5rem;
+            position: relative;
+            background: linear-gradient(180deg, rgba(42, 53, 128, 0.12) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse 60% 60% at 30% 40%, rgba(74, 91, 204, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .page-eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--violet);
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 300;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-meta {
+            font-size: 0.82rem;
+            color: var(--muted);
+            letter-spacing: 0.05em;
+        }
+
+        /* CONTENT */
+        .legal-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 5rem 4rem 8rem;
+        }
+
+        .toc {
+            background: rgba(13, 19, 48, 0.6);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--violet);
+            padding: 2rem 2.5rem;
+            margin-bottom: 4rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .toc-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--violet);
+            margin-bottom: 1rem;
+        }
+
+        .toc ol {
+            padding-left: 1.2rem;
+        }
+
+        .toc li {
+            margin-bottom: 0.4rem;
+        }
+
+        .toc a {
+            font-size: 0.85rem;
+            color: var(--lavender);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: var(--white);
+        }
+
+        .legal-section {
+            margin-bottom: 3.5rem;
+            padding-bottom: 3.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .legal-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--violet-dim);
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+
+        .legal-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--white);
+            margin-bottom: 1.2rem;
+        }
+
+        .legal-section h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--lavender);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin: 1.8rem 0 0.8rem;
+        }
+
+        .legal-section p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.85;
+            margin-bottom: 1rem;
+        }
+
+        .legal-section ul,
+        .legal-section ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .legal-section li {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 0.4rem;
+        }
+
+        .highlight-box {
+            background: rgba(91, 33, 182, 0.08);
+            border: 1px solid rgba(91, 33, 182, 0.25);
+            border-left: 3px solid var(--violet-dim);
+            padding: 1.2rem 1.8rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+            color: var(--soft);
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-left: 3px solid rgba(239, 68, 68, 0.6);
+            padding: 1.2rem 1.8rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .warning-box p {
+            margin-bottom: 0;
+            color: rgba(252, 165, 165, 0.9);
+        }
+
+        /* FOOTER */
+        .legal-footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .footer-logo span {
+            color: var(--violet);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-copy {
+            width: 100%;
+            font-size: 0.75rem;
+            color: rgba(184, 196, 248, 0.25);
+            letter-spacing: 0.05em;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .page-hero {
+                padding: 8rem 1.5rem 3rem;
+            }
+
+            .legal-wrapper {
+                padding: 3rem 1.5rem 5rem;
+            }
+
+            .legal-footer {
+                padding: 2rem 1.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    
+        /* Disable custom cursor on non-desktop platforms */
+        html.no-custom-cursor,
+        html.no-custom-cursor * {
+            cursor: auto !important;
+        }
+
+        html.no-custom-cursor #cursor,
+        html.no-custom-cursor #cursor-ring {
+            display: none !important;
+        }
+</style>
+</head>
+
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="nav-logo">Dream<span>z</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#technology">Technology</a></li>
+            <li><a href="dreamz-blog.html">Blog</a></li>
+            <li><a href="index.html#cta">Waitlist</a></li>
+        </ul>
+    </nav>
+
+    <!-- PAGE HERO -->
+    <header class="page-hero">
+        <p class="page-eyebrow">Legal</p>
+        <h1 class="page-title">Terms of Service</h1>
+        <p class="page-meta">Effective Date: March 1, 2026 &nbsp;·&nbsp; Last Updated: March 6, 2026</p>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="legal-wrapper">
+
+        <!-- TABLE OF CONTENTS -->
+        <div class="toc">
+            <p class="toc-label">Table of Contents</p>
+            <ol>
+                <li><a href="#acceptance">Acceptance of Terms</a></li>
+                <li><a href="#eligibility">Eligibility</a></li>
+                <li><a href="#product">Product Description &amp; Intended Use</a></li>
+                <li><a href="#medical">Medical Disclaimer &amp; Health Warnings</a></li>
+                <li><a href="#waitlist">Waitlist &amp; Pre-Order</a></li>
+                <li><a href="#purchases">Purchases, Payments &amp; Pricing</a></li>
+                <li><a href="#shipping">Shipping &amp; Delivery</a></li>
+                <li><a href="#returns">Returns, Refunds &amp; Warranty</a></li>
+                <li><a href="#accounts">User Accounts &amp; Data</a></li>
+                <li><a href="#ip">Intellectual Property</a></li>
+                <li><a href="#prohibited">Prohibited Uses</a></li>
+                <li><a href="#disclaimer">Disclaimer of Warranties</a></li>
+                <li><a href="#liability">Limitation of Liability</a></li>
+                <li><a href="#indemnification">Indemnification</a></li>
+                <li><a href="#disputes">Dispute Resolution &amp; Arbitration</a></li>
+                <li><a href="#governing">Governing Law</a></li>
+                <li><a href="#changes">Changes to These Terms</a></li>
+                <li><a href="#contact">Contact Information</a></li>
+            </ol>
+        </div>
+
+        <div class="highlight-box">
+            <p><strong>Please read these Terms carefully.</strong> By accessing our website, joining the waitlist,
+                pre-ordering, or using any Dreamz product or service, you agree to be bound by these Terms of Service.
+                If you do not agree, do not use our website or services.</p>
+        </div>
+
+        <!-- 1 -->
+        <section class="legal-section" id="acceptance">
+            <span class="section-num">01</span>
+            <h2>Acceptance of Terms</h2>
+            <p>These Terms of Service ("Terms") constitute a legally binding agreement between you ("you," "User," or
+                "Customer") and Dreamz, Inc. ("Dreamz," "we," "our," or "us"), governing your access to and use of our
+                website located at <strong>dreamz.sleep</strong> ("Site"), our mobile applications, any associated
+                software platforms, and the Dreamz sleep neurotechnology device and related services (collectively, the
+                "Services").</p>
+            <p>By clicking "I Agree," creating an account, joining our waitlist, placing a pre-order, or otherwise
+                accessing or using any part of our Services, you (1) confirm that you have read, understood, and agree
+                to these Terms in their entirety, (2) confirm that you have read our <a href="privacy.html"
+                    style="color:var(--lavender);">Privacy Policy</a>, and (3) represent that you have the legal
+                authority to enter into this agreement.</p>
+            <p>These Terms apply in addition to any other agreements you may enter into with Dreamz in connection with
+                specific products, programs, or services.</p>
+        </section>
+
+        <!-- 2 -->
+        <section class="legal-section" id="eligibility">
+            <span class="section-num">02</span>
+            <h2>Eligibility</h2>
+            <p>You must be at least <strong>18 years of age</strong> to use the Site, join the waitlist, or purchase any
+                Dreamz product. By using our Services, you represent and warrant that you meet this age requirement.</p>
+            <p>Dreamz products and services are intended for use by adults with no relevant contraindicated medical
+                conditions (see Section 4 — Medical Disclaimer). You are solely responsible for determining whether the
+                Dreamz device is appropriate for your individual health circumstances.</p>
+            <p>If you are accessing or using our Services on behalf of a company, organization, or other legal entity,
+                you represent and warrant that you have authority to bind that entity to these Terms.</p>
+            <p>Our Services are not directed at or intended for use by individuals in jurisdictions where such use is
+                prohibited by law. We make no representation that the Services are appropriate or available in all
+                locations.</p>
+        </section>
+
+        <!-- 3 -->
+        <section class="legal-section" id="product">
+            <span class="section-num">03</span>
+            <h2>Product Description &amp; Intended Use</h2>
+            <p>Dreamz is a consumer wellness wearable that uses non-invasive biometric sensing (including
+                electroencephalography-inspired surface electrode technology) and adaptive low-intensity electrical
+                stimulation to monitor and support improved sleep patterns in healthy adults. The Dreamz sleep mask is
+                designed to:</p>
+            <ul>
+                <li>Detect and interpret surface-level brainwave activity during sleep;</li>
+                <li>Deliver gentle, precisely timed electrical stimulation signals to support the user's transition into
+                    deeper sleep stages;</li>
+                <li>Collect and synchronize sleep-related biometric data to a companion mobile application.</li>
+            </ul>
+            <p>Dreamz is a <strong>consumer wellness product, not a medical device</strong>. It is not intended to
+                diagnose, treat, cure, or prevent any disease or medical condition, including but not limited to
+                insomnia, sleep apnea, narcolepsy, epilepsy, or any neurological or psychiatric disorder. References to
+                percentage improvements in sleep onset, sleep quality, or daily wellness reflect user-reported survey
+                results and are not guaranteed outcomes.</p>
+            <p>Product specifications, features, and availability are subject to change at Dreamz's sole discretion.
+                Final product specifications will be confirmed at the time of order fulfillment.</p>
+        </section>
+
+        <!-- 4 -->
+        <section class="legal-section" id="medical">
+            <span class="section-num">04</span>
+            <h2>Medical Disclaimer &amp; Health Warnings</h2>
+
+            <div class="warning-box">
+                <p><strong>⚠ Important Safety Notice:</strong> The Dreamz device is not a medical device and is not a
+                    substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified
+                    healthcare professional before using Dreamz if you have any existing health condition.</p>
+            </div>
+
+            <h3>Contraindications — Do Not Use If You:</h3>
+            <ul>
+                <li>Have been diagnosed with epilepsy or any seizure disorder;</li>
+                <li>Have a history of stroke, brain injury, or cranial surgery;</li>
+                <li>Have an implanted neurostimulator, cochlear implant, cardiac pacemaker, or any other active
+                    electronic implant;</li>
+                <li>Are pregnant or nursing;</li>
+                <li>Have active skin conditions, wounds, or irritation on or near the forehead or temples;</li>
+                <li>Are currently taking psychiatric medications (including antidepressants, antipsychotics, or
+                    anti-seizure medications) without prior medical clearance;</li>
+                <li>Are under 18 years of age.</li>
+            </ul>
+
+            <h3>General Health Warnings</h3>
+            <ul>
+                <li>Discontinue use immediately and consult a physician if you experience headaches, dizziness, skin
+                    irritation, tingling, muscle twitches, or any other adverse reaction;</li>
+                <li>Do not wear the device while operating a vehicle or heavy machinery;</li>
+                <li>If you have a diagnosed sleep disorder (e.g., sleep apnea), please consult your physician before
+                    using the Dreamz device, as it is not a therapeutic replacement for CPAP or other prescribed
+                    treatments;</li>
+                <li>Long-term effects of consumer neurostimulation devices are an ongoing area of research; Dreamz does
+                    not warrant that its device is free of all risk with prolonged use.</li>
+            </ul>
+
+            <h3>No Doctor-Patient Relationship</h3>
+            <p>Nothing in these Terms, on our Site, or within our product materials establishes a physician-patient or
+                any other healthcare professional relationship. Information provided by Dreamz is for general
+                informational and wellness purposes only.</p>
+        </section>
+
+        <!-- 5 -->
+        <section class="legal-section" id="waitlist">
+            <span class="section-num">05</span>
+            <h2>Waitlist &amp; Pre-Order</h2>
+            <p>By joining the Dreamz waitlist, you acknowledge that:</p>
+            <ul>
+                <li>Joining the waitlist does <strong>not</strong> guarantee that you will receive a product or receive
+                    it by any particular date;</li>
+                <li>Waitlist position is determined at Dreamz's sole discretion and may be modified at any time;</li>
+                <li>Dreamz reserves the right to cancel the waitlist or any pre-order program at any time;</li>
+                <li>Any estimated shipping timelines communicated are estimates only and not binding commitments;</li>
+                <li>By joining the waitlist, you agree to receive marketing and product update communications from
+                    Dreamz, which you may opt out of at any time via the unsubscribe mechanism in our emails.</li>
+            </ul>
+            <p>Pre-orders, when accepted, are subject to the purchase, payment, and cancellation terms set forth in
+                Sections 6, 7, and 8 of these Terms. Pre-order pricing is not guaranteed and may change before the
+                product ships; in such case, Dreamz will notify you before charging any amount in excess of the
+                pre-order deposit.</p>
+        </section>
+
+        <!-- 6 -->
+        <section class="legal-section" id="purchases">
+            <span class="section-num">06</span>
+            <h2>Purchases, Payments &amp; Pricing</h2>
+
+            <h3>Pricing</h3>
+            <p>All prices displayed on the Site are in United States Dollars (USD) unless otherwise stated. Dreamz
+                reserves the right to update or correct pricing at any time before an order is confirmed. In the event
+                of a pricing error, we will notify you and give you the option to confirm the order at the correct price
+                or cancel it for a full refund.</p>
+
+            <h3>Payment</h3>
+            <p>By completing a purchase, you authorize Dreamz (or its payment processor) to charge your payment method
+                for the total amount, including applicable taxes. You represent that you are authorized to use the
+                chosen payment method. We use industry-standard encrypted payment processing; we do not store full
+                payment card details on our servers.</p>
+
+            <h3>Taxes</h3>
+            <p>You are responsible for all applicable federal, state, local, and international taxes, duties, and fees.
+                Taxes are calculated at checkout based on your shipping address and applicable law. Tax rates and
+                applicability are subject to change.</p>
+
+            <h3>Order Confirmation</h3>
+            <p>An order confirmation email does not constitute our acceptance of your order. We reserve the right to
+                cancel or refuse any order at any time for reasons including but not limited to: product unavailability,
+                suspected fraud, pricing errors, or export control restrictions.</p>
+        </section>
+
+        <!-- 7 -->
+        <section class="legal-section" id="shipping">
+            <span class="section-num">07</span>
+            <h2>Shipping &amp; Delivery</h2>
+            <p>Shipping estimates provided on the Site or in order confirmation emails are estimates only and are not
+                guaranteed. Dreamz is not liable for delays caused by carriers, customs, natural events, or other
+                circumstances beyond our reasonable control.</p>
+            <p>Risk of loss and title for products pass to you upon delivery to the carrier. You are responsible for
+                providing an accurate and complete shipping address; Dreamz is not responsible for packages lost due to
+                incorrect address information you provide.</p>
+            <p>For international shipments (when available), you are responsible for all import duties, customs fees,
+                and compliance with local import regulations. Dreamz is not responsible for products seized or delayed
+                by customs authorities.</p>
+        </section>
+
+        <!-- 8 -->
+        <section class="legal-section" id="returns">
+            <span class="section-num">08</span>
+            <h2>Returns, Refunds &amp; Warranty</h2>
+
+            <h3>Return Policy</h3>
+            <p>Dreamz offers a <strong>30-day return window</strong> from the date of delivery for unused, undamaged
+                products in original packaging. To initiate a return, contact us at the address listed in Section 18.
+                Dreamz covers return shipping costs within the contiguous United States; international return shipping
+                costs are the customer's responsibility.</p>
+            <p>Products that have been used, damaged, or show signs of tampering are not eligible for return. Dreamz
+                reserves the right to refuse returns or charge a restocking fee where appropriate.</p>
+
+            <h3>Refunds</h3>
+            <p>Approved refunds will be processed to the original payment method within 10 business days of receiving
+                the returned product in acceptable condition. Original shipping charges are non-refundable unless the
+                return is due to a Dreamz error or defective product.</p>
+
+            <h3>Limited Product Warranty</h3>
+            <p>Dreamz warrants that the hardware device will be free from material defects in materials and workmanship
+                for a period of <strong>one (1) year</strong> from the date of original purchase ("Warranty Period").
+                This limited warranty covers manufacturing defects only and does not cover:</p>
+            <ul>
+                <li>Damage from misuse, abuse, accidents, modifications, or unauthorized repair;</li>
+                <li>Normal wear and tear, including fabric degradation;</li>
+                <li>Damage caused by use with third-party accessories or software;</li>
+                <li>Damage caused by failure to follow Dreamz's care and usage instructions;</li>
+                <li>Cosmetic damage that does not impair function.</li>
+            </ul>
+            <p>To make a warranty claim, contact us at the address in Section 18 with proof of purchase. Our sole
+                obligation under this warranty is, at our discretion, to repair or replace the defective device. This
+                warranty gives you specific legal rights; you may also have additional rights that vary by jurisdiction.
+            </p>
+
+            <h3>Disclaimer</h3>
+            <p>THE LIMITED WARRANTY ABOVE IS THE SOLE AND EXCLUSIVE WARRANTY DREAMZ MAKES WITH RESPECT TO THE PRODUCT.
+                TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, DREAMZ DISCLAIMS ALL OTHER WARRANTIES, EXPRESS OR
+                IMPLIED, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+                NON-INFRINGEMENT.</p>
+        </section>
+
+        <!-- 9 -->
+        <section class="legal-section" id="accounts">
+            <span class="section-num">09</span>
+            <h2>User Accounts &amp; Data</h2>
+            <p>To access certain features of the Dreamz companion application and Services, you may be required to
+                create an account. You are responsible for maintaining the confidentiality of your account credentials
+                and for all activity that occurs under your account. You agree to notify Dreamz immediately of any
+                unauthorized access or suspected security breach.</p>
+            <p>Dreamz reserves the right to suspend or terminate accounts that violate these Terms, remain inactive for
+                an extended period, or are associated with fraudulent activity.</p>
+            <p>Our collection, use, and retention of personal and biometric data (including sleep data collected by the
+                device) is governed by our <a href="privacy.html" style="color:var(--lavender);">Privacy Policy</a>,
+                which is incorporated into these Terms by reference. Please read it carefully.</p>
+            <p>You retain ownership of personal data you submit to Dreamz. By using the Services, you grant Dreamz a
+                limited, non-exclusive, worldwide, royalty-free license to process your data as necessary to provide the
+                Services and as otherwise described in the Privacy Policy.</p>
+        </section>
+
+        <!-- 10 -->
+        <section class="legal-section" id="ip">
+            <span class="section-num">10</span>
+            <h2>Intellectual Property</h2>
+            <p>All content on the Site and within the Services — including but not limited to text, graphics, logos,
+                icons, images, audio clips, digital downloads, data compilations, and software — is the exclusive
+                property of Dreamz or its licensors and is protected by applicable copyright, trademark, patent, trade
+                secret, and other intellectual property laws.</p>
+            <p>You are granted a limited, non-exclusive, non-transferable, revocable license to access and use the Site
+                and Services for personal, non-commercial purposes. This license does not include the right to:</p>
+            <ul>
+                <li>Reproduce, modify, distribute, publicly display, or create derivative works from any Dreamz content;
+                </li>
+                <li>Reverse engineer, decompile, or disassemble any software included in the Services;</li>
+                <li>Remove or alter any copyright, trademark, or proprietary rights notices;</li>
+                <li>Use automated tools (bots, crawlers, scrapers) to access or index the Site or Services without
+                    express written permission.</li>
+            </ul>
+            <p>The Dreamz name, logo, and product names are trademarks of Dreamz, Inc. Use of these trademarks without
+                express written permission is strictly prohibited.</p>
+        </section>
+
+        <!-- 11 -->
+        <section class="legal-section" id="prohibited">
+            <span class="section-num">11</span>
+            <h2>Prohibited Uses</h2>
+            <p>You agree not to use the Site or Services for any purpose that is unlawful, deceptive, or prohibited by
+                these Terms. Without limiting the foregoing, you agree not to:</p>
+            <ul>
+                <li>Use the Services in any way that violates applicable local, state, national, or international law or
+                    regulation;</li>
+                <li>Exploit, harm, or attempt to exploit or harm minors in any way;</li>
+                <li>Transmit any unsolicited or unauthorized advertising, promotional material, or spam;</li>
+                <li>Impersonate or misrepresent yourself or your affiliation with any person or entity;</li>
+                <li>Interfere with or disrupt the integrity or performance of the Services or the servers and networks
+                    connected to them;</li>
+                <li>Attempt to gain unauthorized access to any portion of the Services, other accounts, or computer
+                    systems;</li>
+                <li>Use the device in any medical, clinical, or diagnostic capacity;</li>
+                <li>Collect or harvest user data from the Services without authorization;</li>
+                <li>Use our branding, trade dress, or product imagery in any way that suggests unsanctioned affiliation
+                    with or endorsement by Dreamz.</li>
+            </ul>
+        </section>
+
+        <!-- 12 -->
+        <section class="legal-section" id="disclaimer">
+            <span class="section-num">12</span>
+            <h2>Disclaimer of Warranties</h2>
+            <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SITE AND SERVICES ARE PROVIDED ON AN "AS IS" AND
+                "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. DREAMZ EXPRESSLY
+                DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS
+                FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, AND ANY WARRANTIES ARISING FROM COURSE OF DEALING OR
+                USAGE OF TRADE.</p>
+            <p>DREAMZ DOES NOT WARRANT THAT:</p>
+            <ul>
+                <li>THE SERVICES WILL BE UNINTERRUPTED, ERROR-FREE, OR SECURE;</li>
+                <li>ANY DEFECTS OR ERRORS IN THE SOFTWARE WILL BE CORRECTED;</li>
+                <li>THE SITE OR ITS SERVERS ARE FREE FROM VIRUSES OR OTHER HARMFUL COMPONENTS;</li>
+                <li>THE RESULTS OBTAINED FROM USING THE SERVICES WILL BE ACCURATE OR RELIABLE;</li>
+                <li>THE DEVICE WILL ACHIEVE ANY PARTICULAR HEALTH OR SLEEP OUTCOME FOR ANY INDIVIDUAL USER.</li>
+            </ul>
+        </section>
+
+        <!-- 13 -->
+        <section class="legal-section" id="liability">
+            <span class="section-num">13</span>
+            <h2>Limitation of Liability</h2>
+            <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL DREAMZ, ITS OFFICERS, DIRECTORS,
+                EMPLOYEES, AGENTS, SUPPLIERS, OR LICENSORS BE LIABLE FOR ANY:</p>
+            <ul>
+                <li>INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, PUNITIVE, OR EXEMPLARY DAMAGES;</li>
+                <li>LOSS OF PROFITS, REVENUE, DATA, BUSINESS, OR GOODWILL;</li>
+                <li>PERSONAL INJURY OR PROPERTY DAMAGE RELATED TO YOUR USE OR INABILITY TO USE THE SERVICES;</li>
+                <li>DAMAGE RESULTING FROM RELIANCE ON ANY CONTENT ON THE SITE OR ANY THIRD-PARTY PLATFORM;</li>
+                <li>UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR TRANSMISSIONS OR DATA.</li>
+            </ul>
+            <p>EVEN IF DREAMZ HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES AND EVEN IF A REMEDY FAILS OF ITS
+                ESSENTIAL PURPOSE.</p>
+            <p>IN ALL CASES, DREAMZ'S TOTAL CUMULATIVE LIABILITY TO YOU FOR ANY CLAIM ARISING OUT OF OR RELATING TO
+                THESE TERMS OR THE SERVICES WILL NOT EXCEED THE GREATER OF: (A) THE TOTAL AMOUNT YOU PAID DREAMZ IN THE
+                SIX (6) MONTHS PRECEDING THE CLAIM, OR (B) ONE HUNDRED DOLLARS ($100).</p>
+            <p>Some jurisdictions do not allow the exclusion or limitation of incidental or consequential damages, so
+                the above limitations may not fully apply to you. In such cases, Dreamz's liability is limited to the
+                fullest extent permitted by applicable law.</p>
+        </section>
+
+        <!-- 14 -->
+        <section class="legal-section" id="indemnification">
+            <span class="section-num">14</span>
+            <h2>Indemnification</h2>
+            <p>You agree to defend, indemnify, and hold harmless Dreamz, its parent companies, subsidiaries, affiliates,
+                officers, directors, employees, contractors, agents, licensors, and service providers from and against
+                any and all claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including
+                reasonable attorneys' fees) arising out of or relating to:</p>
+            <ul>
+                <li>Your violation of these Terms or any applicable law or regulation;</li>
+                <li>Your use or misuse of the Site, Services, or the Dreamz device;</li>
+                <li>Your User Content or any breach of your representations and warranties herein;</li>
+                <li>Any claim by a third party arising from your acts or omissions in connection with the Services.</li>
+            </ul>
+            <p>Dreamz reserves the right to assume exclusive defense and control of any matter subject to
+                indemnification by you, in which case you agree to cooperate with our defense of such claim at your
+                expense.</p>
+        </section>
+
+        <!-- 15 -->
+        <section class="legal-section" id="disputes">
+            <span class="section-num">15</span>
+            <h2>Dispute Resolution &amp; Arbitration</h2>
+
+            <h3>Informal Resolution First</h3>
+            <p>Before filing any formal legal claim, you agree to contact Dreamz at the address in Section 18 and give
+                us 30 days to attempt to resolve the dispute informally. This does not limit our right to seek emergency
+                injunctive relief.</p>
+
+            <h3>Binding Arbitration</h3>
+            <p>If informal resolution fails, any dispute, claim, or controversy arising out of or relating to these
+                Terms, or the breach, termination, enforcement, interpretation, or validity thereof, including the
+                determination of the scope or applicability of this agreement to arbitrate, shall be determined by
+                <strong>binding arbitration</strong> in accordance with the rules of the American Arbitration
+                Association (AAA), before a single arbitrator. The arbitration shall take place in the State of
+                Delaware, or another mutually agreed location, and may be conducted by telephone or video conference.
+                Judgment on the award rendered by the arbitrator may be entered in any court having jurisdiction
+                thereof.</p>
+
+            <h3>Class Action Waiver</h3>
+            <p>YOU AND DREAMZ AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN AN INDIVIDUAL CAPACITY, AND NOT
+                AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, COLLECTIVE, OR REPRESENTATIVE PROCEEDING. The
+                arbitrator may not consolidate more than one person's claims and may not preside over any form of class
+                or representative proceeding.</p>
+
+            <h3>Exceptions</h3>
+            <p>Notwithstanding the above, either party may bring an individual action in small claims court or seek
+                emergency injunctive or other equitable relief from a court of competent jurisdiction to prevent actual
+                or threatened infringement, misappropriation, or violation of a party's intellectual property rights.
+            </p>
+
+            <h3>Opt-Out</h3>
+            <p>You may opt out of the arbitration agreement within 30 days of agreeing to these Terms by sending written
+                notice to the address in Section 18, stating your name, address, and a clear statement that you wish to
+                opt out of arbitration. Opting out does not affect any other provisions of these Terms.</p>
+        </section>
+
+        <!-- 16 -->
+        <section class="legal-section" id="governing">
+            <span class="section-num">16</span>
+            <h2>Governing Law</h2>
+            <p>These Terms and any dispute arising hereunder shall be governed by and construed in accordance with the
+                laws of the <strong>State of Delaware, United States</strong>, without regard to its conflict of law
+                provisions.</p>
+            <p>To the extent any claim is not subject to arbitration as described in Section 15, you consent to the
+                exclusive personal jurisdiction of the state and federal courts located in the State of Delaware for the
+                purpose of resolving such disputes, and waive any objection to such jurisdiction or venue.</p>
+            <p>Dreamz makes no representation that the Site or Services comply with the laws of any specific
+                jurisdiction outside the United States. If you access the Services from outside the United States, you
+                do so at your own risk and are responsible for compliance with local laws.</p>
+        </section>
+
+        <!-- 17 -->
+        <section class="legal-section" id="changes">
+            <span class="section-num">17</span>
+            <h2>Changes to These Terms</h2>
+            <p>Dreamz reserves the right to modify these Terms at any time at our sole discretion. When we make material
+                changes, we will notify you by:</p>
+            <ul>
+                <li>Updating the "Last Updated" date at the top of this page;</li>
+                <li>Sending an email notification to registered users;</li>
+                <li>Displaying a prominent notice on the Site for a reasonable period.</li>
+            </ul>
+            <p>Your continued use of the Services after the effective date of any modification constitutes your
+                acceptance of the updated Terms. If you do not agree to the revised Terms, you must stop using the
+                Services.</p>
+            <p>We encourage you to review these Terms periodically to stay informed of your rights and obligations.</p>
+        </section>
+
+        <!-- 18 -->
+        <section class="legal-section" id="contact">
+            <span class="section-num">18</span>
+            <h2>Contact Information</h2>
+            <p>If you have questions or concerns about these Terms, please contact us:</p>
+            <ul>
+                <li><strong>Email:</strong> legal@dreamz.sleep</li>
+                <li><strong>General Inquiries:</strong> hello@dreamz.sleep</li>
+                <li><strong>Mailing Address:</strong> Dreamz, Inc., Legal Department, [Address], Delaware, USA</li>
+            </ul>
+            <p>For urgent safety concerns related to the device, please email <strong>safety@dreamz.sleep</strong>.</p>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="legal-footer">
+        <a href="index.html" class="footer-logo">Dream<span>z</span></a>
+        <nav class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="dreamz-blog.html">Blog</a>
+            <a href="terms.html" style="color:var(--violet);">Terms of Service</a>
+            <a href="privacy.html">Privacy Policy</a>
+        </nav>
+        <p class="footer-copy">&copy; 2026 Dreamz, Inc. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Custom cursor
+        
+        // PLATFORM-AWARE CURSOR TOGGLE (PC/Mac only)
+        (() => {
+            const platformRaw = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+            const ua = navigator.userAgent || '';
+            const isDesktopOS = /Win|Mac/i.test(platformRaw);
+            const isMobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+            const hasFinePointer = window.matchMedia ? window.matchMedia('(pointer: fine)').matches : true;
+            const useCustomCursor = isDesktopOS && !isMobileUA && hasFinePointer;
+
+            const platformLabel = /Win/i.test(platformRaw)
+                ? 'windows'
+                : /Mac/i.test(platformRaw)
+                    ? 'macos'
+                    : 'other';
+
+            document.documentElement.dataset.clientPlatform = platformLabel;
+            document.documentElement.classList.toggle('no-custom-cursor', !useCustomCursor);
+            window.__dreamzUseCustomCursor = useCustomCursor;
+        })();
+
+const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            ring.style.left = e.clientX + 'px';
+            ring.style.top = e.clientY + 'px';
+        });
+    </script>
+</body>
+
+</html>
