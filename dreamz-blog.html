@@ -415,6 +415,31 @@
         html.no-custom-cursor #cursor-ring {
             display: none !important;
         }
+
+        /* Default: hide custom cursor until desktop eligibility is confirmed */
+        #cursor,
+        #cursor-ring {
+            display: none;
+        }
+
+        html.use-custom-cursor #cursor,
+        html.use-custom-cursor #cursor-ring {
+            display: block;
+        }
+
+        /* Hard-stop on phones/tablets */
+        @media (hover: none), (pointer: coarse) {
+            #cursor,
+            #cursor-ring {
+                display: none !important;
+            }
+
+            html,
+            body,
+            * {
+                cursor: auto !important;
+            }
+        }
 </style>
 </head>
 <body>
@@ -956,6 +981,7 @@
 
             document.documentElement.dataset.clientPlatform = platformLabel;
             document.documentElement.classList.toggle('no-custom-cursor', !useCustomCursor);
+            document.documentElement.classList.toggle('use-custom-cursor', useCustomCursor);
             window.__dreamzUseCustomCursor = useCustomCursor;
         })();
 
