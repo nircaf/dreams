@@ -14,14 +14,14 @@
     <meta name="author" content="Dreamz">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="theme-color" content="#04050d">
-    <link rel="canonical" href="https://dreamz.sleep/">
+    <link rel="canonical" href="https://hypnodreamz.com/">
 
     <!-- ── OPEN GRAPH ────────────────────────────────────────────────── -->
     <meta property="og:type" content="product">
     <meta property="og:title" content="Dreamz — Sleep Neurotechnology Mask">
     <meta property="og:description"
         content="Wearable sleep neurotechnology mask. Reduce sleep onset by 38%. Improve sleep quality by 62%. Wake up restored.">
-    <meta property="og:url" content="https://dreamz.sleep/">
+    <meta property="og:url" content="https://hypnodreamz.com/">
     <meta property="og:site_name" content="Dreamz">
     <meta property="og:locale" content="en_US">
     <meta property="product:availability" content="preorder">
@@ -38,9 +38,9 @@
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": "https://dreamz.sleep/#organization",
+  "@id": "https://hypnodreamz.com/#organization",
   "name": "Dreamz",
-  "url": "https://dreamz.sleep/",
+  "url": "https://hypnodreamz.com/",
   "description": "Dreamz develops wearable sleep neurotechnology that combines brain sensing and gentle stimulation to improve sleep quality and daily wellness.",
   "foundingDate": "2024",
   "slogan": "Sleep well. Live well.",
@@ -53,9 +53,9 @@
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "@id": "https://dreamz.sleep/#product",
+  "@id": "https://hypnodreamz.com/#product",
   "name": "Dreamz Sleep Mask",
-  "image": "https://dreamz.sleep/image.jpg",
+  "image": "https://hypnodreamz.com/Photos/Mask/front.jpg",
   "description": "A wearable sleep neurotechnology platform combining real-time brain activity sensing with adaptive gentle stimulation. Helps users fall asleep faster, reach deeper sleep stages, and wake up restored.",
   "brand": {
     "@type": "Brand",
@@ -69,7 +69,7 @@
   },
   "offers": {
     "@type": "Offer",
-    "url": "https://dreamz.sleep/",
+    "url": "https://hypnodreamz.com/",
     "availability": "https://schema.org/PreOrder",
     "priceCurrency": "USD",
     "price": "0.00",
@@ -131,20 +131,20 @@
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Dreamz — Sleep Neurotechnology",
-  "url": "https://dreamz.sleep/",
+  "url": "https://hypnodreamz.com/",
   "description": "Official home of Dreamz, the wearable sleep neurotechnology mask.",
   "breadcrumb": {
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dreamz.sleep/" },
-      { "@type": "ListItem", "position": 2, "name": "Technology", "item": "https://dreamz.sleep/#technology" },
-      { "@type": "ListItem", "position": 3, "name": "How It Works", "item": "https://dreamz.sleep/#how" },
-      { "@type": "ListItem", "position": 4, "name": "Science", "item": "https://dreamz.sleep/#science" },
-      { "@type": "ListItem", "position": 5, "name": "Join Waitlist", "item": "https://dreamz.sleep/#cta" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://hypnodreamz.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Technology", "item": "https://hypnodreamz.com/#technology" },
+      { "@type": "ListItem", "position": 3, "name": "How It Works", "item": "https://hypnodreamz.com/#how" },
+      { "@type": "ListItem", "position": 4, "name": "Science", "item": "https://hypnodreamz.com/#science" },
+      { "@type": "ListItem", "position": 5, "name": "Join Waitlist", "item": "https://hypnodreamz.com/#cta" }
     ]
   },
-  "mainEntity": { "@id": "https://dreamz.sleep/#product" },
-  "publisher": { "@id": "https://dreamz.sleep/#organization" }
+  "mainEntity": { "@id": "https://hypnodreamz.com/#product" },
+  "publisher": { "@id": "https://hypnodreamz.com/#organization" }
 }
 </script>
 
@@ -1005,9 +1005,24 @@
         .carousel-viewer {
             position: relative;
             height: 540px;
-            background: radial-gradient(ellipse at 40% 50%, rgba(13, 19, 48, 0.5) 0%, rgba(4, 5, 13, 0.5) 70%);
+            background: radial-gradient(ellipse at 40% 50%, rgba(138, 157, 232, 0.5) 0%, rgba(13, 19, 48, 0.6) 70%);
             border: none;
             overflow: hidden;
+        }
+
+        .carousel-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(138, 157, 232, 0.2);
+            border-top-color: var(--violet);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 5;
+            transition: opacity 0.5s;
         }
 
         #carousel-canvas {
@@ -1669,6 +1684,7 @@
 
             <div class="hero-carousel-wrap" style="opacity:0;animation:fadeIn 1.2s 0.6s forwards;">
                 <div class="carousel-viewer">
+                    <div id="carousel-spinner" class="carousel-spinner"></div>
                     <canvas id="carousel-canvas"></canvas>
                     <div class="carousel-info" id="carousel-info"></div>
                     <button class="carousel-arrow carousel-prev" onclick="carouselPrev()" aria-label="Previous">
@@ -2583,8 +2599,15 @@ const cursor = document.getElementById('cursor');
                     carouselScene.scene.add(model);
                     if (carouselScene.mesh) carouselScene.mesh.visible = false;
                     renderCarouselInfo(0);
+                    const spinner = document.getElementById('carousel-spinner');
+                    if (spinner) {
+                        spinner.style.opacity = '0';
+                        setTimeout(() => spinner.style.display = 'none', 500);
+                    }
                 }, undefined, (err) => {
                     console.warn('GLB load failed, placeholder shown:', err);
+                    const spinner = document.getElementById('carousel-spinner');
+                    if (spinner) spinner.style.display = 'none';
                 });
             });
         }
