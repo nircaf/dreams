@@ -50,3 +50,4 @@ Photos/*.jpeg
 Photos/*.png
 kicad/pcba-backups/
 BU*/
+.a5c/
