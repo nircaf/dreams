@@ -425,9 +425,15 @@
         }
 </style>
 
-    <link rel="icon" type="image/x-icon" href="assets/branding/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/branding/favicon-32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/branding/apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" href="assets/branding/favicon-light.ico" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/branding/favicon-32-light.png" media="(prefers-color-scheme: light)">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/branding/apple-touch-icon-light.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/x-icon" href="assets/branding/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/branding/favicon-32-dark.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/branding/apple-touch-icon-dark.png" media="(prefers-color-scheme: dark)">
+    <script>
+(function(){function u(d){var s=d?'-dark':'-light',q=document.querySelectorAll.bind(document);q('link[rel="icon"][type="image/x-icon"]').forEach(function(l){l.href=l.href.replace(/favicon(-light|-dark)?\.ico/,'favicon'+s+'.ico');});q('link[rel="icon"][type="image/png"]').forEach(function(l){l.href=l.href.replace(/favicon-32(-light|-dark)?\.png/,'favicon-32'+s+'.png');});q('link[rel="apple-touch-icon"]').forEach(function(l){l.href=l.href.replace(/apple-touch-icon(-light|-dark)?\.png/,'apple-touch-icon'+s+'.png');});}var m=window.matchMedia('(prefers-color-scheme: dark)');u(m.matches);m.addEventListener('change',function(e){u(e.matches);});})();
+</script>
 
 </head>
 
