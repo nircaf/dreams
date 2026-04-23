@@ -114,16 +114,19 @@
         }
 
         .nav-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.7rem;
-            font-weight: 300;
-            letter-spacing: 0.08em;
-            color: var(--white);
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
+            line-height: 0;
             text-decoration: none;
+            width: clamp(180px, 28vw, 320px);
         }
 
-        .nav-logo span {
-            color: var(--violet);
+        .dreamz-logo {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0.75;
         }
 
         .nav-links {
@@ -373,15 +376,23 @@
         }
 
         .footer-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
-            font-weight: 300;
-            color: var(--muted);
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
+            line-height: 0;
+            opacity: 0.82;
             text-decoration: none;
+            transition: opacity 0.3s ease;
         }
 
-        .footer-logo span {
-            color: var(--violet);
+        .footer-logo:hover {
+            opacity: 1;
+        }
+
+        .footer-logo img {
+            display: block;
+            width: auto;
+            height: clamp(28px, 2.6vw, 36px);
         }
 
         .footer-links {
@@ -416,6 +427,10 @@
                 padding: 1.2rem 1.5rem;
             }
 
+            .nav-logo {
+                width: clamp(180px, 56vw, 320px);
+            }
+
             .page-hero {
                 padding: 8rem 1.5rem 3rem;
             }
@@ -439,7 +454,7 @@
                 overflow-x: auto;
             }
         }
-    
+
         /* Disable custom cursor on non-desktop platforms */
         html.no-custom-cursor,
         html.no-custom-cursor * {
@@ -475,6 +490,7 @@
                 cursor: auto !important;
             }
         }
+
 </style>
 
     <link rel="icon" type="image/x-icon" href="assets/branding/favicon-light.ico" media="(prefers-color-scheme: light)">
@@ -495,7 +511,9 @@
 
     <!-- NAV -->
     <nav>
-        <a href="index.html" class="nav-logo">Dream<span>z</span></a>
+        <a href="index.html" class="nav-logo" aria-label="Dreamz home">
+            <img src="Logo/Logo_dark_website.png" alt="Dreamz logo" class="dreamz-logo">
+        </a>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="index.html#technology">Technology</a></li>
@@ -1151,7 +1169,9 @@
 
     <!-- FOOTER -->
     <footer class="legal-footer">
-        <a href="index.html" class="footer-logo">Dream<span>z</span></a>
+        <a href="index.html" class="footer-logo" aria-label="Dreamz home">
+            <img src="Logo/Logo_dark_website.png" alt="Dreamz">
+        </a>
         <nav class="footer-links">
             <a href="index.html">Home</a>
             <a href="dreamz-blog.html">Blog</a>

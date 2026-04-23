@@ -74,8 +74,8 @@
   /* NAV */
   nav { position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:1.6rem 4rem; z-index:100; transition:background .4s,border .4s; }
   nav.scrolled { background:rgba(4,5,13,0.95); border-bottom:1px solid var(--border); backdrop-filter:blur(12px); }
-  .nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--white); text-decoration:none; }
-  .nav-logo span { color:var(--teal); }
+  .nav-logo { display:inline-flex; align-items:center; flex-shrink:0; line-height:0; text-decoration:none; width:clamp(180px,32vw,360px); }
+  .dreamz-logo { width:100%; height:auto; display:block; opacity:.75; }
   .nav-links { display:flex; gap:2.5rem; list-style:none; }
   .nav-links a { font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .3s; }
   .nav-links a:hover,.nav-links a.active { color:var(--white); }
@@ -283,9 +283,9 @@
   /* FOOTER */
   footer { border-top:1px solid var(--border); position:relative; z-index:1; }
   .footer-top { padding:2.5rem 4rem; }
-  .footer-logo { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:var(--muted); text-decoration:none; transition:color .3s; }
-  .footer-logo:hover { color:var(--white); }
-  .footer-logo span { color:var(--teal); }
+  .footer-logo { display:inline-flex; align-items:center; flex-shrink:0; line-height:0; opacity:.82; text-decoration:none; transition:opacity .3s ease; }
+  .footer-logo:hover { opacity:1; }
+  .footer-logo img { display:block; width:auto; height:clamp(26px,2.6vw,34px); }
   .footer-tagline { font-family:'Space Mono',monospace; font-size:0.58rem; letter-spacing:0.15em; text-transform:uppercase; color:rgba(184,196,248,0.2); margin-top:0.4rem; }
   .footer-bottom { padding:1.5rem 4rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
   .footer-copy { font-size:0.7rem; color:rgba(184,196,248,0.2); letter-spacing:0.08em; }
@@ -296,6 +296,7 @@
   /* MOBILE */
   @media (max-width:1024px) {
     nav { padding:1.2rem 2rem; }
+    .nav-logo { width:clamp(180px,48vw,360px); }
     .nav-links { display:none; }
     #research-hero { grid-template-columns:1fr; padding:8rem 2rem 3rem; gap:2.5rem; }
     #filter-bar { padding:0 2rem; top:60px; }
@@ -367,7 +368,9 @@
 <canvas id="bg-canvas"></canvas>
 
 <nav id="nav" role="navigation" aria-label="Main navigation">
-  <a href="dreamz.html" class="nav-logo">Dreamz<span>.</span></a>
+  <a href="dreamz.html" class="nav-logo" aria-label="Dreamz home">
+    <img src="Logo/Logo_dark_website.png" alt="Dreamz logo" class="dreamz-logo">
+  </a>
   <ul class="nav-links" role="list">
     <li><a href="dreamz.html#technology">Technology</a></li>
     <li><a href="dreamz.html#science">Science</a></li>
@@ -754,7 +757,9 @@
 
 <footer role="contentinfo">
   <div class="footer-top">
-    <a href="dreamz.html" class="footer-logo">Dreamz<span>.</span></a>
+    <a href="dreamz.html" class="footer-logo" aria-label="Dreamz home">
+      <img src="Logo/Logo_dark_website.png" alt="Dreamz">
+    </a>
     <p class="footer-tagline">Sleep well. Live well.</p>
   </div>
   <div class="footer-bottom">

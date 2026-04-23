@@ -306,16 +306,19 @@
         }
 
         .nav-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.7rem;
-            font-weight: 300;
-            letter-spacing: 0.08em;
-            color: var(--white);
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
+            line-height: 0;
             text-decoration: none;
+            width: clamp(180px, 32vw, 360px);
         }
 
-        .nav-logo span {
-            color: var(--violet);
+        .dreamz-logo {
+            width: 100%;
+            height: auto;
+            display: block;
+            opacity: 0.75;
         }
 
         .nav-links {
@@ -1301,20 +1304,23 @@
         }
 
         .footer-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            font-weight: 300;
-            color: var(--muted);
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
+            line-height: 0;
+            opacity: 0.82;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: opacity 0.3s ease;
         }
 
         .footer-logo:hover {
-            color: var(--white);
+            opacity: 1;
         }
 
-        .footer-logo span {
-            color: var(--violet);
+        .footer-logo img {
+            display: block;
+            width: auto;
+            height: clamp(28px, 2.6vw, 38px);
         }
 
         .footer-tagline {
@@ -1548,6 +1554,10 @@
                 padding: 1.2rem 2rem;
             }
 
+            .nav-logo {
+                width: clamp(180px, 48vw, 360px);
+            }
+
             .nav-links {
                 display: none;
             }
@@ -1627,6 +1637,7 @@
                 cursor: auto !important;
             }
         }
+
 </style>
 
     <link rel="icon" type="image/x-icon" href="assets/branding/favicon-light.ico" media="(prefers-color-scheme: light)">
@@ -1652,7 +1663,9 @@
 
     <!-- NAV -->
     <nav id="nav" role="navigation" aria-label="Main navigation">
-        <a href="#hero" class="nav-logo" aria-label="Dreamz - home">Dreamz<span>.</span></a>
+        <a href="#hero" class="nav-logo" aria-label="Dreamz - home">
+            <img src="Logo/Logo_dark_website.png" alt="Dreamz logo" class="dreamz-logo">
+        </a>
         <ul class="nav-links" role="list">
             <li><a href="#technology" aria-label="Explore Dreamz technology">Technology</a></li>
             <li><a href="#how" aria-label="Learn how Dreamz works">How It Works</a></li>
@@ -2261,7 +2274,9 @@
     <footer role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
         <div class="footer-top">
             <div class="footer-brand">
-                <a href="#hero" class="footer-logo" aria-label="Dreamz home">Dreamz<span>.</span></a>
+                <a href="#hero" class="footer-logo" aria-label="Dreamz home">
+                    <img src="Logo/Logo_dark_website.png" alt="Dreamz">
+                </a>
                 <p class="footer-tagline">Sleep well. Live well.</p>
             </div>
         </div>

@@ -86,11 +86,19 @@
     backdrop-filter: blur(12px);
   }
   .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem; font-weight: 300;
-    color: var(--white); text-decoration: none; letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    line-height: 0;
+    text-decoration: none;
+    width: clamp(180px, 32vw, 360px);
   }
-  .nav-logo span { color: var(--teal); }
+  .dreamz-logo {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.75;
+  }
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a {
     font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
@@ -354,12 +362,20 @@
   .footer-top { padding: 2.5rem 4rem; }
   .footer-brand { display: flex; flex-direction: column; gap: 0.4rem; }
   .footer-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem; font-weight: 300;
-    color: var(--muted); text-decoration: none; transition: color 0.3s;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    line-height: 0;
+    opacity: 0.82;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
   }
-  .footer-logo:hover { color: var(--white); }
-  .footer-logo span { color: var(--teal); }
+  .footer-logo:hover { opacity: 1; }
+  .footer-logo img {
+    display: block;
+    width: auto;
+    height: clamp(26px, 2.6vw, 34px);
+  }
   .footer-tagline {
     font-family: 'Space Mono', monospace;
     font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
@@ -389,6 +405,7 @@
   /* MOBILE */
   @media (max-width: 1024px) {
     nav { padding: 1.2rem 2rem; }
+    .nav-logo { width: clamp(180px, 48vw, 360px); }
     .nav-links { display: none; }
     #blog-hero { padding: 8rem 2rem 3rem; }
     #featured { padding: 3rem 2rem; }
@@ -428,18 +445,18 @@
         }
 
         /* Hard-stop on phones/tablets */
-        @media (hover: none), (pointer: coarse) {
-            #cursor,
-            #cursor-ring {
-                display: none !important;
+  @media (hover: none), (pointer: coarse) {
+    #cursor,
+    #cursor-ring {
+      display: none !important;
             }
 
             html,
             body,
             * {
-                cursor: auto !important;
-            }
-        }
+      cursor: auto !important;
+    }
+  }
 </style>
 
     <link rel="icon" type="image/x-icon" href="assets/branding/favicon-light.ico" media="(prefers-color-scheme: light)">
@@ -460,7 +477,9 @@
 <canvas id="bg-canvas"></canvas>
 
 <nav id="nav" role="navigation" aria-label="Main navigation">
-  <a href="dreamz.html" class="nav-logo">Dreamz<span>.</span></a>
+  <a href="dreamz.html" class="nav-logo" aria-label="Dreamz home">
+    <img src="Logo/Logo_dark_website.png" alt="Dreamz logo" class="dreamz-logo">
+  </a>
   <ul class="nav-links" role="list">
     <li><a href="dreamz.html#technology">Technology</a></li>
     <li><a href="dreamz.html#how">How It Works</a></li>
@@ -955,7 +974,9 @@
 <footer role="contentinfo">
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="dreamz.html" class="footer-logo">Dreamz<span>.</span></a>
+      <a href="dreamz.html" class="footer-logo" aria-label="Dreamz home">
+        <img src="Logo/Logo_dark_website.png" alt="Dreamz">
+      </a>
       <p class="footer-tagline">Sleep well. Live well.</p>
     </div>
   </div>
