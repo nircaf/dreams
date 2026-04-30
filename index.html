@@ -1608,7 +1608,7 @@
 
 </head>
 
-<body>
+<body data-footer-type="landing" data-active-page="home">
 
     <!-- CUSTOM CURSOR -->
     <div id="cursor"></div>
@@ -1618,21 +1618,7 @@
     <canvas id="bg-canvas"></canvas>
 
     <!-- NAV -->
-    <nav id="nav" role="navigation" aria-label="Main navigation">
-        <a href="#hero" class="nav-logo" aria-label="Dreamz - home">
-            <img src="Logo/Logo_dark_website.png" alt="Dreamz logo" class="dreamz-logo">
-        </a>
-        <ul class="nav-links" role="list">
-            <li><a href="#technology" aria-label="Explore Dreamz technology">Technology</a></li>
-            <li><a href="#how" aria-label="Learn how Dreamz works">How It Works</a></li>
-            <li><a href="#science" aria-label="The science behind Dreamz">Science</a></li>
-            <li><a href="#faq" aria-label="Frequently asked questions">FAQ</a></li>
-            <li><a href="dreamz-blog.html" aria-label="Dreamz Blog">Blog</a></li>
-            <li><a href="dreamz-research.html" aria-label="Research">Research</a></li>
-        </ul>
-        <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})"
-            aria-label="Join the Dreamz waitlist">Join Waitlist</button>
-    </nav>
+    <div data-dreamz-nav></div>
 
     <main id="main-content" role="main">
 
@@ -2227,25 +2213,11 @@
     </div>
 
     <!-- FOOTER -->
-    <footer role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
-        <div class="footer-bottom">
-            <div class="footer-bottom-row">
-                <p class="footer-copy">© 2025 Dreamz. Sleep Neurotechnology. All rights reserved.</p>
-                <div class="footer-legal-links">
-                    <a href="#">About</a>
-                    <a href="#">Care &amp; Washing</a>
-                    <a href="#">Safety Guide</a>
-                    <a href="contact.html">Contact</a>
-                    <a href="term/index.html">Terms &amp; Conditions</a>
-                </div>
-            </div>
-            <div class="footer-policy-links">
-            </div>
-        </div>
-    </footer>
+    <div data-dreamz-footer></div>
 
     <!-- THREE.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="assets/site-chrome.js"></script>
     <script src="assets/shared.js"></script>
 </body>
 

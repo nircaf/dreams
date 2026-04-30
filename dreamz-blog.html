@@ -470,25 +470,13 @@
 </script>
 
 </head>
-<body>
+<body data-footer-type="editorial" data-active-page="blog">
 
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 <canvas id="bg-canvas"></canvas>
 
-<nav id="nav" role="navigation" aria-label="Main navigation">
-  <a href="dreamz.html" class="nav-logo" aria-label="Dreamz home">
-    <img src="Logo/Logo_dark_website.png" alt="Dreamz logo" class="dreamz-logo">
-  </a>
-  <ul class="nav-links" role="list">
-    <li><a href="dreamz.html#technology">Technology</a></li>
-    <li><a href="dreamz.html#how">How It Works</a></li>
-    <li><a href="dreamz.html#science">Science</a></li>
-    <li><a href="dreamz-blog.html" class="active">Blog</a></li>
-    <li><a href="dreamz-research.html">Research</a></li>
-  </ul>
-  <button class="nav-cta" onclick="window.location.href='dreamz.html#cta'">Join Waitlist</button>
-</nav>
+<div data-dreamz-nav></div>
 
 <main role="main">
 
@@ -971,27 +959,8 @@
   <a href="#post-16" style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(184,196,248,0.2); text-decoration:none;">10-Minute NSDR Reset</a>
 </div>
 
-<footer role="contentinfo">
-  <div class="footer-top">
-    <div class="footer-brand">
-      <a href="dreamz.html" class="footer-logo" aria-label="Dreamz home">
-        <img src="Logo/Logo_dark_website.png" alt="Dreamz">
-      </a>
-      <p class="footer-tagline">Sleep well. Live well.</p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p class="footer-copy">© 2025 Dreamz. Sleep Neurotechnology. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="dreamz.html">Home</a>
-      <a href="dreamz-blog.html">Blog</a>
-      <a href="dreamz.html#faq">FAQ</a>
-      <a href="dreamz.html#cta">Waitlist</a>
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-    </div>
-  </div>
-</footer>
+<div data-dreamz-footer></div>
+<script src="assets/site-chrome.js"></script>
 
 <script>
 // CURSOR
