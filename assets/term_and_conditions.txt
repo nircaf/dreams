@@ -1,0 +1,552 @@
+DREAMZ TERMS & CONDITIONS 
+1. ACCEPTANCE OF TERMS AND BINDING AGREEMENT
+
+By purchasing, downloading, installing, accessing, activating, or otherwise using the Device, mobile application, firmware, or any associated services (collectively, the “Platform”), you acknowledge that you have read, understood, and agreed to be legally bound by these Terms & Conditions.
+
+This agreement constitutes a binding legal contract between you and the Company. Your continued use of the Platform signifies ongoing acceptance of these Terms, including any updates or modifications made from time to time.
+
+If you do not agree to these Terms, you must immediately discontinue use of the Platform and return any purchased hardware in accordance with the applicable return policy. Continued use after any updates constitutes acceptance of those updated Terms.
+
+2. ELIGIBILITY AND AGE RESTRICTIONS
+
+The Platform is intended strictly for adult use and is not designed, tested, or approved for use by minors.
+
+Minimum Age Requirement:
+You must be at least 18 years old to create an account, purchase, or use the Device.
+
+Strict Exclusion:
+The Platform is not intended for children under any circumstances. Any use by minors is strictly prohibited.
+
+User Representation:
+By using the Platform, you represent and warrant that you meet all eligibility requirements and are legally capable of entering into a binding agreement.
+
+Verification Rights:
+The Company reserves the right to verify age and identity at any time, including requesting documentation or suspending access if eligibility cannot be confirmed.
+
+3. GENERAL WELLNESS AND MEDICAL DISCLAIMER
+
+The Dreamz Platform is explicitly designed as a general wellness product.
+
+Non-Medical Classification:
+The Device is not a medical device and has not been evaluated, cleared, or approved by regulatory authorities such as the U.S. Food and Drug Administration (FDA).
+
+No Medical Claims:
+The Platform is not intended to diagnose, treat, cure, mitigate, or prevent any disease or medical condition.
+
+Informational Outputs Only:
+All insights, sleep scores, analytics, and recommendations are provided for informational and educational purposes only and should not be interpreted as medical advice.
+
+No Clinical Relationship:
+Use of the Platform does not establish a doctor-patient or clinician-patient relationship.
+
+User Responsibility:
+You are solely responsible for your health decisions and should consult a licensed healthcare professional before using the Device if you have any medical concerns.
+
+4. CONTRAINDICATIONS AND SAFETY WARNINGS
+
+The Device incorporates neuromodulation technology and must be used responsibly.
+
+The Platform must NOT be used by individuals who:
+
+Are pregnant or may be pregnant
+Have epilepsy or a history of seizures
+Have diagnosed neurological disorders
+Have implanted electronic medical devices (e.g., pacemakers, neurostimulators)
+
+Additional Safety Considerations:
+
+Do not use the Device while operating machinery or in hazardous environments
+Do not use if you experience discomfort, irritation, or unexpected reactions
+Discontinue use immediately if adverse symptoms occur
+
+User Duty of Care:
+You are responsible for ensuring that your use complies with all safety guidelines and restrictions.
+
+5. INFORMED CONSENT FOR NEUROMODULATION
+
+By using the Device, you explicitly acknowledge and consent to receiving non-invasive electrical stimulation.
+
+Technology Description:
+The Platform may utilize neuromodulation methods such as tDCS and tACS, which apply low-level electrical currents to influence neural activity.
+
+Acknowledgment of Variability:
+You understand that individual responses to neuromodulation may vary significantly and that outcomes are not guaranteed.
+
+Potential Effects:
+You may experience mild, temporary sensations such as tingling, warmth, or skin irritation.
+
+Assumption of Risk:
+You voluntarily assume all risks associated with use, including unknown or unforeseeable effects, and agree that use is at your sole discretion.
+
+6. HARDWARE SPECIFICATIONS AND INTENDED USE
+
+The Device is a wearable neurotechnology system designed for sleep-related wellness optimization.
+
+Core Functional Capabilities:
+
+Measures brain activity via EEG
+Delivers controlled neurostimulation
+Operates using a closed-loop responsive system
+
+Hardware Components Include:
+
+Microcontroller (nRF52840)
+EEG acquisition system (ADS1292)
+Neurostimulation front end (AFE4300)
+Lithium-ion battery and power management system
+
+Intended Use:
+The Device is intended solely for personal, non-clinical, wellness use.
+
+Prohibited Use:
+
+Any medical or diagnostic use
+Modification or unauthorized integration with other systems
+Use outside documented guidelines
+7. USER RESPONSIBILITIES: CARE AND MAINTENANCE
+
+Proper handling is essential to ensure safety and performance.
+
+User Obligations:
+
+Remove electronics before washing
+Keep all electronic components dry at all times
+Use only approved charging equipment
+Avoid physical damage, bending, or modification
+
+Cleaning Instructions:
+
+Wash fabric components only on cold, gentle cycle
+Air dry completely before reassembly
+
+Failure to follow care instructions may:
+
+Void warranty
+Cause device malfunction
+Increase safety risks
+8. SOFTWARE LICENSE AND FIRMWARE UPDATES
+
+The Company grants you a limited license to use the Platform.
+
+License Scope:
+
+Non-exclusive
+Non-transferable
+Revocable
+
+Restrictions:
+You may NOT:
+
+Reverse engineer or decompile
+Modify or replicate software
+Attempt unauthorized access
+
+Updates:
+The Company may deploy automatic updates, including:
+
+Algorithm improvements
+Feature modifications
+Security patches
+
+These updates may change how the Device functions, including stimulation behavior.
+
+9. DATA PRIVACY AND NEURAL TELEMETRY
+
+Use of the Platform involves collection and processing of user data.
+
+Data Types Collected:
+
+Account and profile data
+EEG and physiological signals
+Device telemetry and usage logs
+Stimulation parameters
+Communications and support data
+Payment and transaction data
+Analytics and identifiers
+
+Purpose of Data Use:
+
+Personalization of user experience
+Algorithm optimization (including reinforcement learning)
+Product improvement and research
+Platform functionality and security
+
+Anonymized Data:
+Aggregated, anonymized data may be used for research and development.
+
+User Responsibility:
+You are responsible for maintaining the confidentiality of your account credentials.
+
+10. LIMITATION OF LIABILITY AND INDEMNIFICATION
+
+To the fullest extent permitted by law:
+
+Limitation of Liability:
+The Company’s total liability shall not exceed the purchase price of the Device.
+
+Disclaimer of Damages:
+The Company shall not be liable for:
+
+Indirect damages
+Incidental damages
+Consequential damages
+Loss of data, sleep quality, or productivity
+
+User Assumption:
+You accept full responsibility for use of the Device.
+
+Indemnification:
+You agree to indemnify and hold harmless the Company from any claims arising from:
+
+Misuse of the Device
+Violation of these Terms
+Third-party claims related to your use
+11. WARRANTY AND RETURNS
+
+Limited Warranty:
+Covers manufacturing defects for a defined period.
+
+Exclusions:
+
+Water damage
+Unauthorized modifications
+Normal wear and tear
+
+Returns:
+Governed by the purchase agreement and applicable policies.
+
+No Guarantee of Results:
+The Company does not guarantee improvements in sleep or performance.
+
+12. TERMINATION AND MODIFICATIONS
+
+Termination Rights:
+The Company may suspend or terminate access for violations of these Terms.
+
+Modifications:
+These Terms may be updated at any time.
+
+User Obligation:
+Continued use constitutes acceptance of updated Terms.
+
+13. GOVERNING LAW AND DISPUTE RESOLUTION
+
+These Terms are governed by applicable laws in the Company’s jurisdiction.
+
+Dispute Resolution:
+Disputes shall be resolved through appropriate legal forums, which may include arbitration where permitted.
+
+Severability:
+If any provision is found invalid, the remaining provisions remain enforceable.
+
+DREAMZ PRIVACY POLICY
+
+This Privacy Policy explains how Dreamz (“Company,” “we,” “us,” or “our”) collects, uses, stores, shares, and protects personal data when you use the Dreamz wearable device, mobile application, firmware, and related services (collectively, the “Platform”).
+
+By accessing or using the Platform, you acknowledge that you have read and understood this Privacy Policy.
+
+1. SCOPE AND APPLICABILITY
+
+This Privacy Policy applies to all users of the Platform, including:
+
+Website visitors
+App users
+Device users
+Individuals interacting with customer support or marketing channels
+
+This Policy applies regardless of how you access the Platform, including mobile devices, desktops, or embedded firmware.
+
+This Policy does not apply to third-party services, applications, or websites that are not owned or controlled by the Company.
+
+2. KEY DEFINITIONS
+
+Personal Data: Any information that identifies or can reasonably be linked to an individual.
+
+Sensitive Data: A subset of Personal Data that includes physiological signals, neural activity (EEG), or health-related insights.
+
+Device Data / Neural Telemetry: Data generated by the Device, including EEG signals, stimulation parameters, and system metrics.
+
+Processing: Any operation performed on data, including collection, storage, analysis, or deletion.
+
+3. INFORMATION WE COLLECT
+
+We collect multiple categories of data to operate, improve, and personalize the Platform.
+
+3.1 Account and Profile Information
+Name or username
+Email address
+Login credentials
+Account preferences
+Demographic information (optional)
+3.2 Device and Usage Data
+Device identifiers
+Firmware version
+Battery status and performance
+Interaction logs (e.g., session start/stop, feature usage)
+Crash logs and diagnostic data
+3.3 Physiological and Neural Data
+EEG signals captured during use
+Derived sleep metrics (e.g., sleep stages, latency, stability)
+Sleep scores and trend data
+
+This category may be considered sensitive data under certain jurisdictions.
+
+3.4 Neurostimulation Data
+Stimulation type (e.g., tDCS, tACS)
+Frequency, amplitude, and timing
+Closed-loop adjustments and system decisions
+3.5 Communications and Support Data
+Messages sent to customer support
+Feedback submissions
+Survey responses
+3.6 Payment and Transaction Data
+Purchase history
+Subscription status
+Billing metadata (processed via third-party payment providers)
+3.7 Analytics and Marketing Data
+IP address
+Device type and operating system
+App usage behavior
+Cookies and advertising identifiers
+4. HOW WE USE YOUR INFORMATION
+
+We process your data for the following purposes:
+
+4.1 Platform Functionality
+Operate and maintain the Device and App
+Sync data between hardware and software
+Provide sleep insights and user dashboards
+4.2 Personalization and Optimization
+Tailor stimulation parameters to individual users
+Improve sleep recommendations and insights
+Adapt system behavior using reinforcement learning models
+4.3 Research and Product Development
+Analyze aggregated usage trends
+Improve algorithms and hardware performance
+Validate system effectiveness
+
+All research use is conducted on de-identified or aggregated data where feasible.
+
+4.4 Safety and System Integrity
+Monitor device performance
+Detect anomalies or misuse
+Ensure safe operation of neuromodulation features
+4.5 Communications
+Provide account-related notifications
+Send product updates and service messages
+Deliver optional marketing communications (with opt-out rights)
+4.6 Legal and Compliance
+Comply with applicable laws and regulations
+Enforce Terms & Conditions
+Respond to legal requests
+5. LEGAL BASIS FOR PROCESSING (WHERE APPLICABLE)
+
+Depending on your jurisdiction, we rely on the following legal bases:
+
+Consent: For sensitive data (e.g., EEG, neuromodulation data)
+Contractual necessity: To provide the Platform
+Legitimate interests: For product improvement and security
+Legal obligations: For compliance with applicable laws
+6. HOW WE SHARE INFORMATION
+
+We do not sell your personal data.
+
+We may share data in the following limited circumstances:
+
+6.1 Service Providers
+
+Third-party vendors that support:
+
+Cloud storage and infrastructure
+Payment processing
+Analytics and performance monitoring
+
+These providers are contractually obligated to protect your data.
+
+6.2 Research and Development
+
+We may share aggregated or de-identified data for:
+
+Scientific research
+Product validation
+Internal analytics
+6.3 Legal Requirements
+
+We may disclose data if required to:
+
+Comply with legal obligations
+Respond to lawful requests
+Protect rights, safety, or property
+6.4 Business Transfers
+
+In the event of a merger, acquisition, or sale of assets, your data may be transferred as part of that transaction.
+
+7. DATA RETENTION
+
+We retain data only as long as necessary to fulfill the purposes outlined in this Policy.
+
+Retention considerations include:
+
+Account activity status
+Legal and regulatory requirements
+System functionality needs
+
+You may request deletion of your data (see Section 10).
+
+8. DATA SECURITY
+
+We implement industry-standard security measures, including:
+
+Encryption of data in transit and at rest
+Access controls and authentication safeguards
+Monitoring for unauthorized access
+
+However, no system is completely secure. You acknowledge that use of the Platform is at your own risk.
+
+9. SENSITIVE DATA AND NEURODATA
+
+The Platform processes physiological and neural data, which may be considered sensitive.
+
+By using the Platform, you explicitly consent to:
+
+Collection of EEG and related signals
+Processing of stimulation data
+Use of such data for personalization and improvement
+
+We take additional precautions to protect this category of data, including:
+
+Minimization practices
+Restricted access controls
+Aggregation where possible
+10. YOUR PRIVACY RIGHTS
+
+Depending on your location, you may have the following rights:
+
+Access your personal data
+Correct inaccurate data
+Request deletion
+Restrict or object to processing
+Data portability
+
+To exercise these rights, contact: support@hypnodreamz.com
+
+We may need to verify your identity before fulfilling requests.
+
+11. CALIFORNIA PRIVACY RIGHTS (CCPA/CPRA)
+
+If you are a California resident, you have additional rights, including:
+
+Right to know what data is collected
+Right to request deletion
+Right to correct inaccurate data
+Right to opt out of data sharing for advertising
+
+We do not sell personal data as defined under California law.
+
+12. INTERNATIONAL DATA TRANSFERS
+
+Your data may be processed in jurisdictions outside your country of residence.
+
+Where required, we implement safeguards such as:
+
+Standard contractual clauses
+Equivalent data protection measures
+13. CHILDREN’S PRIVACY
+
+The Platform is not intended for individuals under 18.
+
+We do not knowingly collect data from children. If such data is identified, it will be deleted promptly.
+
+14. THIRD-PARTY SERVICES
+
+The Platform may integrate with third-party services.
+
+We are not responsible for the privacy practices of those third parties. You should review their policies independently.
+
+15. COOKIES AND TRACKING TECHNOLOGIES
+
+We use cookies and similar technologies to:
+
+Improve user experience
+Analyze platform usage
+Support marketing efforts
+
+You may control cookies through your browser settings.
+
+16. AUTOMATED DECISION-MAKING
+
+The Platform may use automated systems, including machine learning, to:
+
+Adjust stimulation parameters
+Generate sleep insights
+
+These systems are designed to support wellness optimization and do not make medical decisions.
+
+17. CHANGES TO THIS POLICY
+
+We may update this Privacy Policy at any time.
+
+Material changes will be communicated through:
+
+App notifications
+Website updates
+
+Continued use of the Platform constitutes acceptance of the updated Policy.
+
+18. CONTACT INFORMATION
+
+For questions or privacy-related requests, contact:
+
+Email: support@hypnodreamz.com
+Company: Dreamz
+
+19. CONFIDENTIALITY AND NON-DISCLOSURE
+
+Confidential Information Definition:
+You acknowledge that the Platform, including the Device, software, firmware, algorithms, stimulation protocols, designs, hardware architecture, data outputs, and any related materials or communications, constitute proprietary and confidential information of the Company (“Confidential Information”).
+
+Evaluation Use Context:
+If you are provided access to the Platform as part of a limited release, beta program, or evaluation (including early design partner access), such access is granted solely for personal evaluation and feedback purposes.
+
+Non-Disclosure Obligations:
+You agree that you will:
+
+Not disclose, share, publish, or otherwise make available any Confidential Information to any third party without prior written consent from the Company
+Not post, distribute, or discuss the Platform publicly (including on social media, forums, or with press)
+Not provide access to the Device or Platform to any unauthorized person
+Not use Confidential Information for any purpose other than personal evaluation
+
+Non-Use and Reverse Engineering Restrictions:
+You further agree that you will not:
+
+Copy, reproduce, or attempt to replicate the Device or its components
+Reverse engineer, decompile, or analyze the Platform for competitive or commercial purposes
+Derive or attempt to derive underlying algorithms, stimulation logic, or system design
+
+Ownership:
+All Confidential Information remains the sole and exclusive property of the Company. No rights, licenses, or ownership interests are granted to you except for the limited right to use the Platform as expressly permitted under these Terms.
+
+Duration of Obligations:
+These confidentiality obligations shall remain in effect during your use of the Platform and continue for a period of no less than five (5) years after termination of use, or longer to the extent permitted by law.
+
+Remedies:
+You acknowledge that any breach of this section may cause irreparable harm to the Company. The Company reserves the right to seek injunctive relief, damages, and any other remedies available under law or equity.
+
+20. MEDICAL DISCLAIMER AND USER SAFETY
+No Medical Advice:
+The Platform (including the Device and App) is provided for informational, wellness, and personal evaluation purposes only. It is not a medical device, is not regulated by the FDA or other medical authorities (unless explicitly stated otherwise in writing), and is not intended to diagnose, treat, cure, or prevent any disease or medical condition.
+
+User Assumption of Risk:
+You acknowledge that the use of neurostimulation (tDCS/tACS) and the monitoring of neurophysiological signals (EEG/ECG) involve inherent risks. By using the Platform, you voluntarily assume all risks associated with such activities, including but not limited to skin irritation, headaches, or other physiological responses. You agree to follow all safety guidelines provided by the Company.
+
+Consultation with Professionals:
+You should always seek the advice of a physician or other qualified health provider before using the Device, particularly if you have a history of neurological conditions, seizures, skin sensitivities, or if you have any implanted medical devices (e.g., pacemakers). Never disregard professional medical advice or delay seeking it because of information provided by the Platform.
+
+Hardware Safety & Compliance:
+You agree to use the Device only with the approved components and batteries (e.g., 401225 Li-Po cells) provided or specified by the Company. Any modification to the hardware, stimulation protocols, or electrode configuration (including DIY Ag/AgCl modifications) is strictly prohibited under the evaluation context and voids all safety warranties.
+
+Emergency Situations:
+The Platform is not a monitored emergency service. In the event of a medical emergency, immediately discontinue use and contact your local emergency services.
+
+Limitation of Liability:
+To the maximum extent permitted by law, the Company shall not be liable for any direct, indirect, or consequential damages arising from the use or inability to use the Platform, including any physical injury resulting from improper use or hardware failure.
