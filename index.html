@@ -1492,6 +1492,15 @@
                 grid-template-columns: 1fr;
             }
 
+            #technology {
+                padding: 4rem 2rem;
+            }
+
+            .tech-card {
+                padding: 2rem;
+                min-height: auto;
+            }
+
             .how-grid {
                 grid-template-columns: 1fr;
             }
@@ -1526,9 +1535,13 @@
 
             .stats-bar {
                 flex-wrap: wrap;
+                padding: 1.5rem 2rem;
             }
 
             .stat-item {
+                flex: 1 1 50%;
+                min-width: 50%;
+                padding: 1.25rem 1rem;
                 border-right: none;
                 border-bottom: 1px solid var(--border);
             }
@@ -1555,6 +1568,39 @@
 
             .section-internal-link {
                 margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            nav {
+                gap: 1rem;
+            }
+
+            .nav-cta {
+                padding: 0.75rem 1rem;
+                font-size: 0.68rem;
+                letter-spacing: 0.12em;
+                white-space: nowrap;
+            }
+
+            #technology,
+            #testimonials,
+            #faq {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            .section-title {
+                margin-bottom: 2.5rem;
+            }
+
+            .tech-card,
+            .testimonial-card {
+                padding: 1.6rem;
+            }
+
+            .tech-card h3 {
+                line-height: 1.25;
             }
         }
     
