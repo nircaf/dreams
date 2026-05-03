@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dreamz Pre-order | Reserve the Sleep Neurotechnology Mask</title>
+  <meta name="description" content="Pre-order Dreamz, the sleep neurotechnology mask designed to support deeper, more restorative sleep.">
+  <meta name="theme-color" content="#04050d">
+  <link rel="canonical" href="https://hypnodreamz.com/preorder.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://sdks.shopifycdn.com" crossorigin>
+  <link rel="preconnect" href="https://tally.so" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="assets/branding/favicon-light.ico" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/branding/favicon-32-light.png" media="(prefers-color-scheme: light)">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/branding/apple-touch-icon-light.png" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/x-icon" href="assets/branding/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/branding/favicon-32-dark.png" media="(prefers-color-scheme: dark)">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/branding/apple-touch-icon-dark.png" media="(prefers-color-scheme: dark)">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --ink: #04050d;
+      --midnight: #080c1a;
+      --deep: #0d1330;
+      --fog: #1a2040;
+      --indigo: #2a3580;
+      --iris: #4a5bcc;
+      --lavender: #8b9de8;
+      --glow: #b8c4f8;
+      --violet: #818CF8;
+      --violet-dim: #5B21B6;
+      --soft: #e8ebff;
+      --white: #f4f6ff;
+      --muted: rgba(184, 196, 248, 0.45);
+      --border: rgba(138, 157, 232, 0.15);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--ink);
+      color: var(--soft);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    #cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--violet);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+      mix-blend-mode: screen;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(129, 140, 248, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.3s, height 0.3s, border-color 0.3s;
+    }
+
+    body:has(a:hover) #cursor-ring,
+    body:has(button:hover) #cursor-ring {
+      width: 52px;
+      height: 52px;
+      border-color: var(--violet);
+    }
+
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.4rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(4, 5, 13, 0.9) 0%, transparent 100%);
+      backdrop-filter: blur(2px);
+      transition: background 0.4s, border-color 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(4, 5, 13, 0.95);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+      line-height: 0;
+      width: clamp(120px, 18vw, 220px);
+    }
+
+    .dreamz-logo {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.75;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--white);
+    }
+
+    .nav-cta {
+      padding: 0.55rem 1.5rem;
+      border: 1px solid var(--violet-dim);
+      background: transparent;
+      color: var(--violet);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: all 0.3s;
+    }
+
+    .nav-cta:hover {
+      background: var(--violet);
+      color: var(--ink);
+    }
+
+    main,
+    footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    .preorder-hero {
+      min-height: 92vh;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+      gap: 4rem;
+      align-items: center;
+      padding: 9rem 4rem 5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-eyebrow,
+    .section-label,
+    .detail-kicker {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--violet);
+    }
+
+    .hero-eyebrow {
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      max-width: 650px;
+      margin-bottom: 1.8rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 5.5vw, 5.6rem);
+      font-weight: 300;
+      line-height: 1.08;
+      color: var(--white);
+    }
+
+    .hero-title em {
+      color: var(--lavender);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      max-width: 480px;
+      margin-bottom: 2.4rem;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.9rem 2.4rem;
+      border: 0;
+      background: linear-gradient(135deg, var(--iris), var(--violet-dim));
+      color: var(--white);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: transform 0.35s;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--violet), var(--iris));
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+
+    .btn-primary:hover::after {
+      opacity: 1;
+    }
+
+    .btn-primary span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-secondary {
+      color: var(--lavender);
+      background: none;
+      border: 0;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      cursor: none;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      transition: color 0.3s;
+    }
+
+    .btn-secondary:hover {
+      color: var(--white);
+    }
+
+    .visual-panel {
+      border: 1px solid var(--border);
+      background: rgba(13, 19, 48, 0.52);
+      min-height: min(58vw, 620px);
+      display: grid;
+      grid-template-rows: minmax(360px, 1fr) auto;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .visual-panel:hover {
+      border-color: rgba(129, 140, 248, 0.34);
+      transform: translateY(-2px);
+    }
+
+    .placeholder-visual {
+      position: relative;
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 42%, rgba(138, 157, 232, 0.22), transparent 48%),
+        linear-gradient(180deg, rgba(13, 19, 48, 0.82), rgba(4, 5, 13, 0.96));
+    }
+
+    .placeholder-visual::before,
+    .placeholder-visual::after {
+      content: '';
+      position: absolute;
+      border: 1px solid rgba(138, 157, 232, 0.16);
+      border-radius: 50%;
+      transform: rotate(-9deg);
+    }
+
+    .placeholder-visual::before {
+      width: min(66%, 520px);
+      aspect-ratio: 2.9 / 1;
+    }
+
+    .placeholder-visual::after {
+      width: min(46%, 360px);
+      aspect-ratio: 3.4 / 1;
+      box-shadow: 0 0 80px rgba(129, 140, 248, 0.08);
+    }
+
+    .placeholder-mark {
+      position: relative;
+      z-index: 1;
+      width: min(62%, 440px);
+      aspect-ratio: 2.8 / 1;
+      border: 1px solid rgba(129, 140, 248, 0.42);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: rgba(232, 235, 255, 0.52);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      animation: placeholderBreath 4.8s ease-in-out infinite;
+    }
+
+    .visual-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      background: var(--midnight);
+    }
+
+    .visual-meta span {
+      padding: 1.15rem 1rem;
+      border-right: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .visual-meta span:last-child {
+      border-right: 0;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 1px;
+      padding: 0 4rem;
+      background: var(--border);
+    }
+
+    .detail-panel,
+    .checkout-panel {
+      background: var(--midnight);
+      padding: 4rem;
+      transition: background 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .detail-panel:hover,
+    .checkout-panel:hover {
+      background: rgba(13, 19, 48, 0.92);
+    }
+
+    .detail-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .detail-panel h2,
+    .checkout-panel h2 {
+      margin: 1rem 0 1.2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.18;
+      color: var(--white);
+    }
+
+    .detail-panel p,
+    .checkout-panel p {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+
+    .order-list {
+      margin-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .order-item {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 1.4rem;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .order-num {
+      color: var(--violet);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      padding-top: 0.18rem;
+    }
+
+    .order-item h3 {
+      margin-bottom: 0.35rem;
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+    }
+
+    .order-item p {
+      max-width: 440px;
+      font-size: 0.84rem;
+    }
+
+    .checkout-panel {
+      display: grid;
+      align-content: center;
+      min-height: 620px;
+    }
+
+    .waitlist-shell {
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      background: rgba(4, 5, 13, 0.55);
+      padding: 1.5rem;
+    }
+
+    .waitlist-shell iframe {
+      display: block;
+      width: 100%;
+      border: 0;
+      background: transparent;
+    }
+
+    .step-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 1.5rem;
+    }
+
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 34px;
+      padding: 0.48rem 0.8rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .step-pill.is-active {
+      border-color: rgba(129, 140, 248, 0.45);
+      color: var(--white);
+      background: rgba(129, 140, 248, 0.08);
+    }
+
+    .step-pill.is-complete {
+      border-color: rgba(129, 140, 248, 0.32);
+      color: var(--lavender);
+    }
+
+    .skip-waitlist {
+      justify-self: start;
+      margin-top: 1rem;
+      border: 0;
+      background: transparent;
+      color: rgba(184, 196, 248, 0.5);
+      cursor: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      transition: color 0.3s;
+    }
+
+    .skip-waitlist:hover {
+      color: var(--white);
+    }
+
+    .skip-waitlist:disabled {
+      color: rgba(184, 196, 248, 0.28);
+      cursor: default;
+      text-decoration-color: transparent;
+    }
+
+    .checkout-panel.is-locked .checkout-shell {
+      display: none;
+    }
+
+    .checkout-lock {
+      display: none;
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      background: rgba(4, 5, 13, 0.55);
+      padding: 2rem;
+    }
+
+    .checkout-panel.is-locked .checkout-lock {
+      display: block;
+    }
+
+    .checkout-lock strong {
+      display: block;
+      margin-bottom: 0.6rem;
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+    }
+
+    .checkout-lock p {
+      font-size: 0.84rem;
+    }
+
+    .checkout-shell {
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      background: rgba(4, 5, 13, 0.55);
+      padding: 2rem;
+    }
+
+    #product-component-1777784653771 {
+      min-height: 72px;
+    }
+
+    .checkout-note {
+      margin-top: 1.5rem;
+      color: rgba(184, 196, 248, 0.34);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .spec-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      padding: 0 4rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(13, 19, 48, 0.4);
+      backdrop-filter: blur(4px);
+    }
+
+    .spec {
+      padding: 2rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .spec:last-child {
+      border-right: 0;
+    }
+
+    .spec strong {
+      display: block;
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 2.7vw, 2.6rem);
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .spec span {
+      display: block;
+      margin-top: 0.6rem;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .disclaimer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 4rem;
+      color: rgba(184, 196, 248, 0.3);
+      font-size: 0.72rem;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-bottom {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .footer-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy {
+      color: rgba(184, 196, 248, 0.2);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-legal-links,
+    .footer-policy-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-legal-links a,
+    .footer-policy-links a {
+      color: rgba(184, 196, 248, 0.25);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .footer-legal-links a:hover,
+    .footer-policy-links a:hover {
+      color: var(--muted);
+    }
+
+    html.no-custom-cursor,
+    html.no-custom-cursor * {
+      cursor: auto !important;
+    }
+
+    html.no-custom-cursor #cursor,
+    html.no-custom-cursor #cursor-ring {
+      display: none !important;
+    }
+
+    #cursor,
+    #cursor-ring {
+      display: none;
+    }
+
+    html.use-custom-cursor #cursor,
+    html.use-custom-cursor #cursor-ring {
+      display: block;
+    }
+
+    @media (max-width: 1024px) {
+      nav {
+        padding: 1.2rem 2rem;
+      }
+
+      .nav-logo {
+        width: clamp(130px, 38vw, 220px);
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .preorder-hero,
+      .details {
+        grid-template-columns: 1fr;
+      }
+
+      .preorder-hero {
+        min-height: unset;
+        padding: 7rem 2rem 4rem;
+      }
+
+      .details,
+      .spec-strip {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+
+      .detail-panel,
+      .checkout-panel {
+        padding: 3rem 2rem;
+      }
+
+      .checkout-panel {
+        min-height: auto;
+      }
+
+      .spec-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .spec:nth-child(2) {
+        border-right: 0;
+      }
+
+      .spec:nth-child(-n + 2) {
+        border-bottom: 1px solid var(--border);
+      }
+    }
+
+    @media (max-width: 620px) {
+      body {
+        cursor: auto;
+      }
+
+      nav {
+        gap: 1rem;
+      }
+
+      .nav-cta {
+        padding: 0.75rem 1rem;
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        white-space: nowrap;
+      }
+
+      .preorder-hero {
+        padding: 6.5rem 1.5rem 3rem;
+        gap: 2.5rem;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+      }
+
+      .visual-panel {
+        grid-template-rows: minmax(260px, 1fr) auto;
+        min-height: 0;
+      }
+
+      .placeholder-visual {
+        min-height: 260px;
+      }
+
+      .placeholder-mark {
+        width: 78%;
+        font-size: 0.56rem;
+      }
+
+      .visual-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-meta span {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .visual-meta span:last-child {
+        border-bottom: 0;
+      }
+
+      .details,
+      .spec-strip {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      .detail-panel,
+      .checkout-panel {
+        padding: 2.4rem 1.5rem;
+      }
+
+      .checkout-shell {
+        padding: 1.4rem;
+      }
+
+      .waitlist-shell {
+        padding: 1rem;
+      }
+
+      .order-item {
+        grid-template-columns: 42px 1fr;
+        gap: 1rem;
+      }
+
+      .spec-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .spec,
+      .spec:nth-child(2) {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .spec:last-child {
+        border-bottom: 0;
+      }
+
+      .footer-bottom {
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .footer-bottom-row,
+      .footer-legal-links,
+      .footer-policy-links {
+        justify-content: center;
+      }
+    }
+
+    @keyframes placeholderBreath {
+      0%,
+      100% {
+        opacity: 0.74;
+        box-shadow: 0 0 45px rgba(129, 140, 248, 0.04);
+      }
+
+      50% {
+        opacity: 1;
+        box-shadow: 0 0 68px rgba(129, 140, 248, 0.12);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .placeholder-mark {
+        animation: none;
+      }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      #cursor,
+      #cursor-ring {
+        display: none !important;
+      }
+
+      html,
+      body,
+      * {
+        cursor: auto !important;
+      }
+    }
+  </style>
+  <script>
+    (function () {
+      function updateIcons(dark) {
+        var suffix = dark ? '-dark' : '-light';
+        document.querySelectorAll('link[rel="icon"][type="image/x-icon"]').forEach(function (link) {
+          link.href = link.href.replace(/favicon(-light|-dark)?\.ico/, 'favicon' + suffix + '.ico');
+        });
+        document.querySelectorAll('link[rel="icon"][type="image/png"]').forEach(function (link) {
+          link.href = link.href.replace(/favicon-32(-light|-dark)?\.png/, 'favicon-32' + suffix + '.png');
+        });
+        document.querySelectorAll('link[rel="apple-touch-icon"]').forEach(function (link) {
+          link.href = link.href.replace(/apple-touch-icon(-light|-dark)?\.png/, 'apple-touch-icon' + suffix + '.png');
+        });
+      }
+
+      var media = window.matchMedia('(prefers-color-scheme: dark)');
+      updateIcons(media.matches);
+      media.addEventListener('change', function (event) {
+        updateIcons(event.matches);
+      });
+    })();
+  </script>
+</head>
+
+<body data-footer-type="landing" data-active-page="preorder">
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+  <div data-dreamz-nav></div>
+
+  <main id="main-content" role="main">
+    <section class="preorder-hero" aria-labelledby="preorder-heading">
+      <div class="hero-copy">
+        <p class="hero-eyebrow">Waitlist, then pre-order</p>
+        <h1 class="hero-title" id="preorder-heading">Reserve Dreamz before <em>launch</em>.</h1>
+        <p class="hero-sub">Join the early access waitlist first so we can keep you updated, then the pre-order checkout will unlock on this page.</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#waitlist-step" aria-label="Go to the waitlist step"><span>Start With Waitlist</span></a>
+          <a class="btn-secondary" href="index.html#how">How Dreamz Works</a>
+        </div>
+      </div>
+
+      <aside class="visual-panel" aria-label="Dreamz product preview placeholder">
+        <div class="placeholder-visual">
+          <div class="placeholder-mark">Image Placeholder</div>
+        </div>
+        <div class="visual-meta" aria-label="Product highlights">
+          <span>Brain sensing</span>
+          <span>Gentle signal</span>
+          <span>Nightly learning</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="spec-strip" aria-label="Dreamz preorder highlights">
+      <div class="spec">
+        <strong>38%</strong>
+        <span>Sleep onset reduction</span>
+      </div>
+      <div class="spec">
+        <strong>62%</strong>
+        <span>Sleep quality lift</span>
+      </div>
+      <div class="spec">
+        <strong>31%</strong>
+        <span>Daily wellness lift</span>
+      </div>
+      <div class="spec">
+        <strong>1st</strong>
+        <span>Launch access</span>
+      </div>
+    </section>
+
+    <section class="details" aria-labelledby="preorder-details-heading">
+      <div class="detail-panel" id="waitlist-step">
+        <p class="section-label">Step one</p>
+        <h2 id="preorder-details-heading">Join the waitlist first.</h2>
+        <p>Fill out the short waitlist form below. Once it is submitted, this page will unlock the secure pre-order checkout automatically.</p>
+        <div class="step-status" aria-label="Preorder progress">
+          <span class="step-pill is-active" id="waitlist-status">1. Waitlist</span>
+          <span class="step-pill" id="checkout-status">2. Pre-order</span>
+        </div>
+        <button class="skip-waitlist" type="button" id="skip-waitlist">Skip waitlist and go to pre-order</button>
+        <div class="waitlist-shell">
+          <iframe data-tally-src="https://tally.so/embed/3NeJKB?alignLeft=1&hideTitle=1&dynamicHeight=1&transparentBackground=1"
+            loading="lazy" width="100%" height="933" frameborder="0" marginheight="0" marginwidth="0"
+            title="Join The Waiting List"></iframe>
+        </div>
+      </div>
+
+      <div class="checkout-panel is-locked" id="checkout" aria-live="polite">
+        <p class="detail-kicker">Step two</p>
+        <h2>Complete your pre-order.</h2>
+        <p id="checkout-copy">Pre-order is locked until the waitlist form is submitted. This keeps launch updates and checkout details connected.</p>
+        <div class="checkout-lock">
+          <strong>Pre-order unlocks after the waitlist.</strong>
+          <p>Submit the form on the left, or use the small skip link if you have already joined the waitlist.</p>
+        </div>
+        <div class="checkout-shell">
+          <div id="product-component-1777784653771"></div>
+        </div>
+        <p class="checkout-note">Availability and delivery timing are confirmed at checkout.</p>
+      </div>
+    </section>
+
+    <section class="details" aria-label="Preorder process">
+      <div class="detail-panel">
+        <p class="section-label">Next steps</p>
+        <h2>A simple sequence for launch access.</h2>
+        <p>The waitlist keeps you in the loop, and the pre-order holds your early access position before the general release.</p>
+      </div>
+
+      <div class="detail-panel">
+        <div class="order-list">
+          <div class="order-item">
+            <span class="order-num">01</span>
+            <div>
+              <h3>Join the waitlist</h3>
+              <p>Share your details so Dreamz can send launch updates and availability timing.</p>
+            </div>
+          </div>
+          <div class="order-item">
+            <span class="order-num">02</span>
+            <div>
+              <h3>Complete pre-order</h3>
+              <p>After the form submits, checkout unlocks so you can reserve your mask.</p>
+            </div>
+          </div>
+          <div class="order-item">
+            <span class="order-num">03</span>
+            <div>
+              <h3>Start sleeping with Dreamz</h3>
+              <p>Use the mask nightly as it learns your sleep patterns over time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="disclaimer">Dreamz is a wellness product and is not intended to diagnose, treat, cure, or prevent any disease. People with medical sleep concerns should consult a qualified healthcare professional.</p>
+  </main>
+
+  <div data-dreamz-footer></div>
+
+  <script src="assets/site-chrome.js"></script>
+  <script>
+    (function () {
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches && !reducedMotion;
+      document.documentElement.classList.toggle('use-custom-cursor', hasFinePointer);
+      document.documentElement.classList.toggle('no-custom-cursor', !hasFinePointer);
+
+      var cursor = document.getElementById('cursor');
+      var cursorRing = document.getElementById('cursor-ring');
+      if (hasFinePointer && cursor && cursorRing) {
+        window.addEventListener('mousemove', function (event) {
+          cursor.style.left = event.clientX + 'px';
+          cursor.style.top = event.clientY + 'px';
+          cursorRing.style.left = event.clientX + 'px';
+          cursorRing.style.top = event.clientY + 'px';
+        });
+      }
+
+      var nav = document.getElementById('nav');
+      function syncNav() {
+        if (nav) nav.classList.toggle('scrolled', window.scrollY > 24);
+      }
+      syncNav();
+      var navTicking = false;
+      window.addEventListener('scroll', function () {
+        if (navTicking) return;
+        navTicking = true;
+        requestAnimationFrame(function () {
+          navTicking = false;
+          syncNav();
+        });
+      }, { passive: true });
+
+      var canvas = document.getElementById('bg-canvas');
+      var ctx = canvas.getContext('2d');
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      var width = 0;
+      var height = 0;
+      var points = [];
+      var bgRaf = 0;
+
+      function resize() {
+        width = canvas.width = Math.round(window.innerWidth * dpr);
+        height = canvas.height = Math.round(window.innerHeight * dpr);
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        var pointCount = reducedMotion ? 12 : 24;
+        points = Array.from({ length: pointCount }, function (_, index) {
+          return {
+            x: (index / Math.max(pointCount - 1, 1)) * width,
+            y: height * (0.35 + Math.random() * 0.5),
+            phase: Math.random() * Math.PI * 2
+          };
+        });
+      }
+
+      function draw(time) {
+        ctx.clearRect(0, 0, width, height);
+        ctx.strokeStyle = 'rgba(129, 140, 248, 0.08)';
+        ctx.lineWidth = dpr;
+
+        for (var row = 0; row < 3; row += 1) {
+          ctx.beginPath();
+          points.forEach(function (point, index) {
+            var y = point.y + Math.sin(time * 0.00045 + point.phase + row) * 22 * dpr + row * 42 * dpr;
+            if (index === 0) ctx.moveTo(point.x, y);
+            else ctx.lineTo(point.x, y);
+          });
+          ctx.stroke();
+        }
+
+        if (!document.hidden && !reducedMotion) {
+          bgRaf = requestAnimationFrame(draw);
+        }
+      }
+
+      function startBackground() {
+        if (!bgRaf && !document.hidden && !reducedMotion) {
+          bgRaf = requestAnimationFrame(draw);
+        }
+      }
+
+      function stopBackground() {
+        if (bgRaf) {
+          cancelAnimationFrame(bgRaf);
+          bgRaf = 0;
+        }
+      }
+
+      resize();
+      window.addEventListener('resize', function () {
+        requestAnimationFrame(resize);
+      }, { passive: true });
+      document.addEventListener('visibilitychange', function () {
+        document.hidden ? stopBackground() : startBackground();
+      });
+      draw(0);
+      startBackground();
+
+      var checkoutPanel = document.getElementById('checkout');
+      var checkoutCopy = document.getElementById('checkout-copy');
+      var waitlistStatus = document.getElementById('waitlist-status');
+      var checkoutStatus = document.getElementById('checkout-status');
+      var skipWaitlist = document.getElementById('skip-waitlist');
+
+      function unlockPreorder(source, shouldScroll) {
+        if (!checkoutPanel) return;
+
+        checkoutPanel.classList.remove('is-locked');
+        if (checkoutCopy) {
+          checkoutCopy.textContent = source === 'skip'
+            ? 'You skipped the waitlist. Use the secure Shopify checkout below to reserve your Dreamz mask.'
+            : 'Thank you for joining the waitlist. Use the secure Shopify checkout below to reserve your Dreamz mask.';
+        }
+        if (waitlistStatus) {
+          waitlistStatus.classList.remove('is-active');
+          waitlistStatus.classList.add('is-complete');
+        }
+        if (checkoutStatus) {
+          checkoutStatus.classList.add('is-active');
+        }
+        if (skipWaitlist) {
+          skipWaitlist.textContent = source === 'skip' ? 'Waitlist skipped' : 'Waitlist submitted';
+          skipWaitlist.disabled = true;
+        }
+
+        if (shouldScroll) {
+          checkoutPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      if (localStorage.getItem('dreamzWaitlistComplete') === 'true') {
+        unlockPreorder('submit', false);
+      }
+
+      if (skipWaitlist) {
+        skipWaitlist.addEventListener('click', function () {
+          unlockPreorder('skip', true);
+        });
+      }
+
+      window.addEventListener('message', function (event) {
+        if (typeof event.data !== 'string' || !event.data.includes('Tally.FormSubmitted')) return;
+
+        try {
+          var payload = JSON.parse(event.data).payload || {};
+          if (!payload.formId || payload.formId === '3NeJKB') {
+            localStorage.setItem('dreamzWaitlistComplete', 'true');
+            unlockPreorder('submit', true);
+          }
+        } catch (error) {
+          localStorage.setItem('dreamzWaitlistComplete', 'true');
+          unlockPreorder('submit', true);
+        }
+      });
+
+      function loadTallyEmbeds() {
+        var tallyScriptUrl = 'https://tally.so/widgets/embed.js';
+        var loadEmbeds = function () {
+          if (typeof Tally !== 'undefined') {
+            Tally.loadEmbeds();
+          } else {
+            document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function (iframe) {
+              iframe.src = iframe.dataset.tallySrc;
+            });
+          }
+        };
+
+        if (typeof Tally !== 'undefined') {
+          loadEmbeds();
+        } else if (!document.querySelector('script[src="' + tallyScriptUrl + '"]')) {
+          var script = document.createElement('script');
+          script.src = tallyScriptUrl;
+          script.onload = loadEmbeds;
+          script.onerror = loadEmbeds;
+          document.body.appendChild(script);
+        }
+      }
+
+      loadTallyEmbeds();
+    })();
+  </script>
+  <script type="text/javascript">
+    /*<![CDATA[*/
+    (function () {
+      var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+      if (window.ShopifyBuy) {
+        if (window.ShopifyBuy.UI) {
+          ShopifyBuyInit();
+        } else {
+          loadScript();
+        }
+      } else {
+        loadScript();
+      }
+      function loadScript() {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = scriptURL;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+        script.onload = ShopifyBuyInit;
+      }
+      function ShopifyBuyInit() {
+        var client = ShopifyBuy.buildClient({
+          domain: 't0hmic-0k.myshopify.com',
+          storefrontAccessToken: '8d4043fa7c9eb7799cc4a79bcc331d7c',
+        });
+        ShopifyBuy.UI.onReady(client).then(function (ui) {
+          ui.createComponent('product', {
+            id: '10336870072609',
+            node: document.getElementById('product-component-1777784653771'),
+            moneyFormat: '%24%7B%7Bamount%7D%7D',
+            options: {
+              "product": {
+                "styles": {
+                  "product": {
+                    "@media (min-width: 601px)": {
+                      "max-width": "100%",
+                      "margin-left": "0",
+                      "margin-bottom": "0"
+                    }
+                  },
+                  "button": {
+                    "color": "#f4f6ff",
+                    ":hover": {
+                      "color": "#f4f6ff",
+                      "background-color": "#818CF8"
+                    },
+                    "background-color": "#4a5bcc",
+                    ":focus": {
+                      "background-color": "#818CF8"
+                    },
+                    "font-family": "DM Sans, sans-serif",
+                    "font-size": "13px",
+                    "letter-spacing": "0.12em",
+                    "text-transform": "uppercase",
+                    "border-radius": "0",
+                    "padding": "15px 34px"
+                  }
+                },
+                "buttonDestination": "checkout",
+                "contents": {
+                  "img": false,
+                  "title": false,
+                  "price": false
+                },
+                "text": {
+                  "button": "Pre-order"
+                }
+              },
+              "productSet": {
+                "styles": {
+                  "products": {
+                    "@media (min-width: 601px)": {
+                      "margin-left": "0"
+                    }
+                  }
+                }
+              },
+              "modalProduct": {
+                "contents": {
+                  "img": false,
+                  "imgWithCarousel": true,
+                  "button": false,
+                  "buttonWithQuantity": true
+                },
+                "styles": {
+                  "product": {
+                    "@media (min-width: 601px)": {
+                      "max-width": "100%",
+                      "margin-left": "0px",
+                      "margin-bottom": "0px"
+                    }
+                  },
+                  "button": {
+                    "color": "#f4f6ff",
+                    ":hover": {
+                      "color": "#f4f6ff",
+                      "background-color": "#818CF8"
+                    },
+                    "background-color": "#4a5bcc",
+                    ":focus": {
+                      "background-color": "#818CF8"
+                    },
+                    "border-radius": "0"
+                  }
+                },
+                "text": {
+                  "button": "Add to cart"
+                }
+              },
+              "option": {},
+              "cart": {
+                "styles": {
+                  "button": {
+                    "color": "#f4f6ff",
+                    ":hover": {
+                      "color": "#f4f6ff",
+                      "background-color": "#818CF8"
+                    },
+                    "background-color": "#4a5bcc",
+                    ":focus": {
+                      "background-color": "#818CF8"
+                    },
+                    "border-radius": "0"
+                  }
+                },
+                "text": {
+                  "total": "Subtotal",
+                  "button": "Checkout"
+                }
+              },
+              "toggle": {
+                "styles": {
+                  "toggle": {
+                    "background-color": "#4a5bcc",
+                    ":hover": {
+                      "background-color": "#818CF8"
+                    },
+                    ":focus": {
+                      "background-color": "#818CF8"
+                    }
+                  },
+                  "count": {
+                    "color": "#f4f6ff",
+                    ":hover": {
+                      "color": "#f4f6ff"
+                    }
+                  },
+                  "iconPath": {
+                    "fill": "#f4f6ff"
+                  }
+                }
+              }
+            },
+          });
+        });
+      }
+    })();
+    /*]]>*/
+  </script>
+</body>
+
+</html>

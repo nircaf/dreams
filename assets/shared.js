@@ -1,3 +1,129 @@
+// Shared Dreamz interactions and visualizations.
+// The expensive work is gated by visibility so off-screen sections do not keep
+// rendering while the user is elsewhere on the page.
+
+const dreamzMotionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+const DREAMZ_REDUCED_MOTION = dreamzMotionQuery ? dreamzMotionQuery.matches : false;
+const DREAMZ_SAVE_DATA = Boolean(navigator.connection && navigator.connection.saveData);
+const DREAMZ_LOW_POWER = DREAMZ_REDUCED_MOTION || DREAMZ_SAVE_DATA;
+const DREAMZ_DPR = Math.min(window.devicePixelRatio || 1, DREAMZ_LOW_POWER ? 1 : 1.5);
+
+function scheduleIdle(callback, timeout = 800) {
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(callback, { timeout });
+  } else {
+    window.setTimeout(callback, Math.min(timeout, 300));
+  }
+}
+
+function resizeCanvas(canvas, ctx) {
+  const rect = canvas.getBoundingClientRect();
+  const width = Math.max(1, Math.round(rect.width));
+  const height = Math.max(1, Math.round(rect.height));
+  const pixelWidth = Math.max(1, Math.round(width * DREAMZ_DPR));
+  const pixelHeight = Math.max(1, Math.round(height * DREAMZ_DPR));
+
+  if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+    canvas.width = pixelWidth;
+    canvas.height = pixelHeight;
+  }
+
+  ctx.setTransform(DREAMZ_DPR, 0, 0, DREAMZ_DPR, 0, 0);
+  return { width, height };
+}
+
+function createVisibilityGate(element, options = {}) {
+  let visible = true;
+  let pageVisible = !document.hidden;
+  const listeners = new Set();
+
+  const notify = () => {
+    const active = visible && pageVisible && !DREAMZ_REDUCED_MOTION;
+    listeners.forEach(listener => listener(active));
+  };
+
+  if ('IntersectionObserver' in window && element) {
+    visible = false;
+    const observer = new IntersectionObserver(entries => {
+      visible = entries.some(entry => entry.isIntersecting);
+      notify();
+    }, {
+      rootMargin: options.rootMargin || '160px 0px',
+      threshold: options.threshold || 0
+    });
+    observer.observe(element);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    pageVisible = !document.hidden;
+    notify();
+  });
+
+  return {
+    isActive: () => visible && pageVisible && !DREAMZ_REDUCED_MOTION,
+    onChange(listener) {
+      listeners.add(listener);
+      listener(visible && pageVisible && !DREAMZ_REDUCED_MOTION);
+    }
+  };
+}
+
+function runVisibleLoop(element, draw, options = {}) {
+  const gate = createVisibilityGate(element, options);
+  const frameInterval = options.maxFps ? 1000 / options.maxFps : 0;
+  let raf = 0;
+  let lastFrame = 0;
+
+  const tick = timestamp => {
+    raf = 0;
+    if (!gate.isActive()) return;
+
+    if (!frameInterval || timestamp - lastFrame >= frameInterval) {
+      draw(timestamp);
+      lastFrame = timestamp;
+    }
+
+    raf = requestAnimationFrame(tick);
+  };
+
+  const start = () => {
+    if (!raf && gate.isActive()) raf = requestAnimationFrame(tick);
+  };
+
+  gate.onChange(active => {
+    if (active) {
+      if (options.onActive) options.onActive();
+      start();
+    } else if (raf) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    }
+  });
+
+  if (DREAMZ_REDUCED_MOTION && options.drawOnce) {
+    draw(performance.now());
+  }
+
+  return gate;
+}
+
+function disposeObject3D(object) {
+  if (!object) return;
+  object.traverse(child => {
+    if (child.geometry) child.geometry.dispose();
+    if (child.material) {
+      const materials = Array.isArray(child.material) ? child.material : [child.material];
+      materials.forEach(material => {
+        Object.keys(material).forEach(key => {
+          const value = material[key];
+          if (value && value.isTexture) value.dispose();
+        });
+        material.dispose();
+      });
+    }
+  });
+}
+
 // ================================================
 // PLATFORM-AWARE CURSOR TOGGLE (PC/Mac only)
 // ================================================
@@ -6,8 +132,8 @@
   const ua = navigator.userAgent || '';
   const isDesktopOS = /Win|Mac/i.test(platformRaw);
   const isMobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
-  const hasFinePointer = window.matchMedia ? window.matchMedia('(pointer: fine)').matches : true;
-  const useCustomCursor = isDesktopOS && !isMobileUA && hasFinePointer;
+  const hasFinePointer = window.matchMedia ? window.matchMedia('(hover: hover) and (pointer: fine)').matches : true;
+  const useCustomCursor = isDesktopOS && !isMobileUA && hasFinePointer && !DREAMZ_REDUCED_MOTION;
 
   const platformLabel = /Win/i.test(platformRaw)
     ? 'windows'
@@ -24,440 +150,493 @@
 // ================================================
 // CURSOR
 // ================================================
-const cursor = document.getElementById('cursor');
-const cursorRing = document.getElementById('cursor-ring');
-let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX; mouseY = e.clientY;
-  cursor.style.left = mouseX + 'px';
-  cursor.style.top = mouseY + 'px';
-});
-function animateCursor() {
-  ringX += (mouseX - ringX) * 0.12;
-  ringY += (mouseY - ringY) * 0.12;
-  cursorRing.style.left = ringX + 'px';
-  cursorRing.style.top = ringY + 'px';
-  requestAnimationFrame(animateCursor);
-}
-animateCursor();
+(() => {
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursor-ring');
+  if (!window.__dreamzUseCustomCursor || !cursor || !cursorRing) return;
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let ringX = mouseX;
+  let ringY = mouseY;
+  let raf = 0;
+
+  document.addEventListener('mousemove', event => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+  }, { passive: true });
+
+  const animate = () => {
+    ringX += (mouseX - ringX) * 0.14;
+    ringY += (mouseY - ringY) * 0.14;
+    cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+    raf = requestAnimationFrame(animate);
+  };
+
+  const sync = () => {
+    if (document.hidden && raf) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    } else if (!document.hidden && !raf) {
+      raf = requestAnimationFrame(animate);
+    }
+  };
+
+  document.addEventListener('visibilitychange', sync);
+  sync();
+})();
 
 // ================================================
 // NAV SCROLL
 // ================================================
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
-});
+(() => {
+  const nav = document.getElementById('nav');
+  if (!nav) return;
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+
+  update();
+})();
 
 // ================================================
 // REVEAL ON SCROLL
 // ================================================
-const reveals = document.querySelectorAll('.reveal');
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-reveals.forEach(r => revealObs.observe(r));
+(() => {
+  const reveals = document.querySelectorAll('.reveal');
+  if (!reveals.length) return;
+
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      revealObs.unobserve(entry.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+
+  reveals.forEach(reveal => revealObs.observe(reveal));
+})();
 
 // ================================================
 // BACKGROUND PARTICLE CANVAS
 // ================================================
-(function () {
+(() => {
   const canvas = document.getElementById('bg-canvas');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  let W, H, particles = [], time = 0;
+  let size = resizeCanvas(canvas, ctx);
+  let particles = [];
+  let time = 0;
 
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  // Stars
-  for (let i = 0; i < 200; i++) {
-    particles.push({
-      x: Math.random(), y: Math.random(),
-      r: Math.random() * 1.2 + 0.2,
-      a: Math.random() * 0.6 + 0.1,
-      speed: Math.random() * 0.00008 + 0.00002,
-      phase: Math.random() * Math.PI * 2
-    });
-  }
-
-  // Brainwave lines
   const waves = [
-    { freq: 0.8, amp: 60, y: 0.25, color: 'rgba(74,91,204,0.06)', speed: 0.3 },
-    { freq: 1.2, amp: 40, y: 0.5, color: 'rgba(129,140,248,0.04)', speed: 0.2 },
-    { freq: 0.6, amp: 80, y: 0.75, color: 'rgba(139,157,232,0.05)', speed: 0.15 },
+    { freq: 0.75, amp: 48, y: 0.28, color: 'rgba(74,91,204,0.06)', speed: 0.28 },
+    { freq: 1.15, amp: 34, y: 0.62, color: 'rgba(129,140,248,0.045)', speed: 0.18 }
   ];
 
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    time += 0.005;
+  function seedParticles() {
+    const count = Math.min(DREAMZ_LOW_POWER ? 56 : 130, Math.max(48, Math.round((size.width * size.height) / 13000)));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      r: Math.random() * 1.1 + 0.25,
+      a: Math.random() * 0.45 + 0.12,
+      speed: Math.random() * 0.00008 + 0.00002,
+      phase: Math.random() * Math.PI * 2
+    }));
+  }
 
-    // Radial gradient overlay
-    const grad = ctx.createRadialGradient(W * 0.35, H * 0.3, 0, W * 0.35, H * 0.3, W * 0.6);
+  function resize() {
+    size = resizeCanvas(canvas, ctx);
+    seedParticles();
+  }
+
+  window.addEventListener('resize', () => requestAnimationFrame(resize), { passive: true });
+  resize();
+
+  function draw() {
+    const { width: W, height: H } = size;
+    ctx.clearRect(0, 0, W, H);
+    time += DREAMZ_REDUCED_MOTION ? 0 : 0.005;
+
+    const grad = ctx.createRadialGradient(W * 0.34, H * 0.3, 0, W * 0.34, H * 0.3, W * 0.68);
     grad.addColorStop(0, 'rgba(42,53,128,0.08)');
     grad.addColorStop(1, 'transparent');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, W, H);
 
-    // Wave lines
-    waves.forEach(w => {
+    waves.forEach(wave => {
       ctx.beginPath();
-      for (let x = 0; x < W; x++) {
-        const y = H * w.y + Math.sin((x / W) * Math.PI * 2 * w.freq + time * w.speed * 10) * w.amp;
+      for (let x = 0; x <= W; x += 2) {
+        const y = H * wave.y + Math.sin((x / W) * Math.PI * 2 * wave.freq + time * wave.speed * 10) * wave.amp;
         x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
-      ctx.strokeStyle = w.color;
+      ctx.strokeStyle = wave.color;
       ctx.lineWidth = 1;
       ctx.stroke();
     });
 
-    // Stars
-    particles.forEach(p => {
-      const flicker = Math.sin(time * p.speed * 1000 + p.phase) * 0.3 + 0.7;
+    particles.forEach(particle => {
+      const flicker = Math.sin(time * particle.speed * 1000 + particle.phase) * 0.25 + 0.75;
       ctx.beginPath();
-      ctx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(184,196,248,${p.a * flicker})`;
+      ctx.arc(particle.x * W, particle.y * H, particle.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(184,196,248,${particle.a * flicker})`;
       ctx.fill();
     });
-
-    requestAnimationFrame(draw);
   }
+
   draw();
+  runVisibleLoop(canvas, draw, { maxFps: DREAMZ_LOW_POWER ? 18 : 30 });
 })();
 
 // ================================================
 // 3D SCENE HELPERS
 // ================================================
+const glbModels = {};
+
 function createScene(canvasId) {
   const canvas = document.getElementById(canvasId);
-  if (!canvas) return null;
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+  if (!canvas || !window.THREE) return null;
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true,
+    antialias: !DREAMZ_LOW_POWER,
+    powerPreference: DREAMZ_LOW_POWER ? 'low-power' : 'high-performance'
+  });
+  renderer.setPixelRatio(DREAMZ_DPR);
+  renderer.setSize(canvas.clientWidth || 1, canvas.clientHeight || 1, false);
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.01, 100);
+  const camera = new THREE.PerspectiveCamera(45, (canvas.clientWidth || 1) / (canvas.clientHeight || 1), 0.01, 100);
   camera.position.set(0, 0, 3);
 
-  // Lights
-  const ambient = new THREE.AmbientLight(0x8b9de8, 0.4);
-  scene.add(ambient);
-  const main = new THREE.DirectionalLight(0xb8c4f8, 1.2);
+  scene.add(new THREE.AmbientLight(0x8b9de8, 0.44));
+
+  const main = new THREE.DirectionalLight(0xb8c4f8, 1.15);
   main.position.set(2, 3, 2);
   scene.add(main);
-  const fill = new THREE.DirectionalLight(0x818CF8, 0.4);
+
+  const fill = new THREE.DirectionalLight(0x818CF8, 0.36);
   fill.position.set(-3, -1, 1);
   scene.add(fill);
-  const rim = new THREE.DirectionalLight(0x4a5bcc, 0.5);
+
+  const rim = new THREE.DirectionalLight(0x4a5bcc, 0.46);
   rim.position.set(0, -2, -3);
   scene.add(rim);
 
-  // Placeholder geometry
-  const geom = new THREE.TorusKnotGeometry(0.6, 0.15, 128, 16);
+  const geom = new THREE.TorusKnotGeometry(0.6, 0.15, 96, 12);
   const mat = new THREE.MeshStandardMaterial({
-    color: 0x2a3580, metalness: 0.6, roughness: 0.3,
-    emissive: 0x1a2040, emissiveIntensity: 0.3
+    color: 0x2a3580,
+    metalness: 0.55,
+    roughness: 0.35,
+    emissive: 0x1a2040,
+    emissiveIntensity: 0.28
   });
   const mesh = new THREE.Mesh(geom, mat);
-  mesh.visible = false;
+  mesh.visible = true;
   scene.add(mesh);
 
-  // Mouse drag
-  let isDragging = false, prevX = 0, prevY = 0, rotVelX = 0, rotVelY = 0;
-  canvas.addEventListener('mousedown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
-  canvas.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    const dx = e.clientX - prevX, dy = e.clientY - prevY;
-    rotVelX = dy * 0.005; rotVelY = dx * 0.005;
-    mesh.rotation.x += rotVelX; mesh.rotation.y += rotVelY;
-    const glb = glbModels && glbModels['full'];
-    if (glb) { glb.rotation.x += rotVelX; glb.rotation.y += rotVelY; }
-    prevX = e.clientX; prevY = e.clientY;
+  let isDragging = false;
+  let prevX = 0;
+  let prevY = 0;
+  let rotVelX = 0;
+  let rotVelY = 0;
+
+  const activeModel = () => glbModels.full || mesh;
+
+  canvas.addEventListener('pointerdown', event => {
+    isDragging = true;
+    prevX = event.clientX;
+    prevY = event.clientY;
+    canvas.setPointerCapture(event.pointerId);
   });
-  canvas.addEventListener('mouseup', () => isDragging = false);
-  canvas.addEventListener('mouseleave', () => isDragging = false);
 
-  // Scroll to zoom
-  canvas.addEventListener('wheel', e => {
-    e.preventDefault();
-    camera.position.z = Math.max(1.0, Math.min(8.0, camera.position.z + e.deltaY * 0.005));
-  }, { passive: false });
+  canvas.addEventListener('pointermove', event => {
+    if (!isDragging) return;
+    const dx = event.clientX - prevX;
+    const dy = event.clientY - prevY;
+    rotVelX = dy * 0.005;
+    rotVelY = dx * 0.005;
+    const model = activeModel();
+    model.rotation.x += rotVelX;
+    model.rotation.y += rotVelY;
+    prevX = event.clientX;
+    prevY = event.clientY;
+  });
 
-  // Pinch to zoom (touch)
-  let lastPinchDist = null;
-  canvas.addEventListener('touchstart', e => { if (e.touches.length === 2) lastPinchDist = null; });
-  canvas.addEventListener('touchmove', e => {
-    if (e.touches.length !== 2) return;
-    e.preventDefault();
-    const dx = e.touches[0].clientX - e.touches[1].clientX;
-    const dy = e.touches[0].clientY - e.touches[1].clientY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    if (lastPinchDist !== null) {
-      camera.position.z = Math.max(1.0, Math.min(8.0, camera.position.z - (dist - lastPinchDist) * 0.01));
-    }
-    lastPinchDist = dist;
+  const stopDragging = () => {
+    isDragging = false;
+  };
+
+  canvas.addEventListener('pointerup', stopDragging);
+  canvas.addEventListener('pointercancel', stopDragging);
+  canvas.addEventListener('pointerleave', stopDragging);
+
+  canvas.addEventListener('wheel', event => {
+    event.preventDefault();
+    camera.position.z = Math.max(1.1, Math.min(6.5, camera.position.z + event.deltaY * 0.004));
   }, { passive: false });
 
   let t = 0;
-  function animate() {
-    requestAnimationFrame(animate);
-    t += 0.005;
+  const render = () => {
+    t += 0.006;
+    const model = activeModel();
+
     if (!isDragging) {
-      rotVelX *= 0.95; rotVelY *= 0.95;
-      // Rotate placeholder mesh
-      mesh.rotation.y += rotVelY + 0.003;
-      mesh.rotation.x += rotVelX + Math.sin(t * 0.5) * 0.0008;
-      mesh.position.y = Math.sin(t) * 0.05;
-      // Rotate loaded GLB model with same motion
-      const glb = glbModels && glbModels['full'];
-      if (glb) {
-        glb.rotation.y += rotVelY + 0.003;
-        glb.rotation.x += rotVelX + Math.sin(t * 0.5) * 0.0008;
-        glb.position.y = Math.sin(t) * 0.05;
-      }
-    } else {
-      mesh.position.y = Math.sin(t) * 0.05;
-      const glb = glbModels && glbModels['full'];
-      if (glb) glb.position.y = Math.sin(t) * 0.05;
+      rotVelX *= 0.94;
+      rotVelY *= 0.94;
+      model.rotation.y += rotVelY + 0.0026;
+      model.rotation.x += rotVelX + Math.sin(t * 0.55) * 0.0007;
     }
+
+    model.position.y = Math.sin(t) * 0.045;
     renderer.render(scene, camera);
-  }
-  animate();
+  };
 
   function resize() {
-    const w = canvas.clientWidth, h = canvas.clientHeight;
-    camera.aspect = w / h; camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
+    const width = canvas.clientWidth || 1;
+    const height = canvas.clientHeight || 1;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setPixelRatio(DREAMZ_DPR);
+    renderer.setSize(width, height, false);
+    render();
   }
-  window.addEventListener('resize', resize);
 
-  return { scene, camera, renderer, mesh, mat };
+  window.addEventListener('resize', () => requestAnimationFrame(resize), { passive: true });
+  resize();
+  runVisibleLoop(canvas, render, { maxFps: DREAMZ_LOW_POWER ? 18 : 36, rootMargin: '220px 0px' });
+
+  return { scene, camera, renderer, mesh, mat, render };
 }
 
 // ================================================
 // GLB LOADER (loads GLTFLoader dynamically)
 // ================================================
 let gltfLoaderReady = false;
+let gltfLoaderPromise = null;
+
 async function ensureGLTFLoader() {
-  if (gltfLoaderReady || (window.THREE && THREE.GLTFLoader)) { gltfLoaderReady = true; return; }
-  await new Promise((res, rej) => {
-    const s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js';
-    s.onload = () => { gltfLoaderReady = true; res(); };
-    s.onerror = rej;
-    document.head.appendChild(s);
-  }).catch(() => { });
+  if (gltfLoaderReady || (window.THREE && THREE.GLTFLoader)) {
+    gltfLoaderReady = true;
+    return;
+  }
+
+  if (!gltfLoaderPromise) {
+    gltfLoaderPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js';
+      script.async = true;
+      script.onload = () => {
+        gltfLoaderReady = true;
+        resolve();
+      };
+      script.onerror = reject;
+      document.head.appendChild(script);
+    }).catch(() => {});
+  }
+
+  await gltfLoaderPromise;
 }
-async function loadGLBIntoScene(url, sceneObj) {
-  await ensureGLTFLoader();
-  if (!THREE.GLTFLoader) return;
-  const loader = new THREE.GLTFLoader();
-  loader.load(url, gltf => {
-    sceneObj.scene.remove(sceneObj.mesh);
-    const model = gltf.scene;
-    const box = new THREE.Box3().setFromObject(model);
-    const center = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
-    const maxDim = Math.max(size.x, size.y, size.z);
-    const scale = 2.0 / maxDim;
-    model.scale.setScalar(scale);
-    model.position.sub(center.multiplyScalar(scale));
-    sceneObj.scene.add(model);
-    sceneObj.loadedModel = model;
-  }, undefined, err => console.error('GLB error:', err));
+
+function normalizeModel(model) {
+  const box = new THREE.Box3().setFromObject(model);
+  const center = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  const scale = 2.0 / maxDim;
+  model.scale.setScalar(scale);
+  model.position.sub(center.multiplyScalar(scale));
+}
+
+function setCarouselModel(model, sceneObj) {
+  if (!sceneObj || !model) return;
+
+  if (glbModels.full) {
+    sceneObj.scene.remove(glbModels.full);
+    disposeObject3D(glbModels.full);
+  }
+
+  normalizeModel(model);
+  glbModels.full = model;
+  sceneObj.scene.add(model);
+  if (sceneObj.mesh) sceneObj.mesh.visible = false;
+  if (sceneObj.render) sceneObj.render();
 }
 
 // ================================================
 // CAROUSEL SYSTEM
 // ================================================
-const CAROUSEL_INTERVAL = 6000; // ms per slide
-
 const carouselSlides = [
   {
     key: 'full',
     badge: 'Dreamz Sleep Mask',
     title: 'The Dreamz Mask',
     desc: '',
-    color: 0x2a2060, emissive: 0x0d0830
+    color: 0x2a2060,
+    emissive: 0x0d0830
   }
 ];
 
-// One THREE scene shared
-var glbModels = {};
 const carouselScene = createScene('carousel-canvas');
-let carouselIndex = 0;
-let carouselTimer = null;
-let carouselProgress = 0;
-let carouselProgressInterval = null;
 
 function renderCarouselInfo(idx) {
-  const s = carouselSlides[idx];
-  document.getElementById('carousel-info').innerHTML = `
-    <span class="carousel-info-badge">${s.badge}</span>
-    <h3>${s.title}</h3>
-    <p>${s.desc}</p>
-  `;
-  document.getElementById('tab-0').classList.add('active');
+  const slide = carouselSlides[idx];
+  const info = document.getElementById('carousel-info');
+  const tab = document.getElementById('tab-0');
+
+  if (info) {
+    info.innerHTML = `
+      <span class="carousel-info-badge">${slide.badge}</span>
+      <h3>${slide.title}</h3>
+      <p>${slide.desc}</p>
+    `;
+  }
+
+  if (tab) tab.classList.add('active');
+
   if (carouselScene) {
-    carouselScene.mat.color.setHex(s.color);
-    carouselScene.mat.emissive.setHex(s.emissive);
-    if (carouselScene.mesh) {
-      carouselScene.mesh.visible = !glbModels[s.key];
-    }
+    carouselScene.mat.color.setHex(slide.color);
+    carouselScene.mat.emissive.setHex(slide.emissive);
+    if (carouselScene.mesh) carouselScene.mesh.visible = !glbModels[slide.key];
+    if (carouselScene.render) carouselScene.render();
   }
 }
 
-function resetTimer() {
-  clearInterval(carouselProgressInterval);
-  clearTimeout(carouselTimer);
-  carouselProgress = 0;
-  const bar = document.getElementById('carousel-progress');
-  if (bar) bar.style.width = '0%';
-}
-
-window.carouselGoto = function (idx) {
-  carouselIndex = 0;
+window.carouselGoto = function () {
   renderCarouselInfo(0);
-  resetTimer();
 };
-window.carouselNext = function () { carouselGoto(0); };
-window.carouselPrev = function () { carouselGoto(0); };
+window.carouselNext = window.carouselGoto;
+window.carouselPrev = window.carouselGoto;
 
-// Init
 renderCarouselInfo(0);
-resetTimer();
 
-// Auto-load the GLB model from relative path
 function loadMaskGLB() {
+  if (!carouselScene || !window.THREE) return;
+
   ensureGLTFLoader().then(() => {
     if (!THREE.GLTFLoader) return;
+
     const loader = new THREE.GLTFLoader();
     loader.load('dreamz_mask.glb', gltf => {
-      const model = gltf.scene;
-      const box = new THREE.Box3().setFromObject(model);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 2.0 / maxDim;
-      model.scale.setScalar(scale);
-      model.position.sub(center.multiplyScalar(scale));
-      if (glbModels['full']) carouselScene.scene.remove(glbModels['full']);
-      glbModels['full'] = model;
-      carouselScene.scene.add(model);
-      if (carouselScene.mesh) carouselScene.mesh.visible = false;
+      setCarouselModel(gltf.scene, carouselScene);
       renderCarouselInfo(0);
       const spinner = document.getElementById('carousel-spinner');
       if (spinner) {
         spinner.style.opacity = '0';
-        setTimeout(() => spinner.style.display = 'none', 500);
+        setTimeout(() => {
+          spinner.style.display = 'none';
+        }, 500);
       }
-    }, undefined, (err) => {
-      console.warn('GLB load failed, placeholder shown:', err);
+    }, undefined, error => {
+      console.warn('GLB load failed, placeholder shown:', error);
       const spinner = document.getElementById('carousel-spinner');
       if (spinner) spinner.style.display = 'none';
     });
   });
 }
-loadMaskGLB();
+
+(() => {
+  const carouselCanvas = document.getElementById('carousel-canvas');
+  let requested = false;
+  const requestModel = () => {
+    if (requested) return;
+    requested = true;
+    scheduleIdle(loadMaskGLB, 1200);
+  };
+
+  if (!carouselCanvas || DREAMZ_SAVE_DATA) {
+    const spinner = document.getElementById('carousel-spinner');
+    if (spinner && DREAMZ_SAVE_DATA) spinner.style.display = 'none';
+    return;
+  }
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      observer.disconnect();
+      requestModel();
+    }, { rootMargin: '260px 0px' });
+    observer.observe(carouselCanvas);
+  } else {
+    requestModel();
+  }
+})();
 
 // ================================================
-// GLB DRAG & DROP - reload mask model
+// GLB UPLOAD BUTTON SUPPORT
 // ================================================
 window.handleGLBUpload = function (event) {
   const file = event.target.files[0];
-  if (!file) return;
+  if (!file || !carouselScene) return;
+
   const url = URL.createObjectURL(file);
   ensureGLTFLoader().then(() => {
     if (!THREE.GLTFLoader) return;
     const loader = new THREE.GLTFLoader();
     loader.load(url, gltf => {
-      const model = gltf.scene;
-      const box = new THREE.Box3().setFromObject(model);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = 2.0 / maxDim;
-      model.scale.setScalar(scale);
-      model.position.sub(center.multiplyScalar(scale));
-      if (glbModels['full']) carouselScene.scene.remove(glbModels['full']);
-      glbModels['full'] = model;
-      carouselScene.scene.add(model);
-      if (carouselScene.mesh) carouselScene.mesh.visible = false;
+      setCarouselModel(gltf.scene, carouselScene);
       renderCarouselInfo(0);
-    });
+      URL.revokeObjectURL(url);
+    }, undefined, () => URL.revokeObjectURL(url));
   });
 };
-
-document.addEventListener('dragover', e => e.preventDefault());
-document.addEventListener('drop', e => {
-  e.preventDefault();
-  const file = e.dataTransfer.files[0];
-  if (!file || (!file.name.endsWith('.glb') && !file.name.endsWith('.gltf'))) return;
-  const url = URL.createObjectURL(file);
-  ensureGLTFLoader().then(() => {
-    if (!THREE.GLTFLoader) return;
-    const loader = new THREE.GLTFLoader();
-    loader.load(url, gltf => {
-      const model = gltf.scene;
-      const box = new THREE.Box3().setFromObject(model);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-      const maxDim = Math.max(size.x, size.y, size.z);
-      model.scale.setScalar(2.0 / maxDim);
-      model.position.sub(center.multiplyScalar(2.0 / maxDim));
-      if (glbModels['full']) carouselScene.scene.remove(glbModels['full']);
-      glbModels['full'] = model;
-      carouselScene.scene.add(model);
-      if (carouselScene.mesh) carouselScene.mesh.visible = false;
-      renderCarouselInfo(0);
-    });
-  });
-});
 
 // ================================================
 // BRAINWAVE VISUALIZATION CANVAS
 // ================================================
-(function () {
+(() => {
   const canvas = document.getElementById('brainwave-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  let W, H, t = 0;
+  let size = resizeCanvas(canvas, ctx);
+  let t = 0;
 
   function resize() {
-    W = canvas.width = canvas.clientWidth;
-    H = canvas.height = canvas.clientHeight;
+    size = resizeCanvas(canvas, ctx);
+    draw();
   }
-  window.addEventListener('resize', resize);
+
+  window.addEventListener('resize', () => requestAnimationFrame(resize), { passive: true });
   resize();
 
   const waveTypes = [
-    { label: 'Delta (0.5–4 Hz)',  color: '#4a5bcc', freq: 1.8,  amp: 0.14,  y: 0.15, thick: 2   },
-    { label: 'Theta (4–8 Hz)',   color: '#6a7edc', freq: 3.5,  amp: 0.095, y: 0.3,  thick: 1.5 },
-    { label: 'Alpha (8–13 Hz)',  color: '#8b9de8', freq: 6.0,  amp: 0.075, y: 0.45, thick: 1.5 },
-    { label: 'Sigma (12–16 Hz)', color: '#818CF8', freq: 9.0,  amp: 0.055, y: 0.6,  thick: 1.5, spindleRate: 1.4 },
-    { label: 'Beta (13–30 Hz)',  color: '#6ec8c4', freq: 18.0, amp: 0.032, y: 0.75, thick: 1   },
-    { label: 'Gamma (30+ Hz)',   color: '#9edbd8', freq: 36.0, amp: 0.016, y: 0.88, thick: 1   },
+    { label: 'Delta (0.5-4 Hz)', color: '#4a5bcc', freq: 1.8, amp: 0.14, y: 0.15, thick: 2 },
+    { label: 'Theta (4-8 Hz)', color: '#6a7edc', freq: 3.5, amp: 0.095, y: 0.3, thick: 1.5 },
+    { label: 'Alpha (8-13 Hz)', color: '#8b9de8', freq: 6.0, amp: 0.075, y: 0.45, thick: 1.5 },
+    { label: 'Sigma (12-16 Hz)', color: '#818CF8', freq: 9.0, amp: 0.055, y: 0.6, thick: 1.5, spindleRate: 1.4 },
+    { label: 'Beta (13-30 Hz)', color: '#6ec8c4', freq: 18.0, amp: 0.032, y: 0.75, thick: 1 },
+    { label: 'Gamma (30+ Hz)', color: '#9edbd8', freq: 36.0, amp: 0.016, y: 0.88, thick: 1 }
   ];
 
   function draw() {
+    const { width: W, height: H } = size;
     ctx.clearRect(0, 0, W, H);
-    t += 0.012;
+    t += DREAMZ_REDUCED_MOTION ? 0 : 0.012;
 
-    // Grid lines
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i += 1) {
       ctx.beginPath();
       ctx.moveTo(0, H * (i / 8));
       ctx.lineTo(W, H * (i / 8));
       ctx.strokeStyle = 'rgba(138,157,232,0.06)';
-      ctx.lineWidth = 1; ctx.stroke();
+      ctx.lineWidth = 1;
+      ctx.stroke();
     }
 
-    // Active stage indicator
     const stage = Math.floor(t / 8) % 3;
     const stageName = ['Sleep Onset', 'Deep Sleep', 'REM'][stage];
     const stageColor = ['rgba(74,91,204,0.08)', 'rgba(26,32,64,0.1)', 'rgba(129,140,248,0.06)'][stage];
@@ -468,105 +647,106 @@ document.addEventListener('drop', e => {
     ctx.fillStyle = 'rgba(184,196,248,0.25)';
     ctx.fillText('STAGE: ' + stageName.toUpperCase(), 16, 20);
 
-    // Draw waves
-    waveTypes.forEach((w, i) => {
-      const baseY = H * w.y;
-      const ampPx = H * w.amp;
+    waveTypes.forEach((wave, index) => {
+      const baseY = H * wave.y;
+      const ampPx = H * wave.amp;
 
-      function getY(x) {
-        if (i === 0) {
-          // Delta: smooth slow roll + slight harmonic
-          return baseY + (Math.sin((x/W)*Math.PI*2*w.freq + t*0.6) + 0.2*Math.sin((x/W)*Math.PI*2*w.freq*2 + t*1.2)) * ampPx;
-        } else if (i === 1) {
-          // Theta: slightly irregular via low-freq amplitude drift
-          const drift = 0.85 + 0.15*Math.sin(t*0.4 + x*0.002);
-          return baseY + Math.sin((x/W)*Math.PI*2*w.freq + t*0.9) * ampPx * drift;
-        } else if (i === 2) {
-          // Alpha: purest regular sine — no noise
-          return baseY + Math.sin((x/W)*Math.PI*2*w.freq + t*1.1) * ampPx;
-        } else if (i === 3) {
-          // Sigma: spindle bursts — amplitude waxes/wanes
-          const envelope = Math.abs(Math.sin(t * w.spindleRate + x * 0.003));
-          return baseY + Math.sin((x/W)*Math.PI*2*w.freq + t*1.4) * ampPx * envelope;
-        } else if (i === 4) {
-          // Beta: fast with high-freq noise overlay
-          const noise = 0.7 + 0.3*Math.sin(x*0.18 + t*3.5);
-          return baseY + Math.sin((x/W)*Math.PI*2*w.freq + t*2.0) * ampPx * noise;
-        } else {
-          // Gamma: very fast, very small, chaotic
-          const chaos = 0.5 + 0.5*Math.sin(x*0.35 + t*6.0) * Math.cos(x*0.12 + t*4.2);
-          return baseY + Math.sin((x/W)*Math.PI*2*w.freq + t*3.5) * ampPx * (0.6 + 0.4*chaos);
+      const getY = x => {
+        if (index === 0) {
+          return baseY + (Math.sin((x / W) * Math.PI * 2 * wave.freq + t * 0.6) + 0.2 * Math.sin((x / W) * Math.PI * 2 * wave.freq * 2 + t * 1.2)) * ampPx;
         }
-      }
+        if (index === 1) {
+          const drift = 0.85 + 0.15 * Math.sin(t * 0.4 + x * 0.002);
+          return baseY + Math.sin((x / W) * Math.PI * 2 * wave.freq + t * 0.9) * ampPx * drift;
+        }
+        if (index === 2) {
+          return baseY + Math.sin((x / W) * Math.PI * 2 * wave.freq + t * 1.1) * ampPx;
+        }
+        if (index === 3) {
+          const envelope = Math.abs(Math.sin(t * wave.spindleRate + x * 0.003));
+          return baseY + Math.sin((x / W) * Math.PI * 2 * wave.freq + t * 1.4) * ampPx * envelope;
+        }
+        if (index === 4) {
+          const noise = 0.7 + 0.3 * Math.sin(x * 0.18 + t * 3.5);
+          return baseY + Math.sin((x / W) * Math.PI * 2 * wave.freq + t * 2.0) * ampPx * noise;
+        }
+        const chaos = 0.5 + 0.5 * Math.sin(x * 0.35 + t * 6.0) * Math.cos(x * 0.12 + t * 4.2);
+        return baseY + Math.sin((x / W) * Math.PI * 2 * wave.freq + t * 3.5) * ampPx * (0.6 + 0.4 * chaos);
+      };
 
-      // Glow pass
       ctx.beginPath();
-      for (let x = 0; x < W; x++) {
+      for (let x = 0; x <= W; x += 2) {
         const y = getY(x);
         x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
-      ctx.shadowColor = w.color;
-      ctx.shadowBlur = 8;
-      ctx.lineWidth = w.thick + 2;
-      ctx.strokeStyle = w.color + '20';
+      ctx.shadowColor = wave.color;
+      ctx.shadowBlur = 7;
+      ctx.lineWidth = wave.thick + 2;
+      ctx.strokeStyle = wave.color + '20';
       ctx.stroke();
 
-      // Sharp line
       ctx.beginPath();
-      for (let x = 0; x < W; x++) {
+      for (let x = 0; x <= W; x += 2) {
         const y = getY(x);
         x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
       ctx.shadowBlur = 0;
-      ctx.strokeStyle = w.color;
-      ctx.lineWidth = w.thick;
+      ctx.strokeStyle = wave.color;
+      ctx.lineWidth = wave.thick;
       ctx.stroke();
 
-      // Label
       ctx.font = '9px Space Mono, monospace';
-      ctx.fillStyle = w.color + 'aa';
-      ctx.fillText(w.label, 16, baseY - ampPx - 4);
+      ctx.fillStyle = wave.color + 'aa';
+      ctx.fillText(wave.label, 16, baseY - ampPx - 4);
     });
 
-    // Scanning line
-    const scanX = ((t * 30) % W);
+    const scanX = (t * 30) % W;
     const scanGrad = ctx.createLinearGradient(scanX - 20, 0, scanX + 2, 0);
     scanGrad.addColorStop(0, 'transparent');
     scanGrad.addColorStop(1, 'rgba(129,140,248,0.3)');
     ctx.strokeStyle = scanGrad;
     ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(scanX, 0); ctx.lineTo(scanX, H); ctx.stroke();
-
-    requestAnimationFrame(draw);
+    ctx.beginPath();
+    ctx.moveTo(scanX, 0);
+    ctx.lineTo(scanX, H);
+    ctx.stroke();
   }
-  draw();
+
+  runVisibleLoop(canvas, draw, {
+    maxFps: DREAMZ_LOW_POWER ? 18 : 30,
+    rootMargin: '220px 0px',
+    drawOnce: true,
+    onActive: resize
+  });
 })();
 
 // ================================================
 // NEUROMODULATION WAVE (science section)
 // ================================================
-(function () {
+(() => {
   const canvas = document.getElementById('eeg-vis-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  let W, H, t = 0;
+  let size = resizeCanvas(canvas, ctx);
+  let t = 0;
 
   function resize() {
-    W = canvas.width = canvas.clientWidth;
-    H = canvas.height = canvas.clientHeight;
+    size = resizeCanvas(canvas, ctx);
+    draw();
   }
-  window.addEventListener('resize', resize);
+
+  window.addEventListener('resize', () => requestAnimationFrame(resize), { passive: true });
   resize();
 
   function draw() {
+    const { width: W, height: H } = size;
     ctx.clearRect(0, 0, W, H);
-    t += 0.012;
+    t += DREAMZ_REDUCED_MOTION ? 0 : 0.012;
 
     const cx = W / 2;
     const cy = H * 0.46;
     const r = Math.min(W, H) * 0.36;
 
-    // ── Head silhouette ──────────────────────────
     ctx.beginPath();
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(8,12,26,0.5)';
@@ -575,70 +755,50 @@ document.addEventListener('drop', e => {
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // Nose indicator (top = forehead)
     ctx.beginPath();
     ctx.moveTo(cx - r * 0.07, cy - r * 0.97);
     ctx.lineTo(cx, cy - r * 1.09);
     ctx.lineTo(cx + r * 0.07, cy - r * 0.97);
     ctx.strokeStyle = 'rgba(138,157,232,0.18)';
-    ctx.lineWidth = 1; ctx.stroke();
+    ctx.lineWidth = 1;
+    ctx.stroke();
 
-    // ── Wave bands travelling front→back ─────────
-    // "front" = top of circle (cy - r), "back" = bottom (cy + r)
-    // We parameterise each band by a normalised position p ∈ [0,1]
-    // p=0 → forehead, p=1 → back of head
-    // At position p the amplitude envelope decays as e^(-3p)
+    const speed = 0.1;
+    const bandCount = DREAMZ_LOW_POWER ? 4 : 6;
+    const waveFreq = 4;
 
-    const SPEED = 0.10;   // how fast bands travel (units of t)
-    const NUM_BANDS = 6;      // bands visible at once
-    const WAVE_FREQ = 4;      // oscillations across the chord width
-
-    for (let b = 0; b < NUM_BANDS; b++) {
-      // Each band has a phase offset so they spread evenly
-      const phase = (t * SPEED + b / NUM_BANDS) % 1; // 0..1 position along arc
-      const p = phase;                             // 0 = forehead, 1 = back
-
-      // Decay: strong at forehead, fades to almost nothing at back
+    for (let band = 0; band < bandCount; band += 1) {
+      const p = (t * speed + band / bandCount) % 1;
       const decay = Math.exp(-3.5 * p);
-
-      // The band travels along the vertical midline of the head.
-      // At normalised position p the band sits at angle θ measured
-      // from the top (−π/2) toward the bottom (+π/2 on both sides).
-      // θ goes from −π/2 (forehead) to +π/2 (back).
       const theta = -Math.PI / 2 + Math.PI * p;
+      const bandY = cy + r * Math.sin(theta);
+      const halfW = r * Math.cos(theta);
 
-      // The chord at angle θ spans horizontally inside the circle
-      const bandY = cy + r * Math.sin(theta);           // y-centre of chord
-      const halfW = r * Math.cos(theta);                // half-width of chord at this y
+      if (halfW < 2) continue;
 
-      if (halfW < 2) continue; // skip degenerate slivers at extremes
-
-      // Draw the wavy line along the chord
       const amplitude = decay * r * 0.08;
       const alpha = decay * 0.85;
+      const steps = Math.ceil(halfW);
 
-      // Glow pass (thick, soft)
       ctx.beginPath();
-      const steps = Math.ceil(halfW * 2);
-      for (let i = 0; i <= steps; i++) {
-        const frac = i / steps;               // 0..1 across chord
+      for (let i = 0; i <= steps; i += 1) {
+        const frac = i / steps;
         const x = (cx - halfW) + frac * halfW * 2;
-        const wave = Math.sin(frac * Math.PI * 2 * WAVE_FREQ - t * 2.5) * amplitude;
+        const wave = Math.sin(frac * Math.PI * 2 * waveFreq - t * 2.5) * amplitude;
         const y = bandY + wave;
         i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
-      ctx.strokeStyle = `rgba(129,140,248,${alpha * 0.25})`;
+      ctx.strokeStyle = `rgba(129,140,248,${alpha * 0.22})`;
       ctx.lineWidth = 6 * decay + 1;
       ctx.shadowColor = '#818CF8';
-      ctx.shadowBlur = 12 * decay;
+      ctx.shadowBlur = 10 * decay;
       ctx.stroke();
 
-      // Sharp core line
       ctx.beginPath();
-      for (let i = 0; i <= steps; i++) {
+      for (let i = 0; i <= steps; i += 1) {
         const frac = i / steps;
         const x = (cx - halfW) + frac * halfW * 2;
-        const wave = Math.sin(frac * Math.PI * 2 * WAVE_FREQ - t * 2.5) * amplitude;
+        const wave = Math.sin(frac * Math.PI * 2 * waveFreq - t * 2.5) * amplitude;
         const y = bandY + wave;
         i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
@@ -648,27 +808,30 @@ document.addEventListener('drop', e => {
       ctx.stroke();
     }
 
-    // ── Label ────────────────────────────────────
     ctx.textAlign = 'left';
     ctx.font = '10px Space Mono, monospace';
     ctx.fillStyle = 'rgba(129,140,248,0.38)';
     ctx.fillText('NEUROMODULATION - PROPAGATION', 14, H - 14);
-
-    requestAnimationFrame(draw);
   }
-  draw();
+
+  runVisibleLoop(canvas, draw, {
+    maxFps: DREAMZ_LOW_POWER ? 18 : 30,
+    rootMargin: '220px 0px',
+    drawOnce: true,
+    onActive: resize
+  });
 })();
 
 // ================================================
 // GLB UPLOAD BUTTON STYLES
 // ================================================
-document.querySelectorAll('.glb-upload-btn').forEach(btn => {
-  btn.addEventListener('mouseenter', () => {
-    btn.style.borderColor = 'rgba(129,140,248,0.4)';
-    btn.style.color = 'rgba(129,140,248,0.8)';
+document.querySelectorAll('.glb-upload-btn').forEach(button => {
+  button.addEventListener('mouseenter', () => {
+    button.style.borderColor = 'rgba(129,140,248,0.4)';
+    button.style.color = 'rgba(129,140,248,0.8)';
   });
-  btn.addEventListener('mouseleave', () => {
-    btn.style.borderColor = 'rgba(138,157,232,0.15)';
-    btn.style.color = 'rgba(184,196,248,0.45)';
+  button.addEventListener('mouseleave', () => {
+    button.style.borderColor = 'rgba(138,157,232,0.15)';
+    button.style.color = 'rgba(184,196,248,0.45)';
   });
 });

@@ -24,6 +24,33 @@
         width: clamp(120px, 18vw, 220px) !important;
       }
 
+      #nav .nav-links a.active {
+        color: var(--white, #f4f6ff);
+      }
+
+      section:not(#hero):not(#how):not(#science):not(.preorder-hero),
+      .details,
+      #featured,
+      #posts,
+      .legal-section {
+        content-visibility: auto;
+        contain-intrinsic-size: 820px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto !important;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+      }
+
       @media (max-width: 768px) {
         #nav .nav-logo {
           width: clamp(130px, 38vw, 220px) !important;
@@ -36,7 +63,7 @@
   const marketingNavHtml = () => `
     <nav id="nav" role="navigation">
       <a href="${url('index.html#hero')}" class="nav-logo" aria-label="Dreamz home">
-        <img src="${url('Logo/Logo_dark_website.png')}" alt="Dreamz logo" class="dreamz-logo">
+        <img src="${url('Logo/Logo_dark_website.png')}" alt="Dreamz logo" class="dreamz-logo" decoding="async" fetchpriority="high">
       </a>
       <ul class="nav-links" role="list">
         <li><a href="${url('index.html#technology')}">Technology</a></li>
@@ -45,14 +72,15 @@
         <li><a href="${url('index.html#faq')}">FAQ</a></li>
         <li><a href="${url('dreamz-blog.html')}"${isActive('blog')}>Blog</a></li>
         <li><a href="${url('dreamz-research.html')}"${isActive('research')}>Research</a></li>
+        <li><a href="${url('index.html#cta')}">Waitlist</a></li>
       </ul>
-      <button class="nav-cta" type="button" onclick="window.location.href='${url('index.html#cta')}'">Join Waitlist</button>
+      <button class="nav-cta" type="button" onclick="window.location.href='${url('preorder.html')}'">Pre-order</button>
     </nav>`;
 
   const legalNavHtml = () => `
     <nav id="nav" role="navigation">
       <a href="${url('index.html')}" class="nav-logo" aria-label="Dreamz home">
-        <img src="${url('Logo/Logo_dark_website.png')}" alt="Dreamz logo" class="dreamz-logo">
+        <img src="${url('Logo/Logo_dark_website.png')}" alt="Dreamz logo" class="dreamz-logo" decoding="async" fetchpriority="high">
       </a>
       <ul class="nav-links" role="list">
         <li><a href="${url('index.html')}"${isActive('home')}>Home</a></li>
@@ -65,7 +93,7 @@
   const legalFooterHtml = () => `
     <footer class="legal-footer" role="contentinfo">
       <a href="${url('index.html')}" class="footer-logo">
-        <img src="${url('Logo/Logo_dark_website.png')}" alt="Dreamz">
+        <img src="${url('Logo/Logo_dark_website.png')}" alt="Dreamz" loading="lazy" decoding="async">
       </a>
       <nav class="footer-links">
         <a href="${url('index.html')}">Home</a>
@@ -82,7 +110,7 @@
       <div class="footer-top">
         <div class="footer-brand">
           <a href="${url('index.html')}" class="footer-logo">
-            <img src="${url('Logo/Logo_dark_website.png')}" alt="Dreamz">
+            <img src="${url('Logo/Logo_dark_website.png')}" alt="Dreamz" loading="lazy" decoding="async">
           </a>
           <p class="footer-tagline">Sleep well. Live well.</p>
         </div>
