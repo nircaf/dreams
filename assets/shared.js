@@ -612,7 +612,16 @@ window.handleGLBUpload = function (event) {
   }
 
   window.addEventListener('resize', () => requestAnimationFrame(resize), { passive: true });
-  resize();
+  requestAnimationFrame(resize);
+  if ('IntersectionObserver' in window) {
+    const initObs = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) {
+        initObs.disconnect();
+        requestAnimationFrame(resize);
+      }
+    }, { rootMargin: '220px 0px' });
+    initObs.observe(canvas);
+  }
 
   const waveTypes = [
     { label: 'Delta (0.5-4 Hz)', color: '#4a5bcc', freq: 1.8, amp: 0.14, y: 0.15, thick: 2 },
@@ -715,7 +724,6 @@ window.handleGLBUpload = function (event) {
   runVisibleLoop(canvas, draw, {
     maxFps: DREAMZ_LOW_POWER ? 18 : 30,
     rootMargin: '220px 0px',
-    drawOnce: true,
     onActive: resize
   });
 })();

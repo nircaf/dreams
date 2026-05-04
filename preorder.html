@@ -575,6 +575,33 @@
       min-height: 72px;
     }
 
+    .checkout-loading {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.5rem 0 1rem;
+    }
+
+    .checkout-loading span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(129, 140, 248, 0.7);
+      animation: checkout-pulse 1.2s ease-in-out infinite;
+    }
+
+    .checkout-loading span:nth-child(2) { animation-delay: 0.2s; }
+    .checkout-loading span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes checkout-pulse {
+      0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+      40% { opacity: 1; transform: scale(1); }
+    }
+
+    .checkout-loading.is-hidden {
+      display: none;
+    }
+
     .checkout-note {
       margin-top: 1.5rem;
       color: rgba(184, 196, 248, 0.34);
@@ -991,6 +1018,9 @@
           <p>Submit the form on the left, or use the small skip link if you have already joined the waitlist.</p>
         </div>
         <div class="checkout-shell">
+          <div class="checkout-loading" id="checkout-loading" aria-label="Loading checkout" role="status">
+            <span></span><span></span><span></span>
+          </div>
           <div id="product-component-1777784653771"></div>
         </div>
         <p class="checkout-note">Availability and delivery timing are confirmed at checkout.</p>
@@ -1126,15 +1156,24 @@
         }
       }
 
-      resize();
-      window.addEventListener('resize', function () {
-        requestAnimationFrame(resize);
-      }, { passive: true });
-      document.addEventListener('visibilitychange', function () {
-        document.hidden ? stopBackground() : startBackground();
-      });
-      draw(0);
-      startBackground();
+      // Defer canvas animation to after page is interactive
+      function initBackgroundAnimation() {
+        resize();
+        window.addEventListener('resize', function () {
+          requestAnimationFrame(resize);
+        }, { passive: true });
+        document.addEventListener('visibilitychange', function () {
+          document.hidden ? stopBackground() : startBackground();
+        });
+        draw(0);
+        startBackground();
+      }
+
+      if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', initBackgroundAnimation);
+      } else {
+        window.requestIdleCallback ? window.requestIdleCallback(initBackgroundAnimation) : setTimeout(initBackgroundAnimation, 100);
+      }
 
       var checkoutPanel = document.getElementById('checkout');
       var checkoutCopy = document.getElementById('checkout-copy');
@@ -1165,6 +1204,13 @@
 
         if (shouldScroll) {
           checkoutPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Init Shopify embed now that the container is visible.
+        // If the second script hasn't run yet (localStorage early-unlock case)
+        // the guard below will handle init when that script loads.
+        if (typeof initShopifyCheckout === 'function') {
+          initShopifyCheckout();
         }
       }
 
@@ -1216,39 +1262,60 @@
         }
       }
 
-      loadTallyEmbeds();
+      // Defer Tally form loading to after page is interactive
+      if (document.readyState === 'loading') {
+        window.addEventListener('load', function () {
+          window.requestIdleCallback ? window.requestIdleCallback(loadTallyEmbeds) : setTimeout(loadTallyEmbeds, 500);
+        });
+      } else {
+        window.requestIdleCallback ? window.requestIdleCallback(loadTallyEmbeds) : setTimeout(loadTallyEmbeds, 500);
+      }
     })();
   </script>
   <script type="text/javascript">
     /*<![CDATA[*/
-    (function () {
-      var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-      if (window.ShopifyBuy) {
-        if (window.ShopifyBuy.UI) {
-          ShopifyBuyInit();
+    function initShopifyCheckout() {
+      if (window._shopifyBuyInitialized) return;
+      window._shopifyBuyInitialized = true;
+      (function () {
+        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+        if (window.ShopifyBuy) {
+          if (window.ShopifyBuy.UI) {
+            ShopifyBuyInit();
+          } else {
+            loadScript();
+          }
         } else {
           loadScript();
         }
-      } else {
-        loadScript();
-      }
-      function loadScript() {
-        var script = document.createElement('script');
-        script.async = true;
-        script.src = scriptURL;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-        script.onload = ShopifyBuyInit;
-      }
-      function ShopifyBuyInit() {
-        var client = ShopifyBuy.buildClient({
-          domain: 't0hmic-0k.myshopify.com',
-          storefrontAccessToken: '8d4043fa7c9eb7799cc4a79bcc331d7c',
-        });
-        ShopifyBuy.UI.onReady(client).then(function (ui) {
-          ui.createComponent('product', {
-            id: '10336870072609',
-            node: document.getElementById('product-component-1777784653771'),
-            moneyFormat: '%24%7B%7Bamount%7D%7D',
+        function loadScript() {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = scriptURL;
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+          script.onload = ShopifyBuyInit;
+        }
+        function ShopifyBuyInit() {
+          var client = ShopifyBuy.buildClient({
+            domain: 't0hmic-0k.myshopify.com',
+            storefrontAccessToken: '8d4043fa7c9eb7799cc4a79bcc331d7c',
+          });
+          ShopifyBuy.UI.onReady(client).then(function (ui) {
+            var productNode = document.getElementById('product-component-1777784653771');
+            var loadingEl = document.getElementById('checkout-loading');
+            if (loadingEl && productNode) {
+              var obs = new MutationObserver(function () {
+                if (productNode.firstChild) {
+                  loadingEl.classList.add('is-hidden');
+                  obs.disconnect();
+                }
+              });
+              obs.observe(productNode, { childList: true });
+            }
+            ui.createComponent('product', {
+              id: '10336870072609',
+              node: productNode || document.getElementById('product-component-1777784653771'),
+              moneyFormat: '%24%7B%7Bamount%7D%7D',
             options: {
               "product": {
                 "styles": {
@@ -1374,6 +1441,17 @@
             },
           });
         });
+      }
+    })();
+    }
+
+    // Only auto-init when the checkout panel is already unlocked (e.g. returning user via localStorage).
+    // For first-time visitors the panel starts locked; initShopifyCheckout is called from
+    // unlockPreorder once the container is visible, so the iframe gets correct dimensions.
+    (function () {
+      var panel = document.getElementById('checkout');
+      if (!panel || !panel.classList.contains('is-locked')) {
+        window.requestIdleCallback ? window.requestIdleCallback(initShopifyCheckout) : setTimeout(initShopifyCheckout, 500);
       }
     })();
     /*]]>*/
