@@ -972,7 +972,7 @@
             const isDesktopOS = /Win|Mac/i.test(platformRaw);
             const isMobileUA = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
             const hasFinePointer = window.matchMedia ? window.matchMedia('(pointer: fine)').matches : true;
-            const useCustomCursor = isDesktopOS && !isMobileUA && hasFinePointer;
+            const useCustomCursor = isDesktopOS && !isMobileUA && hasFinePointer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
             const platformLabel = /Win/i.test(platformRaw)
                 ? 'windows'
@@ -989,18 +989,22 @@
 const cursor = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursor-ring');
 let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX; mouseY = e.clientY;
-  cursor.style.left = mouseX + 'px';
-  cursor.style.top = mouseY + 'px';
-});
-(function animateCursor() {
-  ringX += (mouseX - ringX) * 0.12;
-  ringY += (mouseY - ringY) * 0.12;
-  cursorRing.style.left = ringX + 'px';
-  cursorRing.style.top = ringY + 'px';
-  requestAnimationFrame(animateCursor);
-})();
+if (window.__dreamzUseCustomCursor && cursor && cursorRing) {
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  }, { passive: true });
+  (function animateCursor() {
+    if (!document.hidden) {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      cursorRing.style.left = ringX + 'px';
+      cursorRing.style.top = ringY + 'px';
+    }
+    requestAnimationFrame(animateCursor);
+  })();
+}
 
 // NAV SCROLL
 window.addEventListener('scroll', () => {
@@ -1040,7 +1044,7 @@ document.querySelector('.newsletter-form button').addEventListener('click', () =
   let W, H, particles = [], time = 0;
   function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
   window.addEventListener('resize', resize); resize();
-  for (let i = 0; i < 180; i++) {
+  for (let i = 0; i < 90; i++) {
     particles.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.2 + 0.2, a: Math.random() * 0.5 + 0.1, speed: Math.random() * 0.00007 + 0.00002, phase: Math.random() * Math.PI * 2 });
   }
   const waves = [
@@ -1048,6 +1052,10 @@ document.querySelector('.newsletter-form button').addEventListener('click', () =
     { freq: 1.1, amp: 35, y: 0.6, color: 'rgba(68,212,204,0.04)', speed: 0.2 },
   ];
   function draw() {
+    if (document.hidden) {
+      window.setTimeout(draw, 500);
+      return;
+    }
     ctx.clearRect(0, 0, W, H);
     time += 0.01;
     particles.forEach(p => {
