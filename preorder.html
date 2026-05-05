@@ -571,7 +571,7 @@
       padding: 2rem;
     }
 
-    #product-component-1777784653771 {
+    #product-component-1777960234063 {
       min-height: 72px;
     }
 
@@ -1021,7 +1021,7 @@
           <div class="checkout-loading" id="checkout-loading" aria-label="Loading checkout" role="status">
             <span></span><span></span><span></span>
           </div>
-          <div id="product-component-1777784653771"></div>
+          <div id="product-component-1777960234063"></div>
         </div>
         <p class="checkout-note">Availability and delivery timing are confirmed at checkout.</p>
       </div>
@@ -1301,7 +1301,7 @@
             storefrontAccessToken: '8d4043fa7c9eb7799cc4a79bcc331d7c',
           });
           ShopifyBuy.UI.onReady(client).then(function (ui) {
-            var productNode = document.getElementById('product-component-1777784653771');
+            var productNode = document.getElementById('product-component-1777960234063');
             var loadingEl = document.getElementById('checkout-loading');
             if (loadingEl && productNode) {
               var obs = new MutationObserver(function () {
@@ -1314,7 +1314,7 @@
             }
             ui.createComponent('product', {
               id: '10336870072609',
-              node: productNode || document.getElementById('product-component-1777784653771'),
+              node: productNode || document.getElementById('product-component-1777960234063'),
               moneyFormat: '%24%7B%7Bamount%7D%7D',
             options: {
               "product": {
