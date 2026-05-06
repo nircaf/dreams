@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#04050d">
   <link rel="canonical" href="https://hypnodreamz.com/preorder.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://sdks.shopifycdn.com" crossorigin>
+  <link rel="preconnect" href="https://dreamz-9974.myshopify.com" crossorigin>
   <link rel="preconnect" href="https://tally.so" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap"
@@ -602,6 +602,55 @@
       display: none;
     }
 
+    .checkout-action {
+      display: grid;
+      gap: 0.85rem;
+      justify-items: start;
+    }
+
+    .shopify-preorder-button {
+      appearance: none;
+      border: 0;
+      background: #4a5bcc;
+      color: #f4f6ff;
+      cursor: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      padding: 15px 34px;
+      text-transform: uppercase;
+      transition: background-color 0.25s, color 0.25s, opacity 0.25s;
+    }
+
+    .shopify-preorder-button:hover,
+    .shopify-preorder-button:focus-visible {
+      background: #818CF8;
+      color: #f4f6ff;
+      outline: 0;
+    }
+
+    .shopify-preorder-button:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+
+    .shopify-preorder-button[aria-busy="true"] {
+      cursor: wait;
+    }
+
+    .checkout-message {
+      min-height: 1.25rem;
+      color: rgba(184, 196, 248, 0.72);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .checkout-message.is-error {
+      color: #fca5a5;
+    }
+
     .checkout-note {
       margin-top: 1.5rem;
       color: rgba(184, 196, 248, 0.34);
@@ -1021,7 +1070,10 @@
           <div class="checkout-loading" id="checkout-loading" aria-label="Loading checkout" role="status">
             <span></span><span></span><span></span>
           </div>
-          <div id="product-component-1777960234063"></div>
+          <div class="checkout-action" id="product-component-1777960234063">
+            <button class="shopify-buy__btn shopify-preorder-button" type="button" id="shopify-preorder-button" disabled>Loading pre-order</button>
+            <p class="checkout-message" id="checkout-message" role="status" aria-live="polite"></p>
+          </div>
         </div>
         <p class="checkout-note">Availability and delivery timing are confirmed at checkout.</p>
       </div>
@@ -1275,174 +1327,242 @@
   <script type="text/javascript">
     /*<![CDATA[*/
     function initShopifyCheckout() {
-      if (window._shopifyBuyInitialized) return;
-      window._shopifyBuyInitialized = true;
-      (function () {
-        var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-        if (window.ShopifyBuy) {
-          if (window.ShopifyBuy.UI) {
-            ShopifyBuyInit();
-          } else {
-            loadScript();
+      if (window._shopifyCheckoutInitialized) return;
+      window._shopifyCheckoutInitialized = true;
+
+      var SHOPIFY_DOMAIN = 'dreamz-9974.myshopify.com';
+      var SHOPIFY_API_VERSION = '2026-04';
+      var SHOPIFY_STOREFRONT_TOKEN = '8d4043fa7c9eb7799cc4a79bcc331d7c';
+      var SHOPIFY_PRODUCT_ID = 'gid://shopify/Product/10336870072609';
+      var SHOPIFY_SELLING_PLAN_ID = '';
+
+      var button = document.getElementById('shopify-preorder-button');
+      var message = document.getElementById('checkout-message');
+      var loadingEl = document.getElementById('checkout-loading');
+      var checkoutLine = null;
+
+      if (!button) return;
+
+      function setLoading(isLoading) {
+        if (loadingEl) {
+          loadingEl.classList.toggle('is-hidden', !isLoading);
+        }
+      }
+
+      function setMessage(text, isError) {
+        if (!message) return;
+        message.textContent = text || '';
+        message.classList.toggle('is-error', Boolean(isError));
+      }
+
+      function setButton(text, disabled, isBusy) {
+        button.textContent = text;
+        button.disabled = Boolean(disabled);
+        button.setAttribute('aria-busy', isBusy ? 'true' : 'false');
+      }
+
+      function normalizeSellingPlanId(value) {
+        if (!value) return '';
+        return value.indexOf('gid://') === 0 ? value : 'gid://shopify/SellingPlan/' + value;
+      }
+
+      function formatShopifyErrors(errors) {
+        if (!errors || !errors.length) return 'Shopify could not prepare checkout.';
+
+        var needsSellingPlanScope = errors.some(function (error) {
+          var requiredAccess = error.extensions && error.extensions.requiredAccess;
+          return (requiredAccess && requiredAccess.indexOf('unauthenticated_read_selling_plans') !== -1)
+            || (error.message && error.message.indexOf('sellingPlan') !== -1);
+        });
+
+        if (needsSellingPlanScope) {
+          return 'Pre-order checkout needs Shopify selling-plan access before it can open.';
+        }
+
+        return errors.map(function (error) {
+          return error.message;
+        }).filter(Boolean).join(' ') || 'Shopify could not prepare checkout.';
+      }
+
+      function shopifyRequest(query, variables) {
+        return fetch('https://' + SHOPIFY_DOMAIN + '/api/' + SHOPIFY_API_VERSION + '/graphql.json', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_TOKEN
+          },
+          body: JSON.stringify({
+            query: query,
+            variables: variables || {}
+          })
+        }).then(function (response) {
+          if (!response.ok) {
+            throw new Error('Shopify returned HTTP ' + response.status + '.');
           }
-        } else {
-          loadScript();
-        }
-        function loadScript() {
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = scriptURL;
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-          script.onload = ShopifyBuyInit;
-        }
-        function ShopifyBuyInit() {
-          var client = ShopifyBuy.buildClient({
-            domain: 't0hmic-0k.myshopify.com',
-            storefrontAccessToken: '8d4043fa7c9eb7799cc4a79bcc331d7c',
-          });
-          ShopifyBuy.UI.onReady(client).then(function (ui) {
-            var productNode = document.getElementById('product-component-1777960234063');
-            var loadingEl = document.getElementById('checkout-loading');
-            if (loadingEl && productNode) {
-              var obs = new MutationObserver(function () {
-                if (productNode.firstChild) {
-                  loadingEl.classList.add('is-hidden');
-                  obs.disconnect();
-                }
-              });
-              obs.observe(productNode, { childList: true });
-            }
-            ui.createComponent('product', {
-              id: '10336870072609',
-              node: productNode || document.getElementById('product-component-1777960234063'),
-              moneyFormat: '%24%7B%7Bamount%7D%7D',
-            options: {
-              "product": {
-                "styles": {
-                  "product": {
-                    "@media (min-width: 601px)": {
-                      "max-width": "100%",
-                      "margin-left": "0",
-                      "margin-bottom": "0"
-                    }
-                  },
-                  "button": {
-                    "color": "#f4f6ff",
-                    ":hover": {
-                      "color": "#f4f6ff",
-                      "background-color": "#818CF8"
-                    },
-                    "background-color": "#4a5bcc",
-                    ":focus": {
-                      "background-color": "#818CF8"
-                    },
-                    "font-family": "DM Sans, sans-serif",
-                    "font-size": "13px",
-                    "letter-spacing": "0.12em",
-                    "text-transform": "uppercase",
-                    "border-radius": "0",
-                    "padding": "15px 34px"
-                  }
-                },
-                "buttonDestination": "checkout",
-                "contents": {
-                  "img": false,
-                  "title": false,
-                  "price": false
-                },
-                "text": {
-                  "button": "Pre-order"
-                }
-              },
-              "productSet": {
-                "styles": {
-                  "products": {
-                    "@media (min-width: 601px)": {
-                      "margin-left": "0"
-                    }
-                  }
-                }
-              },
-              "modalProduct": {
-                "contents": {
-                  "img": false,
-                  "imgWithCarousel": true,
-                  "button": false,
-                  "buttonWithQuantity": true
-                },
-                "styles": {
-                  "product": {
-                    "@media (min-width: 601px)": {
-                      "max-width": "100%",
-                      "margin-left": "0px",
-                      "margin-bottom": "0px"
-                    }
-                  },
-                  "button": {
-                    "color": "#f4f6ff",
-                    ":hover": {
-                      "color": "#f4f6ff",
-                      "background-color": "#818CF8"
-                    },
-                    "background-color": "#4a5bcc",
-                    ":focus": {
-                      "background-color": "#818CF8"
-                    },
-                    "border-radius": "0"
-                  }
-                },
-                "text": {
-                  "button": "Add to cart"
-                }
-              },
-              "option": {},
-              "cart": {
-                "styles": {
-                  "button": {
-                    "color": "#f4f6ff",
-                    ":hover": {
-                      "color": "#f4f6ff",
-                      "background-color": "#818CF8"
-                    },
-                    "background-color": "#4a5bcc",
-                    ":focus": {
-                      "background-color": "#818CF8"
-                    },
-                    "border-radius": "0"
-                  }
-                },
-                "text": {
-                  "total": "Subtotal",
-                  "button": "Checkout"
-                }
-              },
-              "toggle": {
-                "styles": {
-                  "toggle": {
-                    "background-color": "#4a5bcc",
-                    ":hover": {
-                      "background-color": "#818CF8"
-                    },
-                    ":focus": {
-                      "background-color": "#818CF8"
-                    }
-                  },
-                  "count": {
-                    "color": "#f4f6ff",
-                    ":hover": {
-                      "color": "#f4f6ff"
-                    }
-                  },
-                  "iconPath": {
-                    "fill": "#f4f6ff"
-                  }
-                }
-              }
-            },
-          });
+          return response.json();
+        }).then(function (payload) {
+          if (payload.errors && payload.errors.length) {
+            var error = new Error(formatShopifyErrors(payload.errors));
+            error.details = payload.errors;
+            throw error;
+          }
+          return payload.data;
         });
       }
-    })();
+
+      function productQuery() {
+        if (SHOPIFY_SELLING_PLAN_ID) {
+          return [
+            'query DreamzPreorderProduct($id: ID!) {',
+            '  product(id: $id) {',
+            '    id',
+            '    title',
+            '    requiresSellingPlan',
+            '    variants(first: 10) {',
+            '      edges { node { id title availableForSale } }',
+            '    }',
+            '  }',
+            '}'
+          ].join('\n');
+        }
+
+        return [
+          'query DreamzPreorderProduct($id: ID!) {',
+          '  product(id: $id) {',
+          '    id',
+          '    title',
+          '    requiresSellingPlan',
+          '    variants(first: 10) {',
+          '      edges {',
+          '        node {',
+          '          id',
+          '          title',
+          '          availableForSale',
+          '          sellingPlanAllocations(first: 10) {',
+          '            edges { node { sellingPlan { id name } } }',
+          '          }',
+          '        }',
+          '      }',
+          '    }',
+          '  }',
+          '}'
+        ].join('\n');
+      }
+
+      function firstAvailableVariant(product) {
+        var variants = ((product.variants || {}).edges || []).map(function (edge) {
+          return edge.node;
+        });
+
+        return variants.find(function (variant) {
+          return variant.availableForSale;
+        }) || variants[0];
+      }
+
+      function sellingPlanForVariant(product, variant) {
+        var manualSellingPlanId = normalizeSellingPlanId(SHOPIFY_SELLING_PLAN_ID);
+        if (manualSellingPlanId) return manualSellingPlanId;
+        if (!product.requiresSellingPlan) return '';
+
+        var allocations = ((variant.sellingPlanAllocations || {}).edges || []).map(function (edge) {
+          return edge.node;
+        });
+        var allocation = allocations.find(function (item) {
+          return item.sellingPlan && item.sellingPlan.id;
+        });
+
+        if (!allocation) {
+          throw new Error('Pre-order checkout needs Shopify selling-plan access before it can open.');
+        }
+
+        return allocation.sellingPlan.id;
+      }
+
+      function loadProduct() {
+        setLoading(true);
+        setButton('Loading pre-order', true, true);
+        setMessage('', false);
+
+        return shopifyRequest(productQuery(), { id: SHOPIFY_PRODUCT_ID }).then(function (data) {
+          var product = data && data.product;
+          if (!product) {
+            throw new Error('Shopify could not find the Dreamz pre-order product.');
+          }
+
+          var variant = firstAvailableVariant(product);
+          if (!variant || !variant.id) {
+            throw new Error('The Dreamz pre-order product is not available right now.');
+          }
+
+          checkoutLine = {
+            merchandiseId: variant.id,
+            quantity: 1
+          };
+
+          var sellingPlanId = sellingPlanForVariant(product, variant);
+          if (sellingPlanId) {
+            checkoutLine.sellingPlanId = sellingPlanId;
+          }
+
+          setLoading(false);
+          setButton('Pre-order', false, false);
+        }).catch(function (error) {
+          console.error('Dreamz Shopify checkout setup failed:', error.details || error);
+          setLoading(false);
+          setButton('Pre-order unavailable', true, false);
+          setMessage(error.message || 'Pre-order checkout is unavailable right now.', true);
+        });
+      }
+
+      function createCheckout() {
+        if (!checkoutLine) return;
+
+        setButton('Opening checkout', true, true);
+        setMessage('Preparing secure Shopify checkout...', false);
+
+        var mutation = [
+          'mutation DreamzCartCreate($input: CartInput!) {',
+          '  cartCreate(input: $input) {',
+          '    cart { id checkoutUrl }',
+          '    userErrors { field message code }',
+          '  }',
+          '}'
+        ].join('\n');
+
+        return shopifyRequest(mutation, {
+          input: {
+            lines: [checkoutLine],
+            attributes: [
+              { key: 'source', value: 'Dreamz preorder page' }
+            ]
+          }
+        }).then(function (data) {
+          var result = data && data.cartCreate;
+          var userErrors = result && result.userErrors;
+          if (userErrors && userErrors.length) {
+            var sellingPlanError = userErrors.some(function (error) {
+              return error.code === 'VARIANT_REQUIRES_SELLING_PLAN';
+            });
+            throw new Error(sellingPlanError
+              ? 'Shopify requires a pre-order selling plan before checkout can open.'
+              : userErrors.map(function (error) { return error.message; }).join(' '));
+          }
+
+          var checkoutUrl = result && result.cart && result.cart.checkoutUrl;
+          if (!checkoutUrl) {
+            throw new Error('Shopify did not return a checkout URL.');
+          }
+
+          window.location.href = checkoutUrl;
+        }).catch(function (error) {
+          console.error('Dreamz Shopify checkout failed:', error.details || error);
+          setButton('Pre-order', false, false);
+          setMessage(error.message || 'Pre-order checkout is unavailable right now.', true);
+        });
+      }
+
+      button.addEventListener('click', createCheckout);
+      loadProduct();
     }
 
     // Only auto-init when the checkout panel is already unlocked (e.g. returning user via localStorage).
