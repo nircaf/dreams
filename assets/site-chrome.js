@@ -83,8 +83,8 @@
       <ul class="nav-links" role="list">
         <li><a href="${url('index.html#technology')}">Technology</a></li>
         <li><a href="${url('index.html#how')}">How It Works</a></li>
-        <li><a href="${url('index.html#science')}">Science</a></li>
-        <li><a href="${url('index.html#faq')}">FAQ</a></li>
+        <li><a href="${url('dreamz-science.html')}"${isActive('science')}>Science</a></li>
+        <li><a href="${url('dreamz-faq.html')}"${isActive('faq')}>FAQ</a></li>
         <li><a href="${url('dreamz-blog.html')}"${isActive('blog')}>Blog</a></li>
         <li><a href="${url('dreamz-research.html')}"${isActive('research')}>Research</a></li>
         <li><a href="${url('index.html#cta')}">Waitlist</a></li>

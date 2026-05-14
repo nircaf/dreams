@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - Dreamz Sleep Mask</title>
+  <meta name="description" content="Answers to common questions about Dreamz sleep neurotechnology, safety, stimulation, washing, app support, and availability.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="assets/branding/favicon-dark.ico">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #04050d;
+      --midnight: #080c1a;
+      --deep: #0d1330;
+      --iris: #4a5bcc;
+      --violet: #818cf8;
+      --lavender: #8b9de8;
+      --soft: #e8ebff;
+      --white: #f4f6ff;
+      --muted: rgba(184,196,248,0.56);
+      --border: rgba(138,157,232,0.16);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background: var(--ink);
+      color: var(--soft);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem clamp(1.5rem, 5vw, 4rem);
+      background: rgba(4,5,13,0.72);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+    }
+    .nav-links {
+      display: flex;
+      gap: clamp(1rem, 2vw, 2rem);
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a, .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover, .nav-links a.active, .footer-links a:hover { color: var(--white); }
+    .nav-cta {
+      padding: 0.65rem 1.25rem;
+      border: 1px solid rgba(129,140,248,0.45);
+      background: transparent;
+      color: var(--violet);
+      font: inherit;
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    main {
+      position: relative;
+      z-index: 1;
+      padding: 10rem clamp(1.5rem, 5vw, 5rem) 5rem;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-bottom: 1.2rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 7vw, 6.6rem);
+      font-weight: 300;
+      line-height: 1.02;
+      color: var(--white);
+      margin-bottom: 1.4rem;
+    }
+    .intro {
+      color: var(--muted);
+      font-size: clamp(1rem, 1.35vw, 1.14rem);
+      line-height: 1.8;
+      max-width: 680px;
+      margin-bottom: 3rem;
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .faq-item {
+      border: 1px solid var(--border);
+      background: rgba(13,19,48,0.52);
+      padding: 1.3rem 1.4rem;
+    }
+    .faq-question {
+      color: var(--white);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1.45;
+      list-style: none;
+    }
+    .faq-question::-webkit-details-marker { display: none; }
+    .faq-question::after {
+      content: '+';
+      float: right;
+      color: var(--violet);
+      font-family: 'Space Mono', monospace;
+      margin-left: 1rem;
+    }
+    .faq-item[open] .faq-question::after { content: '-'; }
+    .faq-answer {
+      color: var(--muted);
+      line-height: 1.75;
+      padding-top: 1rem;
+    }
+    a { color: var(--lavender); }
+    .page-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+    .text-link {
+      color: var(--soft);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 2rem clamp(1.5rem, 5vw, 5rem);
+      border-top: 1px solid var(--border);
+    }
+    .footer-bottom, .footer-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-legal-links, .footer-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .footer-copy { color: rgba(184,196,248,0.35); font-size: 0.78rem; }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .faq-grid { grid-template-columns: 1fr; }
+      main { padding-top: 8rem; }
+    }
+    @media (max-width: 620px) {
+      .nav-cta { display: none; }
+      .faq-item { padding: 1.1rem; }
+    }
+  </style>
+</head>
+<body data-footer-type="landing" data-active-page="faq">
+  <canvas id="bg-canvas"></canvas>
+  <div data-dreamz-nav></div>
+  <main>
+    <p class="eyebrow">Common Questions</p>
+    <h1>Everything you need to know.</h1>
+    <p class="intro">Straight answers about how Dreamz works, what it feels like, safety, care, and availability.</p>
+    <div class="faq-grid">
+      <details class="faq-item">
+        <summary class="faq-question">How does Dreamz deliver a 38% reduction in sleep onset?</summary>
+        <div class="faq-answer"><p>Dreamz reads your brain's electrical activity in real time. When it detects the natural transition toward sleep, it delivers a gentle, barely-perceptible signal that calms overactive mental chatter and reinforces your brain's own sleep rhythms.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Is it safe to use every night?</summary>
+        <div class="faq-answer"><p>Yes. Dreamz uses non-invasive, low-intensity stimulation designed to be safe for healthy adults during overnight wear. It is not intended for children, pregnant individuals, or people with epilepsy or known neurological conditions. Consult your doctor if you have concerns.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Will I feel the stimulation?</summary>
+        <div class="faq-answer"><p>Most users report feeling nothing at all. The signals are intentionally kept at an intensity that works on the brain without being perceptible to the sleeper. A small number of users may notice a very mild, brief tingling sensation during initial use.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">How long until I see results?</summary>
+        <div class="faq-answer"><p>Many users notice improvements in how quickly they fall asleep within the first week. Because Dreamz personalizes to your brain over time, the benefits typically deepen with consistent use over several weeks.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Can I wash the mask?</summary>
+        <div class="faq-answer"><p>Yes. Remove the slim electronics module from the front pocket, then machine wash the fabric on a cold gentle cycle with mild detergent. Air dry only. Reinsert the module once fully dry. Never expose the electronics to water.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Does Dreamz work for insomnia?</summary>
+        <div class="faq-answer"><p>Dreamz is designed for adults who take more than 20 minutes to fall asleep or who want to improve overall sleep quality. It is a wellness device, not a medical treatment. If you have a diagnosed sleep disorder, please consult a healthcare professional alongside using Dreamz.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">What app does Dreamz use?</summary>
+        <div class="faq-answer"><p>Dreamz connects wirelessly to a companion app available on iOS and Android. The app shows your nightly sleep score, a breakdown of your brain activity, weekly trends, and lets you set goals from deeper sleep to improved focus and memory.</p></div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">When will Dreamz be available?</summary>
+        <div class="faq-answer"><p>Dreamz is currently in its pre-launch phase. Join the waitlist to be among the first to know when it becomes available and to receive early-access pricing.</p></div>
+      </details>
+    </div>
+    <div class="page-actions">
+      <a class="text-link" href="index.html#cta">Join the waitlist -></a>
+      <a class="text-link" href="dreamz-science.html">Read the science -></a>
+    </div>
+  </main>
+  <div data-dreamz-footer></div>
+  <script defer src="assets/site-chrome.js"></script>
+  <script defer src="assets/shared.js"></script>
+</body>
+</html>

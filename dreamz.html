@@ -380,15 +380,17 @@
     /* HERO */
     #hero {
       min-height: 100vh;
+      width: 100%;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: stretch;
-      padding: 0 4rem;
-      gap: 2rem;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      align-items: center;
+      padding: 0 clamp(1.5rem, 5vw, 6rem);
+      gap: clamp(1rem, 4vw, 5rem);
     }
 
     .hero-text {
-      max-width: 560px;
+      max-width: min(560px, 45vw);
+      justify-self: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -430,6 +432,17 @@
       margin-bottom: 2.5rem;
       opacity: 0;
       animation: fadeUp 0.9s 0.7s forwards;
+    }
+
+    .hero-word-fighting,
+    .hero-word-rest {
+      color: var(--muted);
+      animation: wordPulse 6.4s ease-in-out infinite;
+      animation-fill-mode: both;
+    }
+
+    .hero-word-rest {
+      animation-delay: 0.45s;
     }
 
     .hero-actions {
@@ -535,23 +548,40 @@
 
     /* INTRO STATEMENT */
     .intro-statement {
-      padding: 8rem 4rem;
-      max-width: 900px;
+      padding: 7rem clamp(1.5rem, 5vw, 4rem);
+      max-width: 980px;
       margin: 0 auto;
       text-align: center;
     }
 
-    .intro-statement p {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
-      font-weight: 300;
-      line-height: 1.55;
-      color: var(--soft);
+    .intro-split {
+      display: grid;
+      gap: 1.6rem;
     }
 
-    .intro-statement p em {
-      color: var(--violet);
-      font-style: italic;
+    .intro-label {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-right: 0.8rem;
+    }
+
+    .intro-problem .intro-label {
+      color: rgba(248, 113, 113, 0.9);
+    }
+
+    .intro-solution .intro-label {
+      color: rgba(96, 165, 250, 0.95);
+    }
+
+    .intro-split p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.55rem, 2.5vw, 2.25rem);
+      font-weight: 300;
+      line-height: 1.5;
+      color: var(--soft);
     }
 
     /* TECHNOLOGY SECTION */
@@ -923,9 +953,47 @@
       }
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
+    @keyframes floatMask {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-18px);
+      }
+    }
+
+    @keyframes wordPulse {
+
+      0%,
+      18%,
+      82%,
+      100% {
+        color: var(--muted);
+      }
+
+      50% {
+        color: rgba(248, 113, 113, 0.78);
+      }
+    }
+
+    .hero-word-rest {
+      animation-name: wordPulseBlue;
+    }
+
+    @keyframes wordPulseBlue {
+
+      0%,
+      18%,
+      82%,
+      100% {
+        color: var(--muted);
+      }
+
+      50% {
+        color: rgba(96, 165, 250, 0.78);
       }
     }
 
@@ -985,200 +1053,30 @@
       transition-delay: 0.4s;
     }
 
-    /* HERO CAROUSEL WRAP */
-    .hero-carousel-wrap {
+    /* HERO PRODUCT IMAGE */
+    .hero-mask-wrap {
       display: flex;
-      flex-direction: column;
-      padding: 9rem 0 5rem;
-    }
-
-    .hero-carousel-wrap .carousel-viewer {
-      flex: 1;
-      height: auto;
-      min-height: 0;
-    }
-
-    .hero-carousel-wrap .carousel-tabs {
-      flex-shrink: 0;
-    }
-
-    /* CAROUSEL */
-    .mask-carousel {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .carousel-viewer {
-      position: relative;
-      height: 540px;
-      background: radial-gradient(ellipse at 40% 50%, rgba(138, 157, 232, 0.5) 0%, rgba(13, 19, 48, 0.6) 70%);
-      border: none;
-      overflow: hidden;
-    }
-
-    .carousel-spinner {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(138, 157, 232, 0.2);
-      border-top-color: var(--violet);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      z-index: 5;
-      transition: opacity 0.5s;
-    }
-
-    #carousel-canvas {
+      align-items: center;
+      justify-content: center;
+      justify-self: stretch;
       width: 100%;
-      height: 100%;
-      display: block;
+      padding: 9rem 0 5rem;
+      opacity: 0;
+      animation: fadeIn 1.2s 0.6s forwards;
     }
 
-    .carousel-info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 2rem 2.5rem;
-      background: linear-gradient(to top, rgba(4, 5, 13, 0.92) 0%, transparent 100%);
-      pointer-events: none;
-      transition: opacity 0.4s;
+    .hero-mask-image {
+      width: min(100%, clamp(380px, 46vw, 760px));
+      max-height: min(72vh, 720px);
+      object-fit: contain;
+      filter: drop-shadow(0 34px 52px rgba(2, 4, 16, 0.58));
+      animation: floatMask 4.8s ease-in-out infinite;
     }
 
-    .carousel-info-badge {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--violet);
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-
-    .carousel-info h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 300;
-      color: var(--white);
-      margin-bottom: 0.4rem;
-      line-height: 1.2;
-    }
-
-    .carousel-info p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      max-width: 500px;
-      line-height: 1.7;
-    }
-
-    .carousel-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      background: rgba(4, 5, 13, 0.6);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      cursor: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-      backdrop-filter: blur(6px);
-      z-index: 10;
-    }
-
-    .carousel-arrow {
-      display: none;
-    }
-
-    .carousel-progress-wrap {
-      display: none;
-    }
-
-    .carousel-tab {
-      cursor: default;
-    }
-
-    .carousel-tab:hover {
-      background: transparent;
-      color: var(--white);
-    }
-
-    .carousel-progress-wrap {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: rgba(138, 157, 232, 0.1);
-    }
-
-    .carousel-progress-bar {
-      height: 100%;
-      background: var(--violet);
-      transition: width 0.1s linear;
-      width: 0%;
-    }
-
-    .carousel-tabs {
-      display: flex;
-      border-top: 1px solid var(--border);
-      background: var(--midnight);
-    }
-
-    .carousel-tab {
-      flex: 1;
-      padding: 1.2rem 1rem;
-      background: transparent;
-      border: none;
-      border-right: 1px solid var(--border);
-      color: var(--muted);
-      cursor: none;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      transition: all 0.3s;
-      justify-content: center;
-    }
-
-    .carousel-tab:last-child {
-      border-right: none;
-    }
-
-    .carousel-tab:hover {
-      background: rgba(138, 157, 232, 0.05);
-      color: var(--soft);
-    }
-
-    .carousel-tab.active {
-      background: rgba(129, 140, 248, 0.05);
-      color: var(--white);
-      border-bottom: 2px solid var(--violet);
-    }
-
-    .tab-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--border);
-      transition: background 0.3s;
-      flex-shrink: 0;
-    }
-
-    .carousel-tab.active .tab-dot {
-      background: var(--violet);
-      box-shadow: 0 0 8px var(--violet);
-    }
-
-    .tab-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.08em;
+    @media (prefers-reduced-motion: reduce) {
+      .hero-mask-image {
+        animation: none;
+      }
     }
 
     /* SEO HIDDEN (visible to crawlers, screen-readers; invisible on screen) */
@@ -1448,26 +1346,31 @@
       color: rgba(184, 196, 248, 0.5);
     }
 
-    /* MOBILE */
-    @media (max-width: 1024px) {
+    /* TABLET / MOBILE */
+    @media (max-width: 860px) {
       #hero {
         grid-template-columns: 1fr;
-        padding: 0 2rem;
-        align-items: stretch;
+        padding: 0 clamp(1.25rem, 6vw, 2.5rem);
+        align-items: center;
         min-height: unset;
       }
 
       .hero-text {
-        padding: 7rem 0 1.5rem;
+        padding: 7rem 0 2rem;
         max-width: 100%;
+        justify-self: stretch;
       }
 
-      .hero-carousel-wrap {
-        padding: 0 0 4rem;
-      }
-
-      .hero-carousel-wrap .carousel-viewer {
+      .hero-mask-wrap {
         min-height: 360px;
+        padding: 0 0 4rem;
+        align-items: flex-start;
+        justify-self: stretch;
+      }
+
+      .hero-mask-image {
+        width: min(100%, 560px);
+        max-height: 48vh;
       }
 
       .tech-grid {
@@ -1520,19 +1423,14 @@
         padding: 1.5rem 2rem;
       }
 
+      .intro-split {
+        grid-template-columns: 1fr;
+      }
+
       .stat-item {
         flex: 1 1 50%;
         min-width: 50%;
         padding: 1.25rem 1rem;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .carousel-tabs {
-        flex-direction: column;
-      }
-
-      .carousel-tab {
         border-right: none;
         border-bottom: 1px solid var(--border);
       }
@@ -1619,14 +1517,15 @@
       <meta itemprop="description"
         content="Wearable sleep neurotechnology mask with gentle stimulation for deeper, more restorative sleep.">
       <div class="hero-text">
-        <p class="hero-eyebrow" aria-label="Category">Sleep Neurotechnology Platform</p>
+        <p class="hero-eyebrow" aria-label="Category">Dreamz Smart Sleep Mask</p>
         <h1 class="hero-title" id="hero-heading" itemprop="headline">
-          Quiet the noise.<br>
-          <em>Restore</em> your mind.
+          Better Sleep,<br>
+          <em>Better Life</em>
         </h1>
         <p class="hero-sub" itemprop="description">
-          Dreamz uses gentle, science-backed neurostimulation to guide you into deeper, more restorative sleep - every
-          night.
+          Stop <span class="hero-word-fighting">fighting</span> for <span class="hero-word-rest">rest</span> and start flowing into it. Simply close your eyes - we'll do the rest. Dreamz actively
+          monitors your brain waves and responds the moment your sleep patterns change, gently steering you back toward
+          the restorative rest you deserve.
         </p>
         <div class="hero-actions">
           <button class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})"
@@ -1636,30 +1535,8 @@
         </div>
       </div>
 
-      <div class="hero-carousel-wrap" style="opacity:0;animation:fadeIn 1.2s 0.6s forwards;">
-        <div class="carousel-viewer">
-          <div id="carousel-spinner" class="carousel-spinner"></div>
-          <canvas id="carousel-canvas"></canvas>
-          <div class="carousel-info" id="carousel-info"></div>
-          <button class="carousel-arrow carousel-prev" onclick="carouselPrev()" aria-label="Previous">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-          </button>
-          <button class="carousel-arrow carousel-next" onclick="carouselNext()" aria-label="Next">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-          <div class="carousel-progress-wrap">
-            <div class="carousel-progress-bar" id="carousel-progress"></div>
-          </div>
-        </div>
-        <div class="carousel-tabs">
-          <button class="carousel-tab active" onclick="carouselGoto(0)" id="tab-0">
-            <span class="tab-dot"></span><span class="tab-label">The Dreamz Mask</span>
-          </button>
-        </div>
+      <div class="hero-mask-wrap">
+        <img class="hero-mask-image" src="Photos/Mask/front.png" alt="Dreamz sleep mask front view">
       </div>
 
       <div class="scroll-indicator">
@@ -1690,10 +1567,10 @@
 
     <!-- INTRO STATEMENT -->
     <div class="intro-statement">
-      <p class="reveal">
-        Modern life leaves most of us mentally overstimulated, <em>unable to quiet racing thoughts</em> at night. Dreamz
-        doesn't force sleep - it listens to your brain and guides it, gently, toward rest.
-      </p>
+      <div class="intro-split reveal">
+        <p class="intro-problem"><span class="intro-label">Problem</span>The harder you fight for rest, the more your mind stays trapped in a loop of wakefulness.</p>
+        <p class="intro-solution"><span class="intro-label">Solution</span>Simply close your eyes and let our targeted pulses do the hard work of shifting you into recovery.</p>
+      </div>
     </div>
 
     <div class="divider"></div>
@@ -1971,154 +1848,13 @@
         </div>
       </div>
       <div class="section-internal-link reveal">
-        <a href="#science" class="internal-link" aria-label="Read the science behind Dreamz">Explore the neuroscience
+        <a href="dreamz-science.html" class="internal-link" aria-label="Read the science behind Dreamz">Explore the neuroscience
           →</a>
       </div>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- SCIENCE -->
-    <section id="science" aria-labelledby="science-heading">
-      <div class="science-inner">
-        <div class="science-text">
-          <p class="section-label reveal">The Neuroscience</p>
-          <h2 class="reveal" id="science-heading">Grounded in how the brain actually sleeps.</h2>
-          <p class="reveal">Sleep is an active, structured process. The brain moves through distinct states — each defined by its own patterns of activity. These patterns are not random. They reflect how the brain restores the body, consolidates memory, and regulates emotion.</p>
-          <p class="reveal">When these patterns become unstable or delayed, sleep quality suffers. You may take longer to fall asleep, wake more often, or feel less restored.</p>
-          <p class="reveal">Research shows the brain is responsive to subtle external signals — especially when they align with its current state. By supporting natural rhythms at the right moments, the brain can transition more smoothly into and through sleep. Dreamz is built on this foundation, helping the brain follow its natural path into deeper, more stable sleep.</p>
-
-          <div class="science-specs">
-            <div class="spec reveal">
-              <span class="spec-key">Restoration</span>
-              <span class="spec-val">Deep sleep restores the body and builds physical resilience</span>
-            </div>
-            <div class="spec reveal reveal-delay-1">
-              <span class="spec-key">Memory</span>
-              <span class="spec-val">Sleep consolidates what you learned and experienced each day</span>
-            </div>
-            <div class="spec reveal reveal-delay-2">
-              <span class="spec-key">Emotion</span>
-              <span class="spec-val">REM sleep regulates mood, creativity, and emotional balance</span>
-            </div>
-            <div class="spec reveal reveal-delay-3">
-              <span class="spec-key">Rhythm</span>
-              <span class="spec-val">The brain transitions through states on a natural, timed cycle</span>
-            </div>
-            <div class="spec reveal">
-              <span class="spec-key">Responsiveness</span>
-              <span class="spec-val">The brain responds best to signals aligned with its current state</span>
-            </div>
-            <div class="spec reveal reveal-delay-1">
-              <span class="spec-key">Pattern</span>
-              <span class="spec-val">Sleep patterns are unique to each person and can be supported</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="science-visual reveal">
-          <canvas class="eeg-canvas" id="eeg-vis-canvas"
-            aria-label="Neuromodulation wave propagation visualization from forehead to back of head"></canvas>
-        </div>
-      </div>
-      <div class="section-internal-link reveal" style="margin-top:3rem;">
-        <a href="dreamz-research.html" class="internal-link" aria-label="Read the research behind Dreamz">See the research →</a>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- FAQ -->
-    <section id="faq" aria-labelledby="faq-heading">
-      <p class="section-label reveal">Common Questions</p>
-      <h2 class="section-title reveal" id="faq-heading">Everything you need to know.</h2>
-
-      <div class="faq-grid reveal">
-
-        <details class="faq-item">
-          <summary class="faq-question">How does Dreamz deliver a 38% reduction in sleep onset?</summary>
-          <div class="faq-answer">
-            <p>Dreamz reads your brain's electrical activity in real time. When it detects the natural
-              transition toward sleep, it delivers a gentle, barely-perceptible signal that calms overactive mental
-              chatter and reinforces your brain's own sleep rhythms - delivering up to a <a href="#hero"
-                aria-label="See the 38% statistic">38%</a> reduction in sleep onset.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-question">Is it safe to use every night?</summary>
-          <div class="faq-answer">
-            <p>Yes. Dreamz uses non-invasive, low-intensity stimulation designed to be safe for healthy
-              adults during overnight wear. It is not intended for children, pregnant individuals, or people with
-              epilepsy or known neurological conditions. As with any wellness device, consult your doctor if you have
-              concerns.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-question">Will I feel the stimulation?</summary>
-          <div class="faq-answer">
-            <p>Most users report feeling nothing at all - the signals are intentionally kept at an
-              intensity that works on the brain without being perceptible to the sleeper. A small number of users may
-              notice a very mild, brief tingling sensation during initial use.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-question">How long until I see results?</summary>
-          <div class="faq-answer">
-            <p>Many users notice improvements in how quickly they fall asleep within the first week.
-              Because <a href="#technology" aria-label="Learn about Dreamz personalisation">Dreamz personalises to your
-                brain over time</a>, the benefits typically deepen with consistent use over several weeks.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-question">Can I wash the mask?</summary>
-          <div class="faq-answer">
-            <p>Yes. Remove the slim electronics module from the front pocket, then machine wash the
-              fabric on a cold gentle cycle with mild detergent. Air dry only. Reinsert the module once fully dry. Never
-              expose the electronics to water.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-question">Does Dreamz work for insomnia?</summary>
-          <div class="faq-answer">
-            <p>Dreamz is designed for adults who take more than 20 minutes to fall asleep or who want to
-              improve overall sleep quality. It is a wellness device, not a medical treatment. If you have a diagnosed
-              sleep disorder, please consult a healthcare professional alongside using Dreamz.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-question">What app does Dreamz use?</summary>
-          <div class="faq-answer">
-            <p>Dreamz connects wirelessly to a companion app available on iOS and Android. The app shows
-              your nightly sleep score, a breakdown of your brain activity, weekly trends, and lets you set goals - from
-              deeper sleep to improved focus and memory.</p>
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary class="faq-question">When will Dreamz be available?</summary>
-          <div class="faq-answer">
-            <p>Dreamz is currently in its pre-launch phase. <a href="#cta" aria-label="Join the Dreamz waitlist">Join
-                the waitlist</a> to be among the first to know when it
-              becomes available, and to receive early-access pricing.</p>
-          </div>
-        </details>
-
-      </div>
-
-      <div class="section-internal-link reveal" style="margin-top:2rem;">
-        <a href="#cta" class="internal-link" aria-label="Join the Dreamz waitlist for early access">Ready to sleep
-          better? Join the waitlist →</a>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-    <section id="cta">
+        <div class="divider"></div>
+        <section id="cta">
       <div class="waitlist-inner reveal">
         <p class="cta-eyebrow">Early Access</p>
         <h2>Be the First to<br>Experience <em>Dreamz</em></h2>
@@ -2150,22 +1886,20 @@
   <div class="seo-links" aria-label="Site navigation">
     <a href="#technology">Technology</a>
     <a href="#how">How It Works</a>
-    <a href="#science">The Science</a>
-    <a href="#faq">FAQ</a>
+    <a href="dreamz-science.html">The Science</a>
+    <a href="dreamz-faq.html">FAQ</a>
     <a href="#cta">Join the Waitlist</a>
     <a href="#hero">Sleep Mask</a>
-    <a href="#science">Neuroscience of Sleep</a>
+    <a href="dreamz-science.html">Neuroscience of Sleep</a>
     <a href="#how">Deep Sleep</a>
-    <a href="#faq">Is It Safe?</a>
+    <a href="dreamz-faq.html">Is It Safe?</a>
     <a href="#cta">Early Access</a>
-    <a href="#science">Neuroscience of Sleep</a>
+    <a href="dreamz-science.html">Neuroscience of Sleep</a>
   </div>
 
   <!-- FOOTER -->
   <div data-dreamz-footer></div>
 
-  <!-- THREE.JS -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script defer src="assets/site-chrome.js"></script>
   <script defer src="assets/shared.js"></script>
 </body>
