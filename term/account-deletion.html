@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Your HypnoDreamz Account - Dreamz</title>
+    <meta name="description" content="Request deletion of your HypnoDreamz app account and associated app data.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://hypnodreamz.com/term/account-deletion.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Delete Your HypnoDreamz Account - Dreamz">
+    <meta property="og:description" content="Instructions for deleting a HypnoDreamz app account and associated app data.">
+    <meta property="og:url" content="https://hypnodreamz.com/term/account-deletion.html">
+    <meta property="og:site_name" content="Dreamz">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #04050d;
+            --midnight: #080c1a;
+            --deep: #0d1330;
+            --lavender: #8b9de8;
+            --violet: #818CF8;
+            --violet-dim: #5B21B6;
+            --soft: #e8ebff;
+            --white: #f4f6ff;
+            --muted: rgba(184, 196, 248, 0.52);
+            --border: rgba(138, 157, 232, 0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--ink);
+            color: var(--soft);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(ellipse 70% 55% at 75% 18%, rgba(74, 91, 204, 0.1) 0%, transparent 62%),
+                radial-gradient(ellipse 60% 60% at 18% 78%, rgba(91, 33, 182, 0.08) 0%, transparent 58%),
+                var(--ink);
+        }
+
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        #cursor,
+        #cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        #cursor {
+            width: 10px;
+            height: 10px;
+            background: var(--violet);
+            mix-blend-mode: screen;
+        }
+
+        #cursor-ring {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(129, 140, 248, 0.5);
+            z-index: 9999;
+        }
+
+        .no-custom-cursor #cursor,
+        .no-custom-cursor #cursor-ring {
+            display: none;
+        }
+
+        .use-custom-cursor body {
+            cursor: none;
+        }
+
+        .use-custom-cursor a,
+        .use-custom-cursor button {
+            cursor: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            padding: 1.4rem 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(4, 5, 13, 0.95) 0%, rgba(4, 5, 13, 0.8) 100%);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        nav.scrolled {
+            background: rgba(4, 5, 13, 0.95);
+            border-bottom-color: rgba(138, 157, 232, 0.22);
+        }
+
+        .nav-logo {
+            display: inline-flex;
+            align-items: center;
+            width: clamp(180px, 28vw, 320px);
+            line-height: 0;
+            text-decoration: none;
+        }
+
+        .nav-links,
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a,
+        .footer-links a {
+            font-size: 0.78rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active,
+        .footer-links a:hover,
+        .footer-links a.active {
+            color: var(--white);
+        }
+
+        .page-hero {
+            padding: 10rem 4rem 5rem;
+            position: relative;
+            background: linear-gradient(180deg, rgba(42, 53, 128, 0.12) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 60% at 30% 40%, rgba(74, 91, 204, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .page-eyebrow,
+        .section-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--violet);
+        }
+
+        .page-hero-inner {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 300;
+            color: var(--white);
+            line-height: 1.1;
+            margin-top: 1rem;
+            max-width: 920px;
+        }
+
+        .legal-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 4rem 8rem;
+        }
+
+        .notice {
+            background: rgba(13, 19, 48, 0.58);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--violet);
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 3.5rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .legal-section {
+            margin-bottom: 3.5rem;
+            padding-bottom: 3.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .legal-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-num {
+            display: block;
+            color: var(--violet-dim);
+            margin-bottom: 0.6rem;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--white);
+            margin-bottom: 1.2rem;
+        }
+
+        p,
+        li {
+            font-size: 0.92rem;
+            color: var(--muted);
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ol,
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.45rem;
+        }
+
+        a {
+            color: var(--lavender);
+            text-decoration-color: rgba(139, 157, 232, 0.45);
+            text-underline-offset: 3px;
+            transition: color 0.3s, text-decoration-color 0.3s;
+        }
+
+        a:hover {
+            color: var(--white);
+            text-decoration-color: var(--violet);
+        }
+
+        .cta-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            margin-top: 0.4rem;
+            padding: 0.75rem 1.2rem;
+            border: 1px solid rgba(129, 140, 248, 0.36);
+            color: var(--white);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: rgba(129, 140, 248, 0.08);
+        }
+
+        .cta-link:hover {
+            border-color: rgba(129, 140, 248, 0.72);
+            background: rgba(129, 140, 248, 0.12);
+        }
+
+        .legal-footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            opacity: 0.82;
+            line-height: 0;
+            text-decoration: none;
+        }
+
+        .footer-copy {
+            width: 100%;
+            font-size: 0.75rem;
+            color: rgba(184, 196, 248, 0.25);
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-logo {
+                width: clamp(180px, 56vw, 320px);
+            }
+
+            .page-hero {
+                padding: 8rem 1.5rem 3rem;
+            }
+
+            .legal-wrapper {
+                padding: 3rem 1.5rem 5rem;
+            }
+
+            .notice {
+                padding: 1.25rem;
+            }
+
+            .legal-footer {
+                padding: 2rem 1.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+    <link rel="icon" type="image/x-icon" href="../assets/branding/favicon-light.ico" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/branding/favicon-32-light.png" media="(prefers-color-scheme: light)">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/branding/apple-touch-icon-light.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/x-icon" href="../assets/branding/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/branding/favicon-32-dark.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/branding/apple-touch-icon-dark.png" media="(prefers-color-scheme: dark)">
+</head>
+
+<body data-footer-type="legal" data-active-page="account-deletion">
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    <div id="cursor" aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
+    <div data-dreamz-nav></div>
+
+    <header class="page-hero">
+        <div class="page-hero-inner">
+            <p class="page-eyebrow">Account Deletion</p>
+            <h1 class="page-title">Delete Your HypnoDreamz Account</h1>
+        </div>
+    </header>
+
+    <main class="legal-wrapper">
+        <div class="notice">
+            <p>HypnoDreamz, also referred to as DreamzBLE in the app and device software, lets users request deletion of their app account and associated app data.</p>
+            <p>This public page can be used as the Delete account URL in Google Play Console: <a href="https://hypnodreamz.com/term/account-deletion.html">https://hypnodreamz.com/term/account-deletion.html</a>.</p>
+        </div>
+
+        <section class="legal-section">
+            <span class="section-num">01</span>
+            <h2>Request Account Deletion In The App</h2>
+            <ol>
+                <li>Open HypnoDreamz.</li>
+                <li>Go to Settings.</li>
+                <li>Find the Account section.</li>
+                <li>Tap Delete Account and confirm.</li>
+            </ol>
+        </section>
+
+        <section class="legal-section">
+            <span class="section-num">02</span>
+            <h2>Request Account Deletion Without The App</h2>
+            <p>Email <a href="mailto:support@hypnodreamz.com?subject=HypnoDreamz%20account%20deletion">support@hypnodreamz.com</a> from the email address associated with your HypnoDreamz account and include "HypnoDreamz account deletion" in the subject.</p>
+            <p>If you used Google sign-in, include the Google email address used for the app. We may ask for additional information only as needed to verify that you control the account.</p>
+            <a class="cta-link" href="mailto:support@hypnodreamz.com?subject=HypnoDreamz%20account%20deletion">Email Deletion Request</a>
+        </section>
+
+        <section class="legal-section">
+            <span class="section-num">03</span>
+            <h2>What Is Deleted</h2>
+            <p>We delete the app account record and associated HypnoDreamz cloud data linked to the account, including:</p>
+            <ul>
+                <li>Session history</li>
+                <li>Questionnaire logs</li>
+                <li>Device session logs</li>
+                <li>Stimulation threshold records</li>
+                <li>Daily Pulse entries</li>
+                <li>LSense samples</li>
+                <li>App diagnostic logs linked to the account</li>
+            </ul>
+        </section>
+
+        <section class="legal-section">
+            <span class="section-num">04</span>
+            <h2>What May Be Retained</h2>
+            <p>Some records may be retained when required for legal, security, fraud-prevention, warranty, dispute-resolution, or regulatory purposes. Retained data is limited to what is necessary for those purposes.</p>
+        </section>
+
+        <section class="legal-section">
+            <span class="section-num">05</span>
+            <h2>Deletion And Retention Period</h2>
+            <p>In-app deletion is processed immediately when successful. Email deletion requests are reviewed and processed within 30 days after we verify the account owner.</p>
+            <p>Backup copies and operational logs may take up to 30 additional days to expire from routine backup systems. Records that must be retained for legal, security, warranty, dispute-resolution, or regulatory reasons are retained only for the period required for that purpose and then deleted or de-identified.</p>
+        </section>
+    </main>
+
+    <div data-dreamz-footer></div>
+    <script src="../assets/site-chrome.js"></script>
+    <script src="../assets/shared.js"></script>
+</body>
+
+</html>

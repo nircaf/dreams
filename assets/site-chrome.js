@@ -110,13 +110,14 @@
       <a href="${url('index.html')}" class="footer-logo" aria-label="Dreamz home">
         <canvas class="dreamz-animated-logo" width="300" height="300" aria-label="Dreamz logo"></canvas>
       </a>
-      <nav class="footer-links">
+      <div class="footer-links" role="navigation" aria-label="Footer links">
         <a href="${url('index.html')}">Home</a>
         <a href="${url('dreamz-blog.html')}"${isActive('blog')}>Blog</a>
         <a href="${url('privacy.html')}"${isActive('privacy')}>Privacy Policy</a>
         <a href="${url('term/index.html')}"${isActive('terms')}>Terms</a>
+        <a href="${url('term/account-deletion.html')}"${isActive('account-deletion')}>Delete Account</a>
         <a href="${url('contact.html')}"${isActive('contact')}>Contact</a>
-      </nav>
+      </div>
       <p class="footer-copy">&copy; ${year} Dreamz. Sleep Neurotechnology. All rights reserved.</p>
     </footer>`;
 
@@ -138,6 +139,7 @@
           <a href="${url('dreamz-research.html')}"${isActive('research')}>Research</a>
           <a href="${url('privacy.html')}">Privacy</a>
           <a href="${url('term/index.html')}">Terms</a>
+          <a href="${url('term/account-deletion.html')}"${isActive('account-deletion')}>Delete Account</a>
           <a href="${url('contact.html')}">Contact</a>
         </div>
       </div>
@@ -155,6 +157,7 @@
             <a href="${url('contact.html')}">Contact</a>
             <a href="${url('privacy.html')}">Privacy Policy</a>
             <a href="${url('term/index.html')}">Terms &amp; Conditions</a>
+            <a href="${url('term/account-deletion.html')}"${isActive('account-deletion')}>Delete Account</a>
           </div>
         </div>
         <div class="footer-policy-links"></div>
